@@ -16,13 +16,13 @@
 
 /*
 ** DLLInterfac.cpp
-** 
-**	This is where we implement the API expected by the Instance Server. 
-** 
+**
+**	This is where we implement the API expected by the Instance Server.
+**
 ** The Instance Server will pass in requests for loading and starting maps, control input from players,
 ** and requests for game simulation and rendering states.
-** 
-** 
+**
+**
 */
 
 
@@ -42,10 +42,10 @@
 /*
 ** Externs
 */
-extern int DLL_Startup(const char * command_line);
+extern int DLL_Startup(const char* command_line);
 extern void Reallocate_Big_Shape_Buffer(void);
 extern bool ProgEndCalled;
-extern int Write_PCX_File(char* name, GraphicViewPortClass& pic, unsigned char* palette );
+extern int Write_PCX_File(char* name, GraphicViewPortClass& pic, unsigned char* palette);
 extern bool Color_Cycle(void);
 
 
@@ -54,10 +54,10 @@ extern bool Color_Cycle(void);
 /*
 ** Prototypes and constants
 */
-bool Debug_Write_Shape_Type(const ObjectTypeClass *type, int shapenum);
-bool Debug_Write_Shape(const char *file_name, void const * shapefile, int shapenum, int flags = 0, void const * ghostdata = NULL);
+bool Debug_Write_Shape_Type(const ObjectTypeClass* type, int shapenum);
+bool Debug_Write_Shape(const char* file_name, void const* shapefile, int shapenum, int flags = 0, void const* ghostdata = NULL);
 
-typedef void (__cdecl* CNC_Event_Callback_Type)(const EventCallbackStruct &event);
+typedef void(__cdecl* CNC_Event_Callback_Type)(const EventCallbackStruct& event);
 typedef unsigned __int64 uint64;
 typedef __int64 int64;
 
@@ -66,11 +66,11 @@ typedef __int64 int64;
 
 /*
 ** Audio defines
-** 
-** 
-** 
-** 
-** 
+**
+**
+**
+**
+**
 */
 // For compatibility with Watcom in audio enums
 #pragma warning (disable : 4091)
@@ -78,7 +78,7 @@ typedef __int64 int64;
 // From TiberianDawn\Audio.cpp 
 enum ContextType;
 extern struct SoundEffectNameStruct {
-	char const *Name;			// Digitized voice file name.
+	char const* Name;			// Digitized voice file name.
 	int			Priority;	// Playback priority of this sample.
 	ContextType	Where;		// In what game context does this sample exist.
 } SoundEffectName[VOC_COUNT];
@@ -98,11 +98,11 @@ typedef enum {
 
 /*
 ** Misc defines
-** 
-** 
-** 
-** 
-** 
+**
+**
+**
+**
+**
 */
 #define RANDOM_START_POSITION 0x7f
 
@@ -112,24 +112,24 @@ typedef enum {
 
 /*
 **  DLL Interface
-** 
-** 
-** 
-** 
-** 
+**
+**
+**
+**
+**
 */
 extern "C" __declspec(dllexport) unsigned int __cdecl CNC_Version(unsigned int version_in);
-extern "C" __declspec(dllexport) void __cdecl CNC_Init(const char *command_line, CNC_Event_Callback_Type event_callback);
-extern "C" __declspec(dllexport) void __cdecl CNC_Config(const CNCRulesDataStruct& rules);
-extern "C" __declspec(dllexport) void __cdecl CNC_Add_Mod_Path(const char *mod_path);
-extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Visible_Page(unsigned char *buffer_in, unsigned int &width, unsigned int &height);
+extern "C" __declspec(dllexport) void __cdecl CNC_Init(const char* command_line, CNC_Event_Callback_Type event_callback);
+extern "C" __declspec(dllexport) void __cdecl CNC_Config(const CNCRulesDataStruct & rules);
+extern "C" __declspec(dllexport) void __cdecl CNC_Add_Mod_Path(const char* mod_path);
+extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Visible_Page(unsigned char* buffer_in, unsigned int& width, unsigned int& height);
 extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Palette(unsigned char(&palette_in)[256][3]);
-extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Instance(int scenario_index, int build_level, const char *faction, const char *game_type, const char *content_directory, int sabotaged_structure, const char *override_map_name);
-extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Instance_Variation(int scenario_index, int scenario_variation, int scenario_direction, int build_level, const char *faction, const char *game_type, const char *content_directory, int sabotaged_structure, const char *override_map_name);
+extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Instance(int scenario_index, int build_level, const char* faction, const char* game_type, const char* content_directory, int sabotaged_structure, const char* override_map_name);
+extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Instance_Variation(int scenario_index, int scenario_variation, int scenario_direction, int build_level, const char* faction, const char* game_type, const char* content_directory, int sabotaged_structure, const char* override_map_name);
 extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Custom_Instance(const char* content_directory, const char* directory_path, const char* scenario_name, int build_level, bool multiplayer);
 extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player_id);
-extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Game_State(GameStateRequestEnum state_type, uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size);
-extern "C" __declspec(dllexport) bool __cdecl CNC_Read_INI(int scenario_index, int scenario_variation, int scenario_direction, const char *content_directory, const char *override_map_name, char *ini_buffer, int _ini_buffer_size);
+extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Game_State(GameStateRequestEnum state_type, uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size);
+extern "C" __declspec(dllexport) bool __cdecl CNC_Read_INI(int scenario_index, int scenario_variation, int scenario_direction, const char* content_directory, const char* override_map_name, char* ini_buffer, int _ini_buffer_size);
 extern "C" __declspec(dllexport) void __cdecl CNC_Set_Home_Cell(int x, int y, uint64 player_id);
 extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Game_Request(GameRequestEnum request_type);
 extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Game_Settings_Request(int health_bar_display_mode, int resource_bar_display_mode);
@@ -139,11 +139,11 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Unit_Request(UnitReques
 extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Sidebar_Request(SidebarRequestEnum request_type, uint64 player_id, int buildable_type, int buildable_id, short cell_x, short cell_y);
 extern "C" __declspec(dllexport) void __cdecl CNC_Handle_SuperWeapon_Request(SuperWeaponRequestEnum request_type, uint64 player_id, int buildable_type, int buildable_id, int x1, int y1);
 extern "C" __declspec(dllexport) void __cdecl CNC_Handle_ControlGroup_Request(ControlGroupRequestEnum request_type, uint64 player_id, unsigned char control_group_index);
-extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Debug_Request(DebugRequestEnum debug_request_type, uint64 player_id, const char *object_name, int x, int y, bool unshroud, bool enemy);
-extern "C" __declspec(dllexport) bool __cdecl CNC_Set_Multiplayer_Data(int scenario_index, CNCMultiplayerOptionsStruct &game_options, int num_players, CNCPlayerInfoStruct *player_list, int max_players);
+extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Debug_Request(DebugRequestEnum debug_request_type, uint64 player_id, const char* object_name, int x, int y, bool unshroud, bool enemy);
+extern "C" __declspec(dllexport) bool __cdecl CNC_Set_Multiplayer_Data(int scenario_index, CNCMultiplayerOptionsStruct & game_options, int num_players, CNCPlayerInfoStruct * player_list, int max_players);
 extern "C" __declspec(dllexport) bool __cdecl CNC_Clear_Object_Selection(uint64 player_id);
 extern "C" __declspec(dllexport) bool __cdecl CNC_Select_Object(uint64 player_id, int object_type_id, int object_to_select_id);
-extern "C" __declspec(dllexport) bool __cdecl CNC_Save_Load(bool save, const char *file_path_and_name, const char *game_type);
+extern "C" __declspec(dllexport) bool __cdecl CNC_Save_Load(bool save, const char* file_path_and_name, const char* game_type);
 extern "C" __declspec(dllexport) void __cdecl CNC_Set_Difficulty(int difficulty);
 extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Player_Switch_To_AI(uint64 player_id);
 extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Human_Team_Wins(uint64 player_id);
@@ -153,209 +153,209 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Start_Mission_Timer(int time);
 
 /*
 ** Class to implement the interface, and contain additional game state required by the conversion from peer/peer to client/server
-** 
-** 
-** 
-** 
-** 
+**
+**
+**
+**
+**
 */
 class DLLExportClass {
-	public:
-	
-		static void Init(void);
-		static void Shutdown(void);
-		static void Config(const CNCRulesDataStruct& rules);
-		static void Add_Mod_Path(const char *mod_path);
-		static void Set_Home_Cell(int x, int y, uint64 player_id);
-		static void Set_Content_Directory(const char *dir);
+public:
 
-		static bool Get_Layer_State(uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size);
-		static bool Get_Sidebar_State(uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size);
-		static bool Start_Construction(uint64 player_id, int buildable_type, int buildable_id);
-		static bool Hold_Construction(uint64 player_id, int buildable_type, int buildable_id);
-		static bool Cancel_Construction(uint64 player_id, int buildable_type, int buildable_id);
-		static bool Start_Placement(uint64 player_id, int buildable_type, int buildable_id);
-		static BuildingClass *Get_Pending_Placement_Object(uint64 player_id, int buildable_type, int buildable_id);
-		static bool Get_Placement_State(uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size);
-		static void Convert_Type(const ObjectClass *object, CNCObjectStruct &object_out);
-		static void DLL_Draw_Intercept(int shape_number, int x, int y, int width, int height, int flags, ObjectClass *object, const char *shape_file_name = NULL, char override_owner = HOUSE_NONE, int scale = 0x100);
-		static void DLL_Draw_Pip_Intercept(const ObjectClass* object, int pip);
-		static void DLL_Draw_Line_Intercept(int x, int y, int x1, int y1, unsigned char color, int frame);
-		static bool Place(uint64 player_id, int buildable_type, int buildable_id, short cell_x, short cell_y);
-		static bool Cancel_Placement(uint64 player_id, int buildable_type, int buildable_id);
-		static bool Place_Super_Weapon(uint64 player_id, int buildable_type, int buildable_id, int x, int y);
-		static bool Create_Control_Group(unsigned char control_group_index);
-		static bool Add_To_Control_Group(unsigned char control_group_index);
-		static bool Toggle_Control_Group_Selection(unsigned char control_group_index);
-		static bool Construction_Action(SidebarRequestEnum construction_action, uint64 player_id, int buildable_type, int buildable_id);
-		static bool MP_Construction_Action(SidebarRequestEnum construction_action, uint64 player_id, int buildable_type, int buildable_id);
-		static bool Passes_Proximity_Check(CELL cell_in, BuildingTypeClass *placement_type, unsigned char* placement_distance);
-		static void Calculate_Start_Positions(void);
-		static void Computer_Message(bool last_player_taunt);
+	static void Init(void);
+	static void Shutdown(void);
+	static void Config(const CNCRulesDataStruct& rules);
+	static void Add_Mod_Path(const char* mod_path);
+	static void Set_Home_Cell(int x, int y, uint64 player_id);
+	static void Set_Content_Directory(const char* dir);
 
-		static void Repair_Mode(uint64 player_id);
-		static void Repair(uint64 player_id, int object_id);
-		static void Sell_Mode(uint64 player_id);
-		static void Sell(uint64 player_id, int object_id);
-		static void Repair_Sell_Cancel(uint64 player_id);
+	static bool Get_Layer_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size);
+	static bool Get_Sidebar_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size);
+	static bool Start_Construction(uint64 player_id, int buildable_type, int buildable_id);
+	static bool Hold_Construction(uint64 player_id, int buildable_type, int buildable_id);
+	static bool Cancel_Construction(uint64 player_id, int buildable_type, int buildable_id);
+	static bool Start_Placement(uint64 player_id, int buildable_type, int buildable_id);
+	static BuildingClass* Get_Pending_Placement_Object(uint64 player_id, int buildable_type, int buildable_id);
+	static bool Get_Placement_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size);
+	static void Convert_Type(const ObjectClass* object, CNCObjectStruct& object_out);
+	static void DLL_Draw_Intercept(int shape_number, int x, int y, int width, int height, int flags, ObjectClass* object, const char* shape_file_name = NULL, char override_owner = HOUSE_NONE, int scale = 0x100);
+	static void DLL_Draw_Pip_Intercept(const ObjectClass* object, int pip);
+	static void DLL_Draw_Line_Intercept(int x, int y, int x1, int y1, unsigned char color, int frame);
+	static bool Place(uint64 player_id, int buildable_type, int buildable_id, short cell_x, short cell_y);
+	static bool Cancel_Placement(uint64 player_id, int buildable_type, int buildable_id);
+	static bool Place_Super_Weapon(uint64 player_id, int buildable_type, int buildable_id, int x, int y);
+	static bool Create_Control_Group(unsigned char control_group_index);
+	static bool Add_To_Control_Group(unsigned char control_group_index);
+	static bool Toggle_Control_Group_Selection(unsigned char control_group_index);
+	static bool Construction_Action(SidebarRequestEnum construction_action, uint64 player_id, int buildable_type, int buildable_id);
+	static bool MP_Construction_Action(SidebarRequestEnum construction_action, uint64 player_id, int buildable_type, int buildable_id);
+	static bool Passes_Proximity_Check(CELL cell_in, BuildingTypeClass* placement_type, unsigned char* placement_distance);
+	static void Calculate_Start_Positions(void);
+	static void Computer_Message(bool last_player_taunt);
 
-		static void Scatter_Selected(uint64 player_id);
-		static void Select_Next_Unit(uint64 player_id);
-		static void Select_Previous_Unit(uint64 player_id);
-		static void Selected_Guard_Mode(uint64 player_id);
-		static void Selected_Stop(uint64 player_id);
-		static void Team_Units_Formation_Toggle_On(uint64 player_id);
-		static void Units_Queued_Movement_Toggle(uint64 player_id, bool toggle);
+	static void Repair_Mode(uint64 player_id);
+	static void Repair(uint64 player_id, int object_id);
+	static void Sell_Mode(uint64 player_id);
+	static void Sell(uint64 player_id, int object_id);
+	static void Repair_Sell_Cancel(uint64 player_id);
 
-		static void Cell_Class_Draw_It(CNCDynamicMapStruct *dynamic_map, int &entry_index, CellClass *cell_ptr, int xpixel, int ypixel, bool debug_output);
-		static bool Get_Dynamic_Map_State(uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size);
-		static bool Get_Shroud_State(uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size);
-		static bool Get_Occupier_State(uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size);
-		static bool Get_Player_Info_State(uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size);
+	static void Scatter_Selected(uint64 player_id);
+	static void Select_Next_Unit(uint64 player_id);
+	static void Select_Previous_Unit(uint64 player_id);
+	static void Selected_Guard_Mode(uint64 player_id);
+	static void Selected_Stop(uint64 player_id);
+	static void Team_Units_Formation_Toggle_On(uint64 player_id);
+	static void Units_Queued_Movement_Toggle(uint64 player_id, bool toggle);
 
-
-		static void Set_Event_Callback(CNC_Event_Callback_Type event_callback) {EventCallback = event_callback;}
-		static void Debug_Spawn_Unit(const char *object_name, int x, int y, bool enemy = false);
-		static void Debug_Spawn_All(int x, int y);
-		static bool Try_Debug_Spawn_Unlimbo(TechnoClass *techno, int &cell_x, int &cell_y);
-		static void Debug_Kill_Unit(int x, int y);
-		static void Debug_Heal_Unit(int x, int y);
-
-		static void On_Play_Movie(const char * movie_name, ThemeType theme, bool immediate);
-		static void On_Display_Briefing_Text();
-
-		static void On_Sound_Effect(const HouseClass* player_ptr, int sound_effect_index, const char* extension, int variation, COORDINATE coord);
-		static void On_Speech(const HouseClass* player_ptr, int speech_index);
-
-		static void On_Game_Over(uint64 glyphx_player_id, bool player_wins);
-		static void On_Multiplayer_Game_Over(void);
-
-		static void On_Message(const HouseClass* player_ptr, const char* message, float timeout_seconds, EventCallbackMessageEnum message_type, int64 message_id);
-		
-		static void On_Debug_Output(const char *debug_text);
-
-		static void On_Achievement(const HouseClass* player_ptr, const char *achievement_type, const char *achievement_reason);
-
-		static void On_Center_Camera(const HouseClass* player_ptr, int coord_x, int coord_y);
-
-		static void On_Ping(const HouseClass* player_ptr, COORDINATE coord);
-
-		static void Glyphx_Queue_AI();
-
-		static void Force_Human_Team_Wins(uint64 quitting_player_id);
-
-		/*
-		** Player context switching for input/output
-		*/
-		static bool Set_Player_Context(uint64 glyphx_player, bool force = false);
-		static void Reset_Player_Context(void);
-		static void Adjust_Internal_View(bool force_ignore_view_constraints = false);
-		static void Logic_Switch_Player_Context(ObjectClass *object);
-		static void Logic_Switch_Player_Context(HouseClass *house);
-		static __int64 Get_GlyphX_Player_ID(const HouseClass *house);
-
-		static void Recalculate_Placement_Distances();
-				
-		static void Reset_Sidebars(void);
-
-		static SidebarGlyphxClass *Get_Current_Context_Sidebar(HouseClass *player_ptr = NULL);
-
-		static uint64 GlyphxPlayerIDs[MAX_PLAYERS];
+	static void Cell_Class_Draw_It(CNCDynamicMapStruct* dynamic_map, int& entry_index, CellClass* cell_ptr, int xpixel, int ypixel, bool debug_output);
+	static bool Get_Dynamic_Map_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size);
+	static bool Get_Shroud_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size);
+	static bool Get_Occupier_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size);
+	static bool Get_Player_Info_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size);
 
 
+	static void Set_Event_Callback(CNC_Event_Callback_Type event_callback) { EventCallback = event_callback; }
+	static void Debug_Spawn_Unit(const char* object_name, int x, int y, bool enemy = false);
+	static void Debug_Spawn_All(int x, int y);
+	static bool Try_Debug_Spawn_Unlimbo(TechnoClass* techno, int& cell_x, int& cell_y);
+	static void Debug_Kill_Unit(int x, int y);
+	static void Debug_Heal_Unit(int x, int y);
 
-		static const void *Get_Shadow_Shapes(void) {return Map.ShadowShapes;}
-		static const unsigned char *Get_Shadow_Trans(void) {return &Map.ShadowTrans[0];}
+	static void On_Play_Movie(const char* movie_name, ThemeType theme, bool immediate);
+	static void On_Display_Briefing_Text();
 
-		static bool Legacy_Render_Enabled(void);
+	static void On_Sound_Effect(const HouseClass* player_ptr, int sound_effect_index, const char* extension, int variation, COORDINATE coord);
+	static void On_Speech(const HouseClass* player_ptr, int speech_index);
 
-		static bool Get_Input_Key_State(KeyNumType key);
+	static void On_Game_Over(uint64 glyphx_player_id, bool player_wins);
+	static void On_Multiplayer_Game_Over(void);
 
-		static void Set_Special_Key_Flags(unsigned char special_key_flags);
-		static void Clear_Special_Key_Flags();
+	static void On_Message(const HouseClass* player_ptr, const char* message, float timeout_seconds, EventCallbackMessageEnum message_type, int64 message_id);
 
-		static bool Load(FileClass & file);
-		static bool Save(FileClass & file);
-		static void Code_Pointers(void);
-		static void Decode_Pointers(void);
+	static void On_Debug_Output(const char* debug_text);
 
-		static bool Get_Game_Over()	{ return GameOver; }
+	static void On_Achievement(const HouseClass* player_ptr, const char* achievement_type, const char* achievement_reason);
+
+	static void On_Center_Camera(const HouseClass* player_ptr, int coord_x, int coord_y);
+
+	static void On_Ping(const HouseClass* player_ptr, COORDINATE coord);
+
+	static void Glyphx_Queue_AI();
+
+	static void Force_Human_Team_Wins(uint64 quitting_player_id);
+
+	/*
+	** Player context switching for input/output
+	*/
+	static bool Set_Player_Context(uint64 glyphx_player, bool force = false);
+	static void Reset_Player_Context(void);
+	static void Adjust_Internal_View(bool force_ignore_view_constraints = false);
+	static void Logic_Switch_Player_Context(ObjectClass* object);
+	static void Logic_Switch_Player_Context(HouseClass* house);
+	static __int64 Get_GlyphX_Player_ID(const HouseClass* house);
+
+	static void Recalculate_Placement_Distances();
+
+	static void Reset_Sidebars(void);
+
+	static SidebarGlyphxClass* Get_Current_Context_Sidebar(HouseClass* player_ptr = NULL);
+
+	static uint64 GlyphxPlayerIDs[MAX_PLAYERS];
 
 
-	private:
-		static void Calculate_Single_Player_Score(EventCallbackStruct&);
 
-		static unsigned int TD_Calculate_Efficiency( unsigned int harvested_credits, unsigned int initial_credits, unsigned int available_credits );
-		static unsigned int TD_Calculate_Leadership( int house, unsigned int units_lost, unsigned int buildings_lost );
-		static unsigned int TD_Calculate_Score( unsigned int leadership, unsigned int efficiency, unsigned int build_level );
+	static const void* Get_Shadow_Shapes(void) { return Map.ShadowShapes; }
+	static const unsigned char* Get_Shadow_Trans(void) { return &Map.ShadowTrans[0]; }
 
-		static void Convert_Action_Type(ActionType type, ObjectClass* object, TARGET target, DllActionTypeEnum& dll_type);
+	static bool Legacy_Render_Enabled(void);
 
-		static void Calculate_Placement_Distances(BuildingTypeClass* placement_type, unsigned char* placement_distance);
+	static bool Get_Input_Key_State(KeyNumType key);
 
-		static int CurrentDrawCount;
-		static int TotalObjectCount;
-		static int SortOrder;
-		static CNCObjectListStruct *ObjectList;
+	static void Set_Special_Key_Flags(unsigned char special_key_flags);
+	static void Clear_Special_Key_Flags();
 
-		static CNC_Event_Callback_Type EventCallback;
+	static bool Load(FileClass& file);
+	static bool Save(FileClass& file);
+	static void Code_Pointers(void);
+	static void Decode_Pointers(void);
+
+	static bool Get_Game_Over() { return GameOver; }
 
 
-		static int CurrentLocalPlayerIndex;
+private:
+	static void Calculate_Single_Player_Score(EventCallbackStruct&);
 
-		static bool GameOver;
+	static unsigned int TD_Calculate_Efficiency(unsigned int harvested_credits, unsigned int initial_credits, unsigned int available_credits);
+	static unsigned int TD_Calculate_Leadership(int house, unsigned int units_lost, unsigned int buildings_lost);
+	static unsigned int TD_Calculate_Score(unsigned int leadership, unsigned int efficiency, unsigned int build_level);
 
-		/*
-		** Pseudo sidebars for players in multiplayer
-		*/
-		static SidebarGlyphxClass MultiplayerSidebars[MAX_PLAYERS];
+	static void Convert_Action_Type(ActionType type, ObjectClass* object, TARGET target, DllActionTypeEnum& dll_type);
 
-		static CELL MultiplayerStartPositions[MAX_PLAYERS];
+	static void Calculate_Placement_Distances(BuildingTypeClass* placement_type, unsigned char* placement_distance);
 
-		static BuildingTypeClass *PlacementType[MAX_PLAYERS];
+	static int CurrentDrawCount;
+	static int TotalObjectCount;
+	static int SortOrder;
+	static CNCObjectListStruct* ObjectList;
 
-		static unsigned char PlacementDistance[MAX_PLAYERS][MAP_CELL_TOTAL];
+	static CNC_Event_Callback_Type EventCallback;
 
-		static unsigned char SpecialKeyFlags[MAX_PLAYERS];
 
-		/*
-		** Mod directories
-		*/
-		static DynamicVectorClass<char *> ModSearchPaths;
+	static int CurrentLocalPlayerIndex;
+
+	static bool GameOver;
+
+	/*
+	** Pseudo sidebars for players in multiplayer
+	*/
+	static SidebarGlyphxClass MultiplayerSidebars[MAX_PLAYERS];
+
+	static CELL MultiplayerStartPositions[MAX_PLAYERS];
+
+	static BuildingTypeClass* PlacementType[MAX_PLAYERS];
+
+	static unsigned char PlacementDistance[MAX_PLAYERS][MAP_CELL_TOTAL];
+
+	static unsigned char SpecialKeyFlags[MAX_PLAYERS];
+
+	/*
+	** Mod directories
+	*/
+	static DynamicVectorClass<char*> ModSearchPaths;
 
 };
 
 
 /*
 ** DLLExportClass static data
-** 
-** 
-** 
-** 
-** 
+**
+**
+**
+**
+**
 */
 int DLLExportClass::CurrentDrawCount = 0;
 int DLLExportClass::TotalObjectCount = 0;
 int DLLExportClass::SortOrder = 0;
-CNCObjectListStruct *DLLExportClass::ObjectList = NULL;
-SidebarGlyphxClass DLLExportClass::MultiplayerSidebars [MAX_PLAYERS];
-uint64 DLLExportClass::GlyphxPlayerIDs[MAX_PLAYERS] = {0xffffffffl};
+CNCObjectListStruct* DLLExportClass::ObjectList = NULL;
+SidebarGlyphxClass DLLExportClass::MultiplayerSidebars[MAX_PLAYERS];
+uint64 DLLExportClass::GlyphxPlayerIDs[MAX_PLAYERS] = { 0xffffffffl };
 int DLLExportClass::CurrentLocalPlayerIndex = -1;
 CELL DLLExportClass::MultiplayerStartPositions[MAX_PLAYERS];
-BuildingTypeClass *DLLExportClass::PlacementType[MAX_PLAYERS];
+BuildingTypeClass* DLLExportClass::PlacementType[MAX_PLAYERS];
 unsigned char DLLExportClass::PlacementDistance[MAX_PLAYERS][MAP_CELL_TOTAL];
 unsigned char DLLExportClass::SpecialKeyFlags[MAX_PLAYERS] = { 0U };
-DynamicVectorClass<char *> DLLExportClass::ModSearchPaths;
+DynamicVectorClass<char*> DLLExportClass::ModSearchPaths;
 bool DLLExportClass::GameOver = false;
 
 
 /*
 ** Global variables
-** 
-** 
-** 
-** 
-** 
+**
+**
+**
+**
+**
 */
 int DLLForceMouseX = 0;
 int DLLForceMouseY = 0;
@@ -376,7 +376,7 @@ bool ShareAllyVisibility = true;
 
 
 
-void Play_Movie_GlyphX(const char * movie_name, ThemeType theme)
+void Play_Movie_GlyphX(const char* movie_name, ThemeType theme)
 {
 	if ((movie_name[0] == 'x' || movie_name[0] == 'X') && movie_name[1] == 0) {
 		return;
@@ -397,32 +397,36 @@ void On_Sound_Effect(int sound_index, int variation, COORDINATE coord)
 
 	// MBL 02.26.2019 - Borrowed from AUDIO.CPP Sound_Effect()
 	//
-	#if 1 
-		char const * ext = ""; // ".AUD";
-		if (Special.IsJuvenile && SoundEffectName[voc].Where == IN_JUV) {
-			ext = ".JUV";
-		} else {
-			if (SoundEffectName[voc].Where == IN_VAR) {
-				/*
-				**	For infantry, use a variation on the response. For vehicles, always
-				**	use the vehicle response table.
-				*/
-				if (variation < 0) {
-					if (ABS(variation) % 2) {
-						ext = ".V00";
-					} else {
-						ext = ".V02";
-					}
-				} else {
-					if (variation % 2) {
-						ext = ".V01";
-					} else {
-						ext = ".V03";
-					}
+#if 1 
+	char const* ext = ""; // ".AUD";
+	if (Special.IsJuvenile && SoundEffectName[voc].Where == IN_JUV) {
+		ext = ".JUV";
+	}
+	else {
+		if (SoundEffectName[voc].Where == IN_VAR) {
+			/*
+			**	For infantry, use a variation on the response. For vehicles, always
+			**	use the vehicle response table.
+			*/
+			if (variation < 0) {
+				if (ABS(variation) % 2) {
+					ext = ".V00";
+				}
+				else {
+					ext = ".V02";
+				}
+			}
+			else {
+				if (variation % 2) {
+					ext = ".V01";
+				}
+				else {
+					ext = ".V03";
 				}
 			}
 		}
-	#endif
+	}
+#endif
 	// END MBL 
 
 	DLLExportClass::On_Sound_Effect(PlayerPtr, sound_index, ext, variation, coord);
@@ -430,7 +434,7 @@ void On_Sound_Effect(int sound_index, int variation, COORDINATE coord)
 
 // MBL 02.06.2020
 // void On_Speech(int speech_index)
-void On_Speech(int speech_index, HouseClass *house)
+void On_Speech(int speech_index, HouseClass* house)
 {
 	// DLLExportClass::On_Speech(PlayerPtr, speech_index); // MBL 02.06.2020
 	if (house == NULL) {
@@ -448,17 +452,17 @@ void On_Ping(const HouseClass* player_ptr, COORDINATE coord)
 	DLLExportClass::On_Ping(player_ptr, coord);
 }
 
-		  
-void GlyphX_Debug_Print(const char *debug_text)
+
+void GlyphX_Debug_Print(const char* debug_text)
 {
 	DLLExportClass::On_Debug_Output(debug_text);
 }
-			  
 
-void On_Achievement_Event(const HouseClass* player_ptr, const char *achievement_type, const char *achievement_reason)
+
+void On_Achievement_Event(const HouseClass* player_ptr, const char* achievement_type, const char* achievement_reason)
 {
 	DLLExportClass::On_Achievement(player_ptr, achievement_type, achievement_reason);
-}			  
+}
 
 
 
@@ -496,14 +500,14 @@ extern "C" __declspec(dllexport) unsigned int __cdecl CNC_Version(unsigned int v
 *
 * History: 1/3/2019 11:33AM - ST
 **************************************************************************************************/
-extern "C" __declspec(dllexport) void __cdecl CNC_Init(const char *command_line, CNC_Event_Callback_Type event_callback)
+extern "C" __declspec(dllexport) void __cdecl CNC_Init(const char* command_line, CNC_Event_Callback_Type event_callback)
 {
 	DLLExportClass::Set_Content_Directory(NULL);
-	
+
 	DLL_Startup(command_line);
 
 	// MBL 
-	DLLExportClass::Set_Event_Callback( event_callback );
+	DLLExportClass::Set_Event_Callback(event_callback);
 
 	DLLExportClass::Init();
 }
@@ -513,7 +517,7 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Init(const char *command_line,
 /**************************************************************************************************
 * DLL_Shutdown -- Shutdown the .DLL
 *
-* In:   
+* In:
 *
 * Out:
 *
@@ -541,7 +545,7 @@ void DLL_Shutdown(void)
 *
 * History: 10/03/2019 - SKY
 **************************************************************************************************/
-extern "C" __declspec(dllexport) void __cdecl CNC_Config(const CNCRulesDataStruct& rules)
+extern "C" __declspec(dllexport) void __cdecl CNC_Config(const CNCRulesDataStruct & rules)
 {
 	DLLExportClass::Config(rules);
 }
@@ -560,7 +564,7 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Config(const CNCRulesDataStruc
 *
 * History: 2/20/2020 2:04PM - ST
 **************************************************************************************************/
-extern "C" __declspec(dllexport) void __cdecl CNC_Add_Mod_Path(const char *mod_path)
+extern "C" __declspec(dllexport) void __cdecl CNC_Add_Mod_Path(const char* mod_path)
 {
 	DLLExportClass::Add_Mod_Path(mod_path);
 }
@@ -580,7 +584,7 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Add_Mod_Path(const char *mod_p
 *
 * History: 1/3/2019 11:33AM - ST
 **************************************************************************************************/
-extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Visible_Page(unsigned char *buffer_in, unsigned int &width, unsigned int &height)
+extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Visible_Page(unsigned char* buffer_in, unsigned int& width, unsigned int& height)
 {
 	if (!DLLExportClass::Legacy_Render_Enabled() || (buffer_in == NULL)) {
 		return false;
@@ -590,7 +594,7 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Visible_Page(unsigned char
 	** Assume the seen page viewport is the same size as the page
 	*/
 
-	GraphicBufferClass *gbuffer = HidPage.Get_Graphic_Buffer();
+	GraphicBufferClass* gbuffer = HidPage.Get_Graphic_Buffer();
 	if (gbuffer == NULL) {
 		return false;
 	}
@@ -602,7 +606,7 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Visible_Page(unsigned char
 		return false;
 	}
 
-	unsigned char *raw_buffer = (unsigned char*) gbuffer->Get_Buffer();
+	unsigned char* raw_buffer = (unsigned char*)gbuffer->Get_Buffer();
 	long raw_size = gbuffer->Get_Size();
 	if (raw_buffer == NULL || gbuffer->Get_Width() < view_port_width || gbuffer->Get_Height() < view_port_height) {
 		return false;
@@ -642,9 +646,9 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Palette(unsigned char(&pal
 *
 * History: 1/7/2019 5:20PM - ST
 **************************************************************************************************/
-extern "C" __declspec(dllexport) bool __cdecl CNC_Set_Multiplayer_Data(int scenario_index, CNCMultiplayerOptionsStruct &game_options, int num_players, CNCPlayerInfoStruct *player_list, int max_players)
+extern "C" __declspec(dllexport) bool __cdecl CNC_Set_Multiplayer_Data(int scenario_index, CNCMultiplayerOptionsStruct & game_options, int num_players, CNCPlayerInfoStruct * player_list, int max_players)
 {
-	
+
 	if (num_players <= 0) {
 		return false;
 	}
@@ -660,14 +664,14 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Set_Multiplayer_Data(int scena
 	//MPlayerHouse;													// House of this player (GDI/NOD)
 	//MPlayerLocalID;													// ID of this player
 	MPlayerCount = num_players;									// # of human players in this game
-	MPlayerBases	 	= game_options.MPlayerBases;			// 1 = bases are on for this scenario
-	MPlayerCredits	 	= game_options.MPlayerCredits;		// # credits everyone gets
-	MPlayerTiberium	= game_options.MPlayerTiberium;		// 1 = tiberium enabled for this scenario
-	MPlayerGoodies		= game_options.MPlayerGoodies;		// 1 = goodies enabled for this scenario
-	MPlayerGhosts		= game_options.MPlayerGhosts;			// 1 = houses with no players will still play
-	MPlayerSolo			= game_options.MPlayerSolo;			// 1 = allows a single-player net game
-	MPlayerUnitCount	= game_options.MPlayerUnitCount;		// # units for non-base multiplayer scenarios
-	
+	MPlayerBases = game_options.MPlayerBases;			// 1 = bases are on for this scenario
+	MPlayerCredits = game_options.MPlayerCredits;		// # credits everyone gets
+	MPlayerTiberium = game_options.MPlayerTiberium;		// 1 = tiberium enabled for this scenario
+	MPlayerGoodies = game_options.MPlayerGoodies;		// 1 = goodies enabled for this scenario
+	MPlayerGhosts = game_options.MPlayerGhosts;			// 1 = houses with no players will still play
+	MPlayerSolo = game_options.MPlayerSolo;			// 1 = allows a single-player net game
+	MPlayerUnitCount = game_options.MPlayerUnitCount;		// # units for non-base multiplayer scenarios
+
 	Special.IsMCVDeploy = game_options.IsMCVDeploy;
 	Special.IsVisceroids = game_options.SpawnVisceroids;
 	Special.IsCaptureTheFlag = game_options.CaptureTheFlag;
@@ -678,7 +682,8 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Set_Multiplayer_Data(int scena
 	if (MPlayerTiberium) {
 		Special.IsTGrowth = 1;
 		Special.IsTSpread = 1;
-	} else {
+	}
+	else {
 		Special.IsTGrowth = 0;
 		Special.IsTSpread = 0;
 	}
@@ -686,9 +691,9 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Set_Multiplayer_Data(int scena
 	Scenario = scenario_index;
 	MPlayerCount = 0;
 
-	for (int i=0 ; i<num_players ; i++) {
-		CNCPlayerInfoStruct &player_info = player_list[i];
-		MPlayerHouses[i] = (HousesType) player_info.House;
+	for (int i = 0; i < num_players; i++) {
+		CNCPlayerInfoStruct& player_info = player_list[i];
+		MPlayerHouses[i] = (HousesType)player_info.House;
 		strncpy(MPlayerNames[i], player_info.Name, MPLAYER_NAME_MAX);
 		MPlayerNames[i][MPLAYER_NAME_MAX - 1] = 0;			// Make sure it's terminated
 
@@ -741,85 +746,85 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Select_Object(uint64 player_id
 
 	switch (object_type_id)
 	{
-		case INFANTRY:
-		{
-			for (int index = 0; index < Infantry.Count(); index++) {
-				InfantryClass * obj = Infantry.Ptr(index);
+	case INFANTRY:
+	{
+		for (int index = 0; index < Infantry.Count(); index++) {
+			InfantryClass* obj = Infantry.Ptr(index);
 
-				if (obj
-					&& !obj->IsInLimbo
-					&& obj->House == PlayerPtr
-					&& Infantry.ID((InfantryClass*)obj) == object_to_select_id)
+			if (obj
+				&& !obj->IsInLimbo
+				&& obj->House == PlayerPtr
+				&& Infantry.ID((InfantryClass*)obj) == object_to_select_id)
+			{
+				if (!obj->Is_Selected_By_Player())
 				{
-					if (!obj->Is_Selected_By_Player())
-					{
-						obj->Select();
-						AllowVoice = false;
-					}
-					return true;
+					obj->Select();
+					AllowVoice = false;
 				}
+				return true;
 			}
 		}
-		break;
-		case UNIT:
-		{
-			for (int index = 0; index < Units.Count(); index++) {
-				UnitClass * obj = Units.Ptr(index);
+	}
+	break;
+	case UNIT:
+	{
+		for (int index = 0; index < Units.Count(); index++) {
+			UnitClass* obj = Units.Ptr(index);
 
-				if (obj
-					&& !obj->IsInLimbo
-					&& obj->House == PlayerPtr
-					&& Units.ID((UnitClass*)obj) == object_to_select_id)
+			if (obj
+				&& !obj->IsInLimbo
+				&& obj->House == PlayerPtr
+				&& Units.ID((UnitClass*)obj) == object_to_select_id)
+			{
+				if (!obj->Is_Selected_By_Player())
 				{
-					if (!obj->Is_Selected_By_Player())
-					{
-						obj->Select();
-						AllowVoice = false;
-					}
-					return true;
+					obj->Select();
+					AllowVoice = false;
 				}
+				return true;
 			}
 		}
-		break;
-		case AIRCRAFT:
-		{
-			for (int index = 0; index < Aircraft.Count(); index++) {
-				AircraftClass * obj = Aircraft.Ptr(index);
+	}
+	break;
+	case AIRCRAFT:
+	{
+		for (int index = 0; index < Aircraft.Count(); index++) {
+			AircraftClass* obj = Aircraft.Ptr(index);
 
-				if (obj
-					&& !obj->IsInLimbo
-					&& obj->House == PlayerPtr
-					&& Aircraft.ID((AircraftClass*)obj) == object_to_select_id)
+			if (obj
+				&& !obj->IsInLimbo
+				&& obj->House == PlayerPtr
+				&& Aircraft.ID((AircraftClass*)obj) == object_to_select_id)
+			{
+				if (!obj->Is_Selected_By_Player())
 				{
-					if (!obj->Is_Selected_By_Player())
-					{
-						obj->Select();
-						AllowVoice = false;
-					}
-					return true;
+					obj->Select();
+					AllowVoice = false;
 				}
+				return true;
 			}
 		}
-		break;
-		case BUILDING:
-		{
-			for (int index = 0; index < Buildings.Count(); index++) {
-				BuildingClass * obj = Buildings.Ptr(index);
-				if (obj
-					&& !obj->IsInLimbo
-					&& obj->House == PlayerPtr
-					&& Buildings.ID((BuildingClass*)obj) == object_to_select_id)
+	}
+	break;
+	case BUILDING:
+	{
+		for (int index = 0; index < Buildings.Count(); index++) {
+			BuildingClass* obj = Buildings.Ptr(index);
+			if (obj
+				&& !obj->IsInLimbo
+				&& obj->House == PlayerPtr
+				&& Buildings.ID((BuildingClass*)obj) == object_to_select_id)
+			{
+				if (!obj->Is_Selected_By_Player())
 				{
-					if (!obj->Is_Selected_By_Player())
-					{
-						obj->Select();
-						AllowVoice = false;
-					}
-					return true;
+					obj->Select();
+					AllowVoice = false;
 				}
+				return true;
 			}
 		}
-		break;
+	}
+	break;
 	}
 
 	return false;
@@ -829,9 +834,9 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Select_Object(uint64 player_id
 /**************************************************************************************************
 * GlyphX_Assign_Houses -- Replacement for Assign_Houses in INI.CPP
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -841,14 +846,14 @@ void GlyphX_Assign_Houses(void)
 {
 	HousesType house;
 	HousesType pref_house;
-	HouseClass *housep;
+	HouseClass* housep;
 	bool house_used[MAX_PLAYERS];	// true = this house is in use
 	bool color_used[16];				// true = this color is in use. We have more than 6 color options now, so bumped this to 16. ST - 6/19/2019 5:18PM
 	bool preassigned;
-	int i,j,random_start_location;
+	int i, j, random_start_location;
 	PlayerColorType color;
 	HousesType house2;
-	HouseClass *housep2;
+	HouseClass* housep2;
 
 	srand(timeGetTime());
 
@@ -884,7 +889,7 @@ void GlyphX_Assign_Houses(void)
 		}
 	}
 
-	if (num_random_start_locations > 1)	{
+	if (num_random_start_locations > 1) {
 		for (i = 0; i < num_random_start_locations - 1; i++) {
 			j = i + rand() / (RAND_MAX / (num_random_start_locations - i) + 1);
 			int t = random_start_locations[j];
@@ -898,7 +903,7 @@ void GlyphX_Assign_Houses(void)
 	*/
 	random_start_location = 0;
 	for (i = 0; i < MPlayerCount; i++) {
-		j = Random_Pick(0, MPlayerMax-1);
+		j = Random_Pick(0, MPlayerMax - 1);
 
 		/*
 		**	If this house was already selected, decrement 'i' & keep looping.
@@ -927,8 +932,8 @@ void GlyphX_Assign_Houses(void)
 		/*
 		**	Set the house's IsHuman, Credits, ActLike, & RemapTable
 		*/
-		memset((char *)housep->Name, 0, MPLAYER_NAME_MAX);
-		strncpy((char *)housep->Name, MPlayerNames[i], MPLAYER_NAME_MAX-1);
+		memset((char*)housep->Name, 0, MPLAYER_NAME_MAX);
+		strncpy((char*)housep->Name, MPlayerNames[i], MPLAYER_NAME_MAX - 1);
 		housep->IsHuman = MPlayerIsHuman[i];
 		housep->Init_Data(color, pref_house, MPlayerCredits);
 
@@ -937,10 +942,12 @@ void GlyphX_Assign_Houses(void)
 		*/
 		if (MPlayerStartLocations[i] != RANDOM_START_POSITION) {
 			housep->StartLocationOverride = MPlayerStartLocations[i];
-		} else {
+		}
+		else {
 			if (random_start_location < num_random_start_locations) {
 				housep->StartLocationOverride = random_start_locations[random_start_location++];
-			} else {
+			}
+			else {
 				housep->StartLocationOverride = -1;
 			}
 		}
@@ -952,25 +959,25 @@ void GlyphX_Assign_Houses(void)
 			PlayerPtr = housep;
 		}
 	}
-	
+
 	/*
 	** From INI.CPP. Remove unused AI players.
 	*/
-	for (int i=0 ; i<MAX_PLAYERS ; i++) {
-		
+	for (int i = 0; i < MAX_PLAYERS; i++) {
+
 		if (house_used[i]) {
 			continue;
 		}
 
 		house = (HousesType)(i + (int)HOUSE_MULTI1);
-		housep = HouseClass::As_Pointer (house);
+		housep = HouseClass::As_Pointer(house);
 		if (housep && housep->IsHuman == false) {
 			housep->Clobber_All();
 		}
 	}
 
 	for (i = 0; i < MPlayerCount; i++) {
-		
+
 		house = MPlayerHouses[i];
 		housep = HouseClass::As_Pointer(house);
 
@@ -978,12 +985,12 @@ void GlyphX_Assign_Houses(void)
 
 			int team = MPlayerTeamIDs[i];
 
-			for (int j=0 ; j<MPlayerCount ; j++) {
-			
+			for (int j = 0; j < MPlayerCount; j++) {
+
 				if (i != j) {
 
 					if (team == MPlayerTeamIDs[j]) {
-						
+
 						house2 = MPlayerHouses[j];
 						housep2 = HouseClass::As_Pointer(house2);
 
@@ -1008,7 +1015,7 @@ void GlyphX_Assign_Houses(void)
 *
 * History: 7/10/2019 - LLL
 **************************************************************************************************/
-extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Instance(int scenario_index, int build_level, const char *faction, const char *game_type, const char *content_directory, int sabotaged_structure, const char *override_map_name)
+extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Instance(int scenario_index, int build_level, const char* faction, const char* game_type, const char* content_directory, int sabotaged_structure, const char* override_map_name)
 {
 	return CNC_Start_Instance_Variation(scenario_index, (int)SCEN_VAR_NONE, (int)SCEN_DIR_EAST, build_level, faction, game_type, content_directory, sabotaged_structure, override_map_name);
 }
@@ -1016,21 +1023,21 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Instance(int scenario_in
 
 /**************************************************************************************************
 * HandleSabotagedStructure
-* 
+*
 * A port of the code from the original game code which is suppose to remove the main previously sabatoged building.
 * From what I can tell since it only stores the type it might remove a different building of the same type.
-* Watching the GDI longplay on YouTube the player destroys the refinery and yet it exists in the next level. Perhaps there are 2 refineries. 
+* Watching the GDI longplay on YouTube the player destroys the refinery and yet it exists in the next level. Perhaps there are 2 refineries.
 *
 * History: 7/10/2019 - LLL
 **************************************************************************************************/
 void HandleSabotagedStructure(int structure_type)
 {
-	SabotagedType = (StructType) structure_type;
+	SabotagedType = (StructType)structure_type;
 
 	int index;
 	if (SabotagedType != STRUCT_NONE && Scenario == 7 && PlayerPtr->Class->House == HOUSE_GOOD) {
 		for (index = 0; index < Buildings.Count(); index++) {
-			BuildingClass * building = Buildings.Ptr(index);
+			BuildingClass* building = Buildings.Ptr(index);
 
 			if (building && !building->IsInLimbo && building->House != PlayerPtr && building->Class->Type == SabotagedType) {
 				building->Limbo();
@@ -1043,7 +1050,7 @@ void HandleSabotagedStructure(int structure_type)
 		**	Remove the building from the prebuild list.
 		*/
 		for (index = 0; index < Base.Nodes.Count(); index++) {
-			BaseNodeClass * node = Base.Get_Node(index);
+			BaseNodeClass* node = Base.Get_Node(index);
 
 			if (node && node->Type == SabotagedType) {
 				Base.Nodes.Delete(index);
@@ -1066,7 +1073,7 @@ void HandleSabotagedStructure(int structure_type)
 *
 * History: 12/16/2019 11:44AM - ST
 **************************************************************************************************/
-extern "C" __declspec(dllexport) bool __cdecl CNC_Read_INI(int scenario_index, int scenario_variation, int scenario_direction, const char *content_directory, const char *override_map_name, char *ini_buffer, int _ini_buffer_size)
+extern "C" __declspec(dllexport) bool __cdecl CNC_Read_INI(int scenario_index, int scenario_variation, int scenario_direction, const char* content_directory, const char* override_map_name, char* ini_buffer, int _ini_buffer_size)
 {
 	if (content_directory == NULL) {
 		return false;
@@ -1085,7 +1092,8 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Read_INI(int scenario_index, i
 
 	if (override_map_name && strlen(override_map_name)) {
 		strcpy(ScenarioName, override_map_name);
-	} else {
+	}
+	else {
 		Set_Scenario_Name(ScenarioName, Scenario, ScenPlayer, (ScenarioDirType)scenario_direction, (ScenarioVarType)scenario_variation);
 	}
 
@@ -1104,19 +1112,20 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Read_INI(int scenario_index, i
 
 	char fname[_MAX_PATH];
 
-	sprintf(fname,"%s.INI", ScenarioName);
+	sprintf(fname, "%s.INI", ScenarioName);
 	CCFileClass file(fname);
 	if (!file.Is_Available()) {
 		GlyphX_Debug_Print("Failed to find scenario file");
 		GlyphX_Debug_Print(fname);
 		return(false);
 
-	} else {
-		
+	}
+	else {
+
 		GlyphX_Debug_Print("Opened scenario file");
 		GlyphX_Debug_Print(fname);
-		
-		int bytes_read = file.Read(ini_buffer, _ini_buffer_size-1);
+
+		int bytes_read = file.Read(ini_buffer, _ini_buffer_size - 1);
 		if (bytes_read == _ini_buffer_size - 1) {
 			GlyphX_Debug_Print("INI file buffer is too small");
 			return false;
@@ -1126,13 +1135,13 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Read_INI(int scenario_index, i
 	/*
 	** Ini buffer should be zero terminated
 	*/
-	if ((int) strlen(ini_buffer) >= _ini_buffer_size) {
+	if ((int)strlen(ini_buffer) >= _ini_buffer_size) {
 		GlyphX_Debug_Print("INI file buffer overrun");
 		return false;
 	}
 
 	return true;
-}			  
+}
 
 
 /**************************************************************************************************
@@ -1160,7 +1169,7 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Set_Home_Cell(int x, int y, ui
 *
 * History: 1/7/2019 5:20PM - ST
 **************************************************************************************************/
-extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Instance_Variation(int scenario_index, int scenario_variation, int scenario_direction, int build_level, const char *faction, const char *game_type, const char *content_directory, int sabotaged_structure, const char *override_map_name)
+extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Instance_Variation(int scenario_index, int scenario_variation, int scenario_direction, int build_level, const char* faction, const char* game_type, const char* content_directory, int sabotaged_structure, const char* override_map_name)
 {
 	if (game_type == NULL) {
 		return false;
@@ -1178,7 +1187,7 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Instance_Variation(int s
 		ScenPlayer = SCEN_PLAYER_GDI;
 		Whom = HOUSE_GOOD;
 	}
-			  
+
 	if (stricmp(faction, "NOD") == 0) {
 		ScenPlayer = SCEN_PLAYER_NOD;
 		Whom = HOUSE_BAD;
@@ -1204,18 +1213,21 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Instance_Variation(int s
 
 	if (stricmp(game_type, "GAME_NORMAL") == 0) {
 		GameToPlay = GAME_NORMAL;
-	} else {
+	}
+	else {
 		if (stricmp(game_type, "GAME_GLYPHX_MULTIPLAYER") == 0) {
 			GameToPlay = GAME_GLYPHX_MULTIPLAYER;
 			ScenPlayer = SCEN_PLAYER_MPLAYER;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
 
 	if (override_map_name && strlen(override_map_name)) {
 		strcpy(ScenarioName, override_map_name);
-	} else {
+	}
+	else {
 		Set_Scenario_Name(ScenarioName, Scenario, ScenPlayer, (ScenarioDirType)scenario_direction, (ScenarioVarType)scenario_variation);
 	}
 
@@ -1278,14 +1290,14 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Instance_Variation(int s
 
 
 /**************************************************************************************************
-* CNC_Start_Custom_Instance -- 
+* CNC_Start_Custom_Instance --
 *
 *
 *
 *
 * History: 2019/10/17 - JAS
 **************************************************************************************************/
-extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Custom_Instance(const char* content_directory, const char* directory_path, 
+extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Custom_Instance(const char* content_directory, const char* directory_path,
 	const char* scenario_name, int build_level, bool multiplayer)
 {
 	if (content_directory == NULL) {
@@ -1297,7 +1309,8 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Custom_Instance(const ch
 	if (multiplayer) {
 		GameToPlay = GAME_GLYPHX_MULTIPLAYER;
 		ScenPlayer = SCEN_PLAYER_MPLAYER;
-	} else {
+	}
+	else {
 		GameToPlay = GAME_NORMAL;
 		ScenPlayer = SCEN_PLAYER_GDI;		// Don't think it matters since we are specifying the exact file to load
 	}
@@ -1364,14 +1377,14 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Start_Custom_Instance(const ch
 	Map.Render();
 
 	Set_Palette(GamePalette);
-	
+
 	return true;
 }
 
 
-bool Debug_Write_Shape_Type(const ObjectTypeClass *type, int shapenum)
-{		
-	char	fullname[_MAX_FNAME+_MAX_EXT];
+bool Debug_Write_Shape_Type(const ObjectTypeClass* type, int shapenum)
+{
+	char	fullname[_MAX_FNAME + _MAX_EXT];
 	char	buffer[_MAX_FNAME];
 	CCFileClass	file;
 
@@ -1387,12 +1400,12 @@ bool Debug_Write_Shape_Type(const ObjectTypeClass *type, int shapenum)
 }
 
 
-bool Debug_Write_Shape(const char *file_name, void const * shapefile, int shapenum, int flags, void const * ghostdata)
+bool Debug_Write_Shape(const char* file_name, void const* shapefile, int shapenum, int flags, void const* ghostdata)
 {
 	/*
 	** Build frame returns a pointer now instead of the shapes length
 	*/
-	char *shape_pointer = (char*) Build_Frame(shapefile , shapenum , _ShapeBuffer);
+	char* shape_pointer = (char*)Build_Frame(shapefile, shapenum, _ShapeBuffer);
 	if (shape_pointer == NULL) {
 		return false;;
 	}
@@ -1414,10 +1427,11 @@ bool Debug_Write_Shape(const char *file_name, void const * shapefile, int shapen
 	static const char _shape_trans = 0x40;
 
 	if (flags == 0) {
-		Buffer_Frame_To_Page(0, 0, width, height, shape_pointer, temp_viewport, SHAPE_NORMAL|SHAPE_WIN_REL|_shape_trans);	//, ghostdata, predoffset);
-	} else {
+		Buffer_Frame_To_Page(0, 0, width, height, shape_pointer, temp_viewport, SHAPE_NORMAL | SHAPE_WIN_REL | _shape_trans);	//, ghostdata, predoffset);
+	}
+	else {
 		Buffer_Frame_To_Page(0, 0, width, height, shape_pointer, temp_viewport, flags, ghostdata);
-	}	
+	}
 	Write_PCX_File((char*)file_name, temp_viewport, GamePalette);
 
 	return true;
@@ -1428,7 +1442,7 @@ bool Debug_Write_Shape(const char *file_name, void const * shapefile, int shapen
 /**************************************************************************************************
 * CNC_Advance_Instance -- Process one logic frame
 *
-* In:   
+* In:
 *
 * Out:  Is game still playing?
 *
@@ -1439,9 +1453,9 @@ bool Debug_Write_Shape(const char *file_name, void const * shapefile, int shapen
 extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player_id)
 {
 	//DLLExportClass::Set_Event_Callback(event_callback);
-	
+
 	InMainLoop = true;
-	
+
 	if (Frame <= 10) {		// Don't spam forever, but useful to know that we actually started advancing
 		GlyphX_Debug_Print("CNC_Advance_Instance - TD");
 	}
@@ -1452,10 +1466,11 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player
 	*/
 	if (player_id != 0) {
 		DLLExportClass::Set_Player_Context(player_id);
-	} else {
+	}
+	else {
 		DLLExportClass::Set_Player_Context(DLLExportClass::GlyphxPlayerIDs[0]);
-	}	
-			
+	}
+
 	/*
 	** Allocate extra memory for uncompressed shapes as needed
 	*/
@@ -1482,26 +1497,26 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player
 		/*
 		** The main loop passes these in uninitialized. ST - 2/7/2019 4:36PM
 		*/
-		KeyNumType input = KN_NONE;					// Player input.
-		int x = 0;
-		int y = 0;
-		Map.Input(input, x, y);
-		//if (input) {
-		//	Keyboard_Process(input);
-		//}
+	KeyNumType input = KN_NONE;					// Player input.
+	int x = 0;
+	int y = 0;
+	Map.Input(input, x, y);
+	//if (input) {
+	//	Keyboard_Process(input);
+	//}
 
-		if (GameToPlay == GAME_GLYPHX_MULTIPLAYER) {
-			/*
-			** Process the sidebar. ST - 4/18/2019 11:59AM
-			*/
-			HouseClass *old_player_ptr = PlayerPtr;
-			for (int i=0 ; i<MPlayerCount ; i++) {
-				HouseClass *player_ptr = HouseClass::As_Pointer(MPlayerHouses[i]);	//HouseClass::As_Pointer(HOUSE_MULTI2);
-				DLLExportClass::Logic_Switch_Player_Context(player_ptr);
-				Sidebar_Glyphx_AI(player_ptr, input);
-			}
-			DLLExportClass::Logic_Switch_Player_Context(old_player_ptr);
+	if (GameToPlay == GAME_GLYPHX_MULTIPLAYER) {
+		/*
+		** Process the sidebar. ST - 4/18/2019 11:59AM
+		*/
+		HouseClass* old_player_ptr = PlayerPtr;
+		for (int i = 0; i < MPlayerCount; i++) {
+			HouseClass* player_ptr = HouseClass::As_Pointer(MPlayerHouses[i]);	//HouseClass::As_Pointer(HOUSE_MULTI2);
+			DLLExportClass::Logic_Switch_Player_Context(player_ptr);
+			Sidebar_Glyphx_AI(player_ptr, input);
 		}
+		DLLExportClass::Logic_Switch_Player_Context(old_player_ptr);
+	}
 	//}
 
 	/*
@@ -1520,7 +1535,7 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player
 	static bool FirstUpdate = GameToPlay != GAME_GLYPHX_MULTIPLAYER;;
 	if (!FirstUpdate)
 	{
-		HouseClass *old_player_ptr = PlayerPtr;
+		HouseClass* old_player_ptr = PlayerPtr;
 		Logic.Clear_Recently_Created_Bits();
 		Logic.AI();
 		DLLExportClass::Logic_Switch_Player_Context(old_player_ptr);
@@ -1541,15 +1556,16 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player
 	*/
 	if (GameToPlay == GAME_NORMAL) {
 		Queue_AI();
-	} else {
+	}
+	else {
 		if (GameToPlay == GAME_GLYPHX_MULTIPLAYER) {
 			DLLExportClass::Glyphx_Queue_AI();
 
 			/*
 			** Process the sidebar. ST - 3/22/2019 2:07PM
 			*/
-			for (int i=0 ; i<MPlayerCount ; i++) {
-				HouseClass *player_ptr = HouseClass::As_Pointer(MPlayerHouses[i]);	//HouseClass::As_Pointer(HOUSE_MULTI2);
+			for (int i = 0; i < MPlayerCount; i++) {
+				HouseClass* player_ptr = HouseClass::As_Pointer(MPlayerHouses[i]);	//HouseClass::As_Pointer(HOUSE_MULTI2);
 				Sidebar_Glyphx_Recalc(player_ptr);
 			}
 		}
@@ -1581,7 +1597,8 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player
 
 		if (GameToPlay == GAME_GLYPHX_MULTIPLAYER) {
 			DLLExportClass::On_Multiplayer_Game_Over();
-		} else {
+		}
+		else {
 			DLLExportClass::On_Game_Over(player_id, true);
 		}
 
@@ -1599,7 +1616,8 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player
 		GlyphX_Debug_Print("PlayerLoses = true");
 		if (GameToPlay == GAME_GLYPHX_MULTIPLAYER) {
 			DLLExportClass::On_Multiplayer_Game_Over();
-		} else {
+		}
+		else {
 			DLLExportClass::On_Game_Over(player_id, false);
 		}
 
@@ -1617,7 +1635,7 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player
 	/*
 	** Very rarely, the human players will get a message from the computer.
 	*/
-	if (GameToPlay != GAME_NORMAL && MPlayerGhosts && IRandom(0,10000) == 1) {
+	if (GameToPlay != GAME_NORMAL && MPlayerGhosts && IRandom(0, 10000) == 1) {
 		DLLExportClass::Computer_Message(false);
 	}
 
@@ -1634,7 +1652,7 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player
 	*/
 	if (!Map.Validate()) {
 		GlyphX_Debug_Print("Map.Validate() failed");
-			
+
 		//if (CCMessageBox().Process ("Map Error!","Stop","Continue")==0) {
 		//	GameActive = false;
 		//}
@@ -1663,7 +1681,7 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player
 /**************************************************************************************************
 * CNC_Save_Load -- Process a save or load game action
 *
-* In:   
+* In:
 *
 * Out:  Success?
 *
@@ -1671,31 +1689,34 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player
 *
 * History: 1/7/2019 5:20PM - ST
 **************************************************************************************************/
-extern "C" __declspec(dllexport) bool __cdecl CNC_Save_Load(bool save, const char *file_path_and_name, const char *game_type)
+extern "C" __declspec(dllexport) bool __cdecl CNC_Save_Load(bool save, const char* file_path_and_name, const char* game_type)
 {
 	bool result = false;
 
 	if (save) {
 		result = Save_Game(file_path_and_name, "internal");
-	} else {
-		
+	}
+	else {
+
 		if (game_type == NULL) {
 			return false;
 		}
-	
+
 		if (stricmp(game_type, "GAME_NORMAL") == 0) {
 			GameToPlay = GAME_NORMAL;
-		} else {
+		}
+		else {
 			if (stricmp(game_type, "GAME_GLYPHX_MULTIPLAYER") == 0) {
 				GameToPlay = GAME_GLYPHX_MULTIPLAYER;
 				ScenPlayer = SCEN_PLAYER_MPLAYER;
-			} else {
+			}
+			else {
 				return false;
 			}
 		}
-		
+
 		result = Load_Game(file_path_and_name);
-		
+
 		DLLExportClass::Set_Player_Context(DLLExportClass::GlyphxPlayerIDs[0], true);
 		Set_Logic_Page(SeenBuff);
 		VisiblePage.Clear();
@@ -1734,9 +1755,9 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Set_Difficulty(int difficulty)
 * CNC_Handle_Player_Switch_To_AI -- Renamed 3/9/20202 - LLL
 * previously named: CNC_Handle_Player_Disconnect -- Handle player disconnected during multiplayuer game
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -1749,14 +1770,14 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Player_Switch_To_AI(uin
 	}
 
 	HousesType house;
-	HouseClass *ptr;
-	
+	HouseClass* ptr;
+
 	GlyphX_Debug_Print("CNC_Handle_Player_Switch_To_AI");
 
 	if (GameToPlay == GAME_NORMAL) {
 		return;
 	}
-	
+
 	if (player_id != 0) {
 		DLLExportClass::Set_Player_Context(player_id);
 
@@ -1771,7 +1792,7 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Player_Switch_To_AI(uin
 			** Start the unload mission for MCVs
 			*/
 			for (int index = 0; index < Units.Count(); index++) {
-				UnitClass * obj = Units.Ptr(index);
+				UnitClass* obj = Units.Ptr(index);
 
 				if (obj && !obj->IsInLimbo && obj->House == PlayerPtr) {
 					if (*obj == UNIT_MCV) {
@@ -1833,9 +1854,9 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Start_Mission_Timer(int time)
 /**************************************************************************************************
 * DLLExportClass::Init -- Init the class
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -1843,12 +1864,22 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Start_Mission_Timer(int time)
 **************************************************************************************************/
 void DLLExportClass::Init(void)
 {
-	for (int i=0 ; i<MAX_PLAYERS ; i++) {
+	for (int i = 0; i < MAX_PLAYERS; i++) {
 		GlyphxPlayerIDs[i] = 0xffffffffull;
 	}
 
 	CurrentLocalPlayerIndex = 0;
 
+	/*if (AllocConsole()) {
+		FILE* console_in = freopen("conin$", "r", stdin);
+		FILE* console_out = freopen("conout$", "w", stdout);
+		FILE* console_err = freopen("conout$", "w", stderr);
+		char* test = "init complete";
+		fputs(test, console_out);
+	}*/
+	/*else {
+		MessageBox(NULL, "Fenster wurde nicht erstellt", NULL, MB_ICONEXCLAMATION);
+	}*/
 }
 
 
@@ -1856,9 +1887,9 @@ void DLLExportClass::Init(void)
 /**************************************************************************************************
 * DLLExportClass::Shutdown -- Shutdown
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -1866,8 +1897,8 @@ void DLLExportClass::Init(void)
 **************************************************************************************************/
 void DLLExportClass::Shutdown(void)
 {
-	for (int i=0 ; i<ModSearchPaths.Count() ; i++) {
-		delete [] ModSearchPaths[i];
+	for (int i = 0; i < ModSearchPaths.Count(); i++) {
+		delete[] ModSearchPaths[i];
 	}
 	ModSearchPaths.Clear();
 }
@@ -1878,20 +1909,20 @@ void DLLExportClass::Shutdown(void)
 /**************************************************************************************************
 * DLLExportClass::Add_Mod_Path -- Add a path to load mod files from
 *
-* In: Mod path  
+* In: Mod path
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 2/20/2020 2:03PM - ST
 **************************************************************************************************/
-void DLLExportClass::Add_Mod_Path(const char *mod_path)
+void DLLExportClass::Add_Mod_Path(const char* mod_path)
 {
-	char *copy_path = strdup(mod_path);
+	char* copy_path = strdup(mod_path);
 	ModSearchPaths.Add(copy_path);
 }
-	
+
 
 
 
@@ -1900,13 +1931,13 @@ void DLLExportClass::Add_Mod_Path(const char *mod_path)
 *
 * In: Main (official) content directory
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 2/20/2020 2:03PM - ST
 **************************************************************************************************/
-void DLLExportClass::Set_Content_Directory(const char *content_directory)
+void DLLExportClass::Set_Content_Directory(const char* content_directory)
 {
 	CCFileClass::Clear_Search_Drives();
 	CCFileClass::Reset_Raw_Path();
@@ -1915,10 +1946,10 @@ void DLLExportClass::Set_Content_Directory(const char *content_directory)
 		return;
 	}
 
-	char *all_paths = new char [_MAX_PATH * 100];
+	char* all_paths = new char[_MAX_PATH * 100];
 	*all_paths = 0;
 
-	for (int i=0 ; i<ModSearchPaths.Count() ; i++) {
+	for (int i = 0; i < ModSearchPaths.Count(); i++) {
 		if (i != 0) {
 			strcat(all_paths, ";");
 		}
@@ -1934,7 +1965,7 @@ void DLLExportClass::Set_Content_Directory(const char *content_directory)
 	}
 
 	CCFileClass::Set_Search_Drives(all_paths);
-	delete [] all_paths;
+	delete[] all_paths;
 }
 
 
@@ -1963,7 +1994,7 @@ void DLLExportClass::Config(const CNCRulesDataStruct& rules)
 		Rule.Diff[i].IsBuildSlowdown = rules.Difficulties[i].IsBuildSlowdown ? 1 : 0;
 		Rule.Diff[i].IsWallDestroyer = rules.Difficulties[i].IsWallDestroyer ? 1 : 0;
 		Rule.Diff[i].IsContentScan = rules.Difficulties[i].IsContentScan ? 1 : 0;
-	}	
+	}
 }
 
 
@@ -1993,7 +2024,7 @@ void DLLExportClass::Set_Home_Cell(int x, int y, uint64 player_id)
 *
 * History: 7/23/2019 - LLL
 **************************************************************************************************/
-void DLLExportClass::On_Play_Movie(const char * movie_name, ThemeType theme, bool immediate)
+void DLLExportClass::On_Play_Movie(const char* movie_name, ThemeType theme, bool immediate)
 {
 	if (EventCallback == NULL) {
 		return;
@@ -2026,7 +2057,7 @@ void DLLExportClass::On_Display_Briefing_Text()
 /**************************************************************************************************
 * DLLExportClass::On_Sound_Effect -- Called when C&C wants to play a sound effect
 *
-* In:   
+* In:
 *
 * Out:
 *
@@ -2048,12 +2079,12 @@ void DLLExportClass::On_Sound_Effect(const HouseClass* player_ptr, int sound_eff
 	new_event.SoundEffect.Variation = variation;
 
 	new_event.GlyphXPlayerID = 0;
-	if ( player_ptr != NULL ) 
+	if (player_ptr != NULL)
 	{
 		new_event.GlyphXPlayerID = Get_GlyphX_Player_ID(player_ptr);
 	}
 
-	if ( coord == 0 ) 
+	if (coord == 0)
 	{
 		new_event.SoundEffect.PixelX = -1;
 		new_event.SoundEffect.PixelY = -1;
@@ -2065,21 +2096,21 @@ void DLLExportClass::On_Sound_Effect(const HouseClass* player_ptr, int sound_eff
 		new_event.SoundEffect.PixelY = Lepton_To_Pixel(Coord_Y(coord));
 	}
 
-	if ( sound_effect_index >= VOC_FIRST && sound_effect_index < VOC_COUNT )	
+	if (sound_effect_index >= VOC_FIRST && sound_effect_index < VOC_COUNT)
 	{
-		strncpy( new_event.SoundEffect.SoundEffectName, SoundEffectName[ sound_effect_index ].Name, CNC_OBJECT_ASSET_NAME_LENGTH);
+		strncpy(new_event.SoundEffect.SoundEffectName, SoundEffectName[sound_effect_index].Name, CNC_OBJECT_ASSET_NAME_LENGTH);
 		new_event.SoundEffect.SoundEffectName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;  // strncpy can leave strings unterminated		
-		if ( extension != NULL ) 
+		if (extension != NULL)
 		{
-			strncat( new_event.SoundEffect.SoundEffectName, extension, CNC_OBJECT_ASSET_NAME_LENGTH);
+			strncat(new_event.SoundEffect.SoundEffectName, extension, CNC_OBJECT_ASSET_NAME_LENGTH);
 			new_event.SoundEffect.SoundEffectName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;	// strncat can leave strings unterminated
 		}
-		new_event.SoundEffect.SoundEffectPriority = SoundEffectName[ sound_effect_index ].Priority;
-		new_event.SoundEffect.SoundEffectContext = SoundEffectName[ sound_effect_index ].Where;
+		new_event.SoundEffect.SoundEffectPriority = SoundEffectName[sound_effect_index].Priority;
+		new_event.SoundEffect.SoundEffectContext = SoundEffectName[sound_effect_index].Where;
 	}
 	else
 	{
-		strncpy( new_event.SoundEffect.SoundEffectName, "BADINDEX", CNC_OBJECT_ASSET_NAME_LENGTH);
+		strncpy(new_event.SoundEffect.SoundEffectName, "BADINDEX", CNC_OBJECT_ASSET_NAME_LENGTH);
 		new_event.SoundEffect.SoundEffectPriority = -1;
 		new_event.SoundEffect.SoundEffectContext = -1;
 	}
@@ -2088,11 +2119,11 @@ void DLLExportClass::On_Sound_Effect(const HouseClass* player_ptr, int sound_eff
 }
 
 
-	  
+
 /**************************************************************************************************
 * DLLExportClass::On_Speech -- Called when C&C wants to play a speech line
 *
-* In:   
+* In:
 *
 * Out:
 *
@@ -2107,39 +2138,39 @@ void DLLExportClass::On_Speech(const HouseClass* player_ptr, int speech_index)
 	if (EventCallback == NULL) {
 		return;
 	}
-	
+
 	EventCallbackStruct new_event;
 	new_event.EventType = CALLBACK_EVENT_SPEECH;
 	new_event.Speech.SpeechIndex = speech_index;
 
 	new_event.GlyphXPlayerID = 0;
-	if ( player_ptr != NULL ) 
+	if (player_ptr != NULL)
 	{
 		new_event.GlyphXPlayerID = Get_GlyphX_Player_ID(player_ptr);
 	}
-	
-	if ( speech_index >= VOX_FIRST && speech_index < VOX_COUNT )	
+
+	if (speech_index >= VOX_FIRST && speech_index < VOX_COUNT)
 	{
-		strncpy( new_event.Speech.SpeechName, Speech[ speech_index ], CNC_OBJECT_ASSET_NAME_LENGTH);
+		strncpy(new_event.Speech.SpeechName, Speech[speech_index], CNC_OBJECT_ASSET_NAME_LENGTH);
 		new_event.Speech.SpeechName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;	// strncpy can leave strings unterminated
 	}
 	else
 	{
-		strncpy( new_event.Speech.SpeechName, "BAD_SPEECH_INDEX", CNC_OBJECT_ASSET_NAME_LENGTH);
+		strncpy(new_event.Speech.SpeechName, "BAD_SPEECH_INDEX", CNC_OBJECT_ASSET_NAME_LENGTH);
 	}
 
 	EventCallback(new_event);
-}		
+}
 
 /**************************************************************************************************
 * DLLExportClass::TD_Calculate_Efficiency --
 *
 * History: 10.29.2019 MBL (Based on LLL's Calculate_Single_Player_Score())
 **************************************************************************************************/
-unsigned int DLLExportClass::TD_Calculate_Efficiency( unsigned int harvested_credits, unsigned int initial_credits, unsigned int available_credits )
+unsigned int DLLExportClass::TD_Calculate_Efficiency(unsigned int harvested_credits, unsigned int initial_credits, unsigned int available_credits)
 {
-	unsigned efficiency = Cardinal_To_Fixed( harvested_credits + (initial_credits + 1), (available_credits + 1) );
-	if ( efficiency == 0 ) {
+	unsigned efficiency = Cardinal_To_Fixed(harvested_credits + (initial_credits + 1), (available_credits + 1));
+	if (efficiency == 0) {
 		efficiency++;
 	}
 
@@ -2156,12 +2187,12 @@ unsigned int DLLExportClass::TD_Calculate_Efficiency( unsigned int harvested_cre
 *
 * History: 10.29.2019 MBL (Based on LLL's Calculate_Single_Player_Score())
 **************************************************************************************************/
-unsigned int DLLExportClass::TD_Calculate_Leadership( int house, unsigned int units_lost, unsigned int buildings_lost )
+unsigned int DLLExportClass::TD_Calculate_Leadership(int house, unsigned int units_lost, unsigned int buildings_lost)
 {
 	unsigned int leadership = 0;
 
 	for (int index = 0; index < Logic.Count(); index++) {
-		ObjectClass * object = Logic[index];
+		ObjectClass* object = Logic[index];
 		if (object->Owner() == house) {
 			leadership++;
 		}
@@ -2186,7 +2217,7 @@ unsigned int DLLExportClass::TD_Calculate_Leadership( int house, unsigned int un
 *
 * History: 10.29.2019 MBL (Based on LLL's Calculate_Single_Player_Score())
 **************************************************************************************************/
-unsigned int DLLExportClass::TD_Calculate_Score( unsigned int leadership, unsigned int efficiency, unsigned int build_level )
+unsigned int DLLExportClass::TD_Calculate_Score(unsigned int leadership, unsigned int efficiency, unsigned int build_level)
 {
 	long total = ((leadership * 40) + (4600) + (efficiency * 14)) / 100;
 	if (!total) total++;
@@ -2200,7 +2231,7 @@ void DLLExportClass::Calculate_Single_Player_Score(EventCallbackStruct& event)
 	//Adapted from Tiberian Dawn SCORE.CPP Presentation() - LLL
 	int house = PlayerPtr->Class->House;		// 0 or 1
 
-	HouseClass *houses[3];
+	HouseClass* houses[3];
 	for (int index = 0; index < 3; index++) {
 		houses[index] = (HouseClass::As_Pointer((HousesType)(HOUSE_GOOD + index)));
 	}
@@ -2233,7 +2264,7 @@ void DLLExportClass::Calculate_Single_Player_Score(EventCallbackStruct& event)
 	// 	leadership = 100;
 	// }
 	//
-	unsigned leadership = TD_Calculate_Leadership( house, (house == HOUSE_GOOD ? gdi_units_lost : nod_units_lost), (house == HOUSE_GOOD ? gdi_buildings_lost : nod_buildings_lost) );
+	unsigned leadership = TD_Calculate_Leadership(house, (house == HOUSE_GOOD ? gdi_units_lost : nod_units_lost), (house == HOUSE_GOOD ? gdi_buildings_lost : nod_buildings_lost));
 
 	/*
 	**	Determine efficiency rating.
@@ -2258,7 +2289,7 @@ void DLLExportClass::Calculate_Single_Player_Score(EventCallbackStruct& event)
 	// if (!total_score) total_score++;
 	// total_score *= (BuildLevel + 1);
 	//
-	unsigned total_score = TD_Calculate_Score( leadership, efficiency, BuildLevel );
+	unsigned total_score = TD_Calculate_Score(leadership, efficiency, BuildLevel);
 
 	//Score Stats
 	event.GameOver.Leadership = leadership;
@@ -2278,52 +2309,52 @@ void DLLExportClass::Convert_Action_Type(ActionType type, ObjectClass* object, T
 {
 	switch (type)
 	{
-		case ACTION_NONE:
-		default:
-			dll_type = DAT_NONE;
-			break;
-		case ACTION_MOVE:
-			dll_type = DAT_MOVE;
-			break;
-		case ACTION_NOMOVE:
-			dll_type = DAT_NOMOVE;
-			break;
-		case ACTION_ENTER:
-			dll_type = DAT_ENTER;
-			break;
-		case ACTION_SELF:
-			dll_type = DAT_SELF;
-			break;
-		case ACTION_ATTACK:
-			if (Target_Legal(target) && (object != NULL) && object->Is_Techno() && ((TechnoClass*)object)->In_Range(target, 0)) {
-				dll_type = DAT_ATTACK;
-			}
-			else {
-				dll_type = DAT_ATTACK_OUT_OF_RANGE;
-			}
-			break;
-		case ACTION_GUARD_AREA:
-			dll_type = DAT_GUARD;
-			break;
-		case ACTION_HARVEST:
+	case ACTION_NONE:
+	default:
+		dll_type = DAT_NONE;
+		break;
+	case ACTION_MOVE:
+		dll_type = DAT_MOVE;
+		break;
+	case ACTION_NOMOVE:
+		dll_type = DAT_NOMOVE;
+		break;
+	case ACTION_ENTER:
+		dll_type = DAT_ENTER;
+		break;
+	case ACTION_SELF:
+		dll_type = DAT_SELF;
+		break;
+	case ACTION_ATTACK:
+		if (Target_Legal(target) && (object != NULL) && object->Is_Techno() && ((TechnoClass*)object)->In_Range(target, 0)) {
 			dll_type = DAT_ATTACK;
-			break;
-		case ACTION_SELECT:
-		case ACTION_TOGGLE_SELECT:
-			dll_type = DAT_SELECT;
-			break;
-		case ACTION_CAPTURE:
-			dll_type = DAT_CAPTURE;
-			break;
-		case ACTION_SABOTAGE:
-			dll_type = DAT_SABOTAGE;
-			break;
-		case ACTION_TOGGLE_PRIMARY:
-			dll_type = DAT_TOGGLE_PRIMARY;
-			break;
-		case ACTION_NO_DEPLOY:
-			dll_type = DAT_CANT_DEPLOY;
-			break;
+		}
+		else {
+			dll_type = DAT_ATTACK_OUT_OF_RANGE;
+		}
+		break;
+	case ACTION_GUARD_AREA:
+		dll_type = DAT_GUARD;
+		break;
+	case ACTION_HARVEST:
+		dll_type = DAT_ATTACK;
+		break;
+	case ACTION_SELECT:
+	case ACTION_TOGGLE_SELECT:
+		dll_type = DAT_SELECT;
+		break;
+	case ACTION_CAPTURE:
+		dll_type = DAT_CAPTURE;
+		break;
+	case ACTION_SABOTAGE:
+		dll_type = DAT_SABOTAGE;
+		break;
+	case ACTION_TOGGLE_PRIMARY:
+		dll_type = DAT_TOGGLE_PRIMARY;
+		break;
+	case ACTION_NO_DEPLOY:
+		dll_type = DAT_CANT_DEPLOY;
+		break;
 	}
 }
 
@@ -2424,31 +2455,31 @@ void DLLExportClass::On_Multiplayer_Game_Over(void)
 	event.GameOver.Multiplayer = true;
 	event.GameOver.MultiPlayerTotalPlayers = MPlayerCount;
 
-	for ( int player_index = 0; player_index < MPlayerCount; player_index ++ ) 
+	for (int player_index = 0; player_index < MPlayerCount; player_index++)
 	{
-		HouseClass* player_ptr = HouseClass::As_Pointer( MPlayerHouses[player_index] );	//HouseClass::As_Pointer(HOUSE_MULTI2);
-		if ( player_ptr != NULL )
+		HouseClass* player_ptr = HouseClass::As_Pointer(MPlayerHouses[player_index]);	//HouseClass::As_Pointer(HOUSE_MULTI2);
+		if (player_ptr != NULL)
 		{
 			int house = player_ptr->Class->House;
-			unsigned int leadership = TD_Calculate_Leadership( house, player_ptr->UnitsLost, player_ptr->BuildingsLost );
+			unsigned int leadership = TD_Calculate_Leadership(house, player_ptr->UnitsLost, player_ptr->BuildingsLost);
 
-			unsigned int efficiency = TD_Calculate_Efficiency( player_ptr->HarvestedCredits, player_ptr->InitialCredits, player_ptr->Available_Money() );
+			unsigned int efficiency = TD_Calculate_Efficiency(player_ptr->HarvestedCredits, player_ptr->InitialCredits, player_ptr->Available_Money());
 
-		  	unsigned int total_score = TD_Calculate_Score( leadership, efficiency, BuildLevel );
+			unsigned int total_score = TD_Calculate_Score(leadership, efficiency, BuildLevel);
 
 			int units_killed = 0;
 			int structures_killed = 0;
-			for ( unsigned int house_index = 0; house_index < HOUSE_COUNT; house_index ++ ) 
+			for (unsigned int house_index = 0; house_index < HOUSE_COUNT; house_index++)
 			{
-				units_killed += player_ptr->UnitsKilled[ house_index ];
-				structures_killed += player_ptr->BuildingsKilled[ house_index ];
+				units_killed += player_ptr->UnitsKilled[house_index];
+				structures_killed += player_ptr->BuildingsKilled[house_index];
 			}
 
 			// Populate and copy the multiplayer player data structure 
 
 			GameOverMultiPlayerStatsStruct multi_player_data;
 
-			multi_player_data.GlyphXPlayerID = Get_GlyphX_Player_ID( player_ptr );
+			multi_player_data.GlyphXPlayerID = Get_GlyphX_Player_ID(player_ptr);
 			multi_player_data.IsHuman = (player_ptr->IsHuman || player_ptr->WasHuman);
 			multi_player_data.WasHuman = player_ptr->WasHuman;
 			multi_player_data.IsWinner = !player_ptr->IsDefeated;
@@ -2458,15 +2489,15 @@ void DLLExportClass::On_Multiplayer_Game_Over(void)
 			multi_player_data.TotalUnitsKilled = units_killed;
 			multi_player_data.TotalStructuresKilled = structures_killed;
 
-			if ( player_index < GAME_OVER_MULTIPLAYER_MAX_PLAYERS_TRACKED ) 
+			if (player_index < GAME_OVER_MULTIPLAYER_MAX_PLAYERS_TRACKED)
 			{
-				event.GameOver.MultiPlayerPlayersData[ player_index ] = multi_player_data;
+				event.GameOver.MultiPlayerPlayersData[player_index] = multi_player_data;
 			}
 		}
 	}
-	for ( int player_index = MPlayerCount; player_index < GAME_OVER_MULTIPLAYER_MAX_PLAYERS_TRACKED; player_index ++ ) 
+	for (int player_index = MPlayerCount; player_index < GAME_OVER_MULTIPLAYER_MAX_PLAYERS_TRACKED; player_index++)
 	{
-		memset( &event.GameOver.MultiPlayerPlayersData[ player_index ], 0, sizeof( GameOverMultiPlayerStatsStruct ) );
+		memset(&event.GameOver.MultiPlayerPlayersData[player_index], 0, sizeof(GameOverMultiPlayerStatsStruct));
 	}
 
 	// Single-player N/A stuff
@@ -2490,11 +2521,11 @@ void DLLExportClass::On_Multiplayer_Game_Over(void)
 	event.GameOver.TimerRemaining = -1;
 
 	// Trigger an event for each human player
-	for (int i=0 ; i<MPlayerCount ; i++) {
+	for (int i = 0; i < MPlayerCount; i++) {
 		HouseClass* player_ptr = HouseClass::As_Pointer(MPlayerHouses[i]);	//HouseClass::As_Pointer(HOUSE_MULTI2);
-		if ( player_ptr != NULL )
+		if (player_ptr != NULL)
 		{
-			if ( player_ptr->IsHuman == true ) 
+			if (player_ptr->IsHuman == true)
 			{
 				event.GlyphXPlayerID = Get_GlyphX_Player_ID(player_ptr);
 				event.GameOver.PlayerWins = !player_ptr->IsDefeated;
@@ -2578,7 +2609,7 @@ void On_Defeated_Message(const char* message, float timeout_seconds)
 *
 * History: 11/11/2019 11:37AM - ST
 **************************************************************************************************/
-void DLLExportClass::On_Achievement(const HouseClass* player_ptr, const char *achievement_type, const char *achievement_reason)
+void DLLExportClass::On_Achievement(const HouseClass* player_ptr, const char* achievement_type, const char* achievement_reason)
 {
 	if (EventCallback == NULL) {
 		return;
@@ -2595,7 +2626,7 @@ void DLLExportClass::On_Achievement(const HouseClass* player_ptr, const char *ac
 	}
 
 	EventCallback(new_event);
-}			  
+}
 
 
 void DLLExportClass::On_Center_Camera(const HouseClass* player_ptr, int coord_x, int coord_y)
@@ -2649,7 +2680,7 @@ void DLLExportClass::On_Ping(const HouseClass* player_ptr, COORDINATE coord)
 *
 * History: 2/20/2019 2:39PM - ST
 **************************************************************************************************/
-void DLLExportClass::On_Debug_Output(const char *debug_text)
+void DLLExportClass::On_Debug_Output(const char* debug_text)
 {
 	if (EventCallback == NULL) {
 		return;
@@ -2659,7 +2690,7 @@ void DLLExportClass::On_Debug_Output(const char *debug_text)
 	new_event.EventType = CALLBACK_EVENT_DEBUG_PRINT;
 	new_event.DebugPrint.PrintString = debug_text;
 	EventCallback(new_event);
-}			  
+}
 
 
 /**************************************************************************************************
@@ -2716,134 +2747,135 @@ void DLLExportClass::Force_Human_Team_Wins(uint64 quitting_player_id)
 *
 * History: 1/7/2019 5:20PM - ST
 **************************************************************************************************/
-extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Game_State(GameStateRequestEnum state_type, uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size)
+extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Game_State(GameStateRequestEnum state_type, uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size)
 {
 	bool got_state = false;
 
 	switch (state_type) {
-		
-		case GAME_STATE_LAYERS:
-		{
-			got_state = DLLExportClass::Get_Layer_State(player_id, buffer_in, buffer_size);
-			break;
-		}		 
 
-		case GAME_STATE_SIDEBAR:
-		{	
-			got_state = DLLExportClass::Get_Sidebar_State(player_id, buffer_in, buffer_size);
+	case GAME_STATE_LAYERS:
+	{
+		got_state = DLLExportClass::Get_Layer_State(player_id, buffer_in, buffer_size);
+		break;
+	}
+
+	case GAME_STATE_SIDEBAR:
+	{
+		got_state = DLLExportClass::Get_Sidebar_State(player_id, buffer_in, buffer_size);
+		break;
+	}
+
+	case GAME_STATE_PLACEMENT:
+	{
+		got_state = DLLExportClass::Get_Placement_State(player_id, buffer_in, buffer_size);
+		break;
+	}
+
+	case GAME_STATE_DYNAMIC_MAP:
+		got_state = DLLExportClass::Get_Dynamic_Map_State(player_id, buffer_in, buffer_size);
+		break;
+
+	case GAME_STATE_SHROUD:
+		got_state = DLLExportClass::Get_Shroud_State(player_id, buffer_in, buffer_size);
+		break;
+
+	case GAME_STATE_OCCUPIER:
+		got_state = DLLExportClass::Get_Occupier_State(player_id, buffer_in, buffer_size);
+		break;
+
+	case GAME_STATE_PLAYER_INFO:
+		got_state = DLLExportClass::Get_Player_Info_State(player_id, buffer_in, buffer_size);
+		break;
+
+	case GAME_STATE_STATIC_MAP:
+	{
+		if (buffer_size < sizeof(CNCMapDataStruct)) {
+			got_state = false;
 			break;
 		}
 
-		case GAME_STATE_PLACEMENT:
-		{
-			got_state = DLLExportClass::Get_Placement_State(player_id, buffer_in, buffer_size);
-			break;
-		}			
-		
-		case GAME_STATE_DYNAMIC_MAP:
-			got_state = DLLExportClass::Get_Dynamic_Map_State(player_id, buffer_in, buffer_size);
-			break;
+		int map_cell_x = Map.MapCellX;
+		int map_cell_y = Map.MapCellY;
+		int map_cell_width = Map.MapCellWidth;
+		int map_cell_height = Map.MapCellHeight;
 
-		case GAME_STATE_SHROUD:
-			got_state = DLLExportClass::Get_Shroud_State(player_id, buffer_in, buffer_size);
-			break;
+		CNCMapDataStruct* map_data = (CNCMapDataStruct*)buffer_in;
 
-		case GAME_STATE_OCCUPIER:
-			got_state = DLLExportClass::Get_Occupier_State(player_id, buffer_in, buffer_size);
-			break;
+		map_data->OriginalMapCellX = map_cell_x;
+		map_data->OriginalMapCellY = map_cell_y;
+		map_data->OriginalMapCellWidth = map_cell_width;
+		map_data->OriginalMapCellHeight = map_cell_height;
 
-		case GAME_STATE_PLAYER_INFO:
-			got_state = DLLExportClass::Get_Player_Info_State(player_id, buffer_in, buffer_size);
-			break;
+		if (map_cell_x > 0) {
+			map_cell_x--;
+			map_cell_width++;
+		}
 
-		case GAME_STATE_STATIC_MAP:
-		{	
-			if (buffer_size < sizeof(CNCMapDataStruct)) {
-				got_state = false;
-				break;
-			}
+		if (map_cell_width < MAP_MAX_CELL_WIDTH) {
+			map_cell_width++;
+		}
 
-			int map_cell_x = Map.MapCellX;
-			int map_cell_y = Map.MapCellY;
-			int map_cell_width = Map.MapCellWidth;
-			int map_cell_height = Map.MapCellHeight;
+		if (map_cell_y > 0) {
+			map_cell_y--;
+			map_cell_height++;
+		}
 
-			CNCMapDataStruct *map_data = (CNCMapDataStruct *)buffer_in;
-			
-			map_data->OriginalMapCellX = map_cell_x;
-			map_data->OriginalMapCellY = map_cell_y;
-			map_data->OriginalMapCellWidth = map_cell_width;
-			map_data->OriginalMapCellHeight = map_cell_height;
+		if (map_cell_height < MAP_MAX_CELL_HEIGHT) {
+			map_cell_height++;
+		}
 
-			if (map_cell_x > 0) {
-				map_cell_x--;
-				map_cell_width++;
-			}
+		map_data->MapCellX = map_cell_x;
+		map_data->MapCellY = map_cell_y;
+		map_data->MapCellWidth = map_cell_width;
+		map_data->MapCellHeight = map_cell_height;
 
-			if (map_cell_width < MAP_MAX_CELL_WIDTH) {
-				map_cell_width++;
-			}
+		map_data->Theater = (CnCTheaterType)Map.Theater;
 
-			if (map_cell_y > 0) {
-				map_cell_y--;
-				map_cell_height++;
-			}
+		// Hack a fix for scenario 21 since the same mission number is used in Covert Ops and N64
+		memset(map_data->ScenarioName, 0, sizeof(map_data->ScenarioName));
+		if ((Map.Theater == CNC_THEATER_DESERT) && (Scenario == 21)) {
+			strncpy(map_data->ScenarioName, "SCB81EA", sizeof(map_data->ScenarioName) - 1);
+		}
+		else {
+			strncpy(map_data->ScenarioName, ScenarioName, sizeof(map_data->ScenarioName) - 1);
+		}
 
-			if (map_cell_height < MAP_MAX_CELL_HEIGHT) {
-				map_cell_height++;
-			}
+		int cell_index = 0;
+		char cell_name[_MAX_PATH];
+		char icon_number[32];
 
-			map_data->MapCellX = map_cell_x;
-			map_data->MapCellY = map_cell_y;
-			map_data->MapCellWidth = map_cell_width;
-			map_data->MapCellHeight = map_cell_height;
+		for (int y = 0; y < map_cell_height; y++) {
+			for (int x = 0; x < map_cell_width; x++) {
+				CELL cell = XY_Cell(map_cell_x + x, map_cell_y + y);
+				CellClass* cellptr = &Map[cell];
 
-			map_data->Theater = (CnCTheaterType) Map.Theater;
+				cell_name[0] = 0;
+				int icon = 0;
+				void* image_data = 0;
+				if (cellptr->Get_Template_Info(cell_name, icon, image_data)) {
+					itoa(icon, icon_number, 10);
+					strncat(cell_name, "_i", 32);
+					strncat(cell_name, icon_number, 32);
+					strncat(cell_name, ".tga", 32);
+					cell_name[31] = 0;
 
-			// Hack a fix for scenario 21 since the same mission number is used in Covert Ops and N64
-			memset(map_data->ScenarioName, 0, sizeof(map_data->ScenarioName));
-			if ((Map.Theater == CNC_THEATER_DESERT) && (Scenario == 21)) {
-				strncpy(map_data->ScenarioName, "SCB81EA", sizeof(map_data->ScenarioName) - 1);
-			} else {
-				strncpy(map_data->ScenarioName, ScenarioName, sizeof(map_data->ScenarioName) - 1);
-			}
-			
-			int cell_index = 0;
-			char cell_name[_MAX_PATH];
-			char icon_number[32];
-				
-			for (int y = 0 ; y < map_cell_height ; y++) {
-				for (int x = 0 ; x < map_cell_width ; x++) {
-					CELL cell = XY_Cell(map_cell_x+x, map_cell_y+y);
-					CellClass * cellptr = &Map[cell];
-
-					cell_name[0] = 0;
-					int icon = 0;
-					void *image_data = 0;
-					if (cellptr->Get_Template_Info(cell_name, icon, image_data)) {
-						itoa(icon, icon_number, 10);
-						strncat(cell_name, "_i", 32);
-						strncat(cell_name, icon_number, 32);
-						strncat(cell_name, ".tga", 32);
-						cell_name[31] = 0;
-
-						CNCStaticCellStruct &cell_info = map_data->StaticCells[cell_index++];
-						strncpy(cell_info.TemplateTypeName, cell_name, 32);
-						cell_info.TemplateTypeName[31] = 0;
-						cell_info.IconNumber = icon;
-					}
+					CNCStaticCellStruct& cell_info = map_data->StaticCells[cell_index++];
+					strncpy(cell_info.TemplateTypeName, cell_name, 32);
+					cell_info.TemplateTypeName[31] = 0;
+					cell_info.IconNumber = icon;
 				}
 			}
-				
-			got_state = true;
-			break;
 		}
 
-		default:
-			{
-				got_state = false;
-				break;
-			}
+		got_state = true;
+		break;
+	}
+
+	default:
+	{
+		got_state = false;
+		break;
+	}
 	}
 
 	return got_state;
@@ -2852,7 +2884,7 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Game_State(GameStateReques
 /**************************************************************************************************
 * CNC_Handle_Game_Request
 *
-* Callback for when the requested movie is done playing. 
+* Callback for when the requested movie is done playing.
 *
 * 7/23/2019 - LLL
 **************************************************************************************************/
@@ -2860,7 +2892,7 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Game_Request(GameReques
 {
 	switch (request_type)
 	{
-		case INPUT_GAME_MOVIE_DONE:
+	case INPUT_GAME_MOVIE_DONE:
 
 		InMainLoop = true;
 		break;
@@ -2886,14 +2918,14 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Game_Settings_Request(i
 	}
 }
 
-	
 
-	
 
-void DLL_Draw_Intercept(int shape_number, int x, int y, int width, int height, int flags, ObjectClass *object, const char *shape_file_name = NULL, char override_owner = HOUSE_NONE, int scale = 0x100)
+
+
+void DLL_Draw_Intercept(int shape_number, int x, int y, int width, int height, int flags, ObjectClass* object, const char* shape_file_name = NULL, char override_owner = HOUSE_NONE, int scale = 0x100)
 {
 	DLLExportClass::DLL_Draw_Intercept(shape_number, x, y, width, height, flags, object, shape_file_name, override_owner, scale);
-}			  
+}
 
 
 void DLL_Draw_Pip_Intercept(const ObjectClass* object, int pip)
@@ -2908,7 +2940,7 @@ void DLL_Draw_Line_Intercept(int x, int y, int x1, int y1, unsigned char color, 
 }
 
 
-void DLLExportClass::DLL_Draw_Intercept(int shape_number, int x, int y, int width, int height, int flags, ObjectClass *object, const char *shape_file_name, char override_owner, int scale)
+void DLLExportClass::DLL_Draw_Intercept(int shape_number, int x, int y, int width, int height, int flags, ObjectClass* object, const char* shape_file_name, char override_owner, int scale)
 {
 	CNCObjectStruct& new_object = ObjectList->Objects[TotalObjectCount + CurrentDrawCount];
 	Convert_Type(object, new_object);
@@ -2957,13 +2989,13 @@ void DLLExportClass::DLL_Draw_Intercept(int shape_number, int x, int y, int widt
 		CNCObjectStruct& root_object = ObjectList->Objects[TotalObjectCount];
 
 		if (new_object.Type == BUILDING) {
-			BuildingClass *building = (BuildingClass*)object;
+			BuildingClass* building = (BuildingClass*)object;
 			if (building->BState == BSTATE_CONSTRUCTION) {
 				strncat(new_object.AssetName, "MAKE", CNC_OBJECT_ASSET_NAME_LENGTH);
 				new_object.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
 			}
-			const BuildingTypeClass *building_type = building->Class;
-			short const *occupy_list = building_type->Occupy_List();
+			const BuildingTypeClass* building_type = building->Class;
+			short const* occupy_list = building_type->Occupy_List();
 			if (occupy_list) {
 				while (*occupy_list != REFRESH_EOL && new_object.OccupyListLength < MAX_OCCUPY_CELLS) {
 					new_object.OccupyList[new_object.OccupyListLength] = *occupy_list;
@@ -3070,7 +3102,7 @@ void DLLExportClass::DLL_Draw_Intercept(int shape_number, int x, int y, int widt
 
 		if (object->Is_Techno()) {
 			TechnoClass* techno_object = static_cast<TechnoClass*>(object);
-			const TechnoTypeClass *ttype = techno_object->Techno_Type_Class();
+			const TechnoTypeClass* ttype = techno_object->Techno_Type_Class();
 
 			new_object.MaxSpeed = (unsigned char)ttype->MaxSpeed;
 			new_object.IsALoaner = techno_object->IsALoaner;
@@ -3123,27 +3155,27 @@ void DLLExportClass::DLL_Draw_Intercept(int shape_number, int x, int y, int widt
 
 		switch (what_is_object)
 		{
-			case RTTI_INFANTRY:
-			case RTTI_INFANTRYTYPE:
-			case RTTI_UNIT:
-			case RTTI_UNITTYPE:
-			case RTTI_AIRCRAFT:
-			case RTTI_AIRCRAFTTYPE:
-			case RTTI_BUILDING:
-			case RTTI_BUILDINGTYPE:
-			{
-				TechnoClass* techno_object = static_cast<TechnoClass*>(object);
-				new_object.FlashingFlags = techno_object->Get_Flashing_Flags();
-				new_object.Cloak = techno_object->Cloak;
-			}
-			break;
+		case RTTI_INFANTRY:
+		case RTTI_INFANTRYTYPE:
+		case RTTI_UNIT:
+		case RTTI_UNITTYPE:
+		case RTTI_AIRCRAFT:
+		case RTTI_AIRCRAFTTYPE:
+		case RTTI_BUILDING:
+		case RTTI_BUILDINGTYPE:
+		{
+			TechnoClass* techno_object = static_cast<TechnoClass*>(object);
+			new_object.FlashingFlags = techno_object->Get_Flashing_Flags();
+			new_object.Cloak = techno_object->Cloak;
+		}
+		break;
 
-			case RTTI_ANIM:
-			{
-				AnimClass* anim_object = static_cast<AnimClass*>(object);
-				new_object.VisibleFlags = anim_object->Get_Visible_Flags();
-			}
-			break;
+		case RTTI_ANIM:
+		{
+			AnimClass* anim_object = static_cast<AnimClass*>(object);
+			new_object.VisibleFlags = anim_object->Get_Visible_Flags();
+		}
+		break;
 		}
 	}
 	else {
@@ -3211,7 +3243,7 @@ void DLLExportClass::DLL_Draw_Intercept(int shape_number, int x, int y, int widt
 	}
 
 	CurrentDrawCount++;
-}			  
+}
 
 
 
@@ -3256,15 +3288,15 @@ void DLLExportClass::DLL_Draw_Line_Intercept(int x, int y, int x1, int y1, unsig
 /**************************************************************************************************
 * DLLExportClass::Get_Layer_State -- Get game objects from the layers
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 1/29/2019 11:37AM - ST
 **************************************************************************************************/
-bool DLLExportClass::Get_Layer_State(uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size)
+bool DLLExportClass::Get_Layer_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size)
 {
 	player_id;
 
@@ -3272,7 +3304,7 @@ bool DLLExportClass::Get_Layer_State(uint64 player_id, unsigned char *buffer_in,
 
 	bool got_state = false;
 
-	ObjectList = (CNCObjectListStruct*) buffer_in;
+	ObjectList = (CNCObjectListStruct*)buffer_in;
 
 	TotalObjectCount = 0;
 
@@ -3294,18 +3326,18 @@ bool DLLExportClass::Get_Layer_State(uint64 player_id, unsigned char *buffer_in,
 	**	Get the ground layer first and then followed by all the layers in increasing altitude.
 	*/
 	for (int layer = 0; layer < DLL_LAYER_COUNT; layer++) {
-		
+
 		for (int index = 0; index < Map.Layer[layer].Count(); index++) {
-			
-			ObjectClass *object = Map.Layer[layer][index];
+
+			ObjectClass* object = Map.Layer[layer][index];
 			if (object->IsActive) {
-				
+
 				unsigned int memory_needed = sizeof(CNCObjectListStruct);
 				memory_needed += (TotalObjectCount + 10) * sizeof(CNCObjectStruct);
 				if (memory_needed >= buffer_size) {
 					return false;
 				}
-				
+
 				if (object->Is_Techno()) {
 					/*
 					**  Skip units tethered to buildings, since the building will draw them itself
@@ -3372,60 +3404,60 @@ bool DLLExportClass::Get_Layer_State(uint64 player_id, unsigned char *buffer_in,
 
 
 
-void DLLExportClass::Convert_Type(const ObjectClass *object, CNCObjectStruct &object_out)
-{	
+void DLLExportClass::Convert_Type(const ObjectClass* object, CNCObjectStruct& object_out)
+{
 	object_out.Type = UNKNOWN;
 	object_out.ID = -1;
-	
+
 	if (object == NULL) {
 		return;
-	}	  
+	}
 
 	RTTIType type = object->What_Am_I();
-	
+
 	switch (type) {
-		default:
-			break;
+	default:
+		break;
 
-		case RTTI_INFANTRY:
-			object_out.Type = INFANTRY;
-			object_out.ID = Infantry.ID((InfantryClass*)object);
-			break;
-						
-		case RTTI_UNIT:
-			object_out.Type = UNIT;
-			object_out.ID = Units.ID((UnitClass*)object);
-			break;
-						
-		case RTTI_AIRCRAFT:
-			object_out.Type = AIRCRAFT;
-			object_out.ID = Aircraft.ID((AircraftClass*)object);
-			break;
-					
-		case RTTI_BUILDING:
-			object_out.Type = BUILDING;
-			object_out.ID = Buildings.ID((BuildingClass*)object);
-			break;
+	case RTTI_INFANTRY:
+		object_out.Type = INFANTRY;
+		object_out.ID = Infantry.ID((InfantryClass*)object);
+		break;
 
-		case RTTI_BULLET:
-			object_out.Type = BULLET;
-			object_out.ID = Bullets.ID((BulletClass*)object);
-			break;
+	case RTTI_UNIT:
+		object_out.Type = UNIT;
+		object_out.ID = Units.ID((UnitClass*)object);
+		break;
 
-		case RTTI_ANIM:
-			object_out.Type = ANIM;
-			object_out.ID = Anims.ID((AnimClass*)object);
-			break;
+	case RTTI_AIRCRAFT:
+		object_out.Type = AIRCRAFT;
+		object_out.ID = Aircraft.ID((AircraftClass*)object);
+		break;
 
-		case RTTI_SMUDGE:
-			object_out.Type = SMUDGE;
-			object_out.ID = Smudges.ID((SmudgeClass*)object);
-			break;
+	case RTTI_BUILDING:
+		object_out.Type = BUILDING;
+		object_out.ID = Buildings.ID((BuildingClass*)object);
+		break;
 
-		case RTTI_TERRAIN:
-			object_out.Type = TERRAIN;
-			object_out.ID = Terrains.ID((TerrainClass*)object);
-			break;
+	case RTTI_BULLET:
+		object_out.Type = BULLET;
+		object_out.ID = Bullets.ID((BulletClass*)object);
+		break;
+
+	case RTTI_ANIM:
+		object_out.Type = ANIM;
+		object_out.ID = Anims.ID((AnimClass*)object);
+		break;
+
+	case RTTI_SMUDGE:
+		object_out.Type = SMUDGE;
+		object_out.ID = Smudges.ID((SmudgeClass*)object);
+		break;
+
+	case RTTI_TERRAIN:
+		object_out.Type = TERRAIN;
+		object_out.ID = Terrains.ID((TerrainClass*)object);
+		break;
 	}
 }
 
@@ -3437,10 +3469,10 @@ void DLLExportClass::Convert_Type(const ObjectClass *object, CNCObjectStruct &ob
 /**************************************************************************************************
 * CNC_Handle_Input -- Process input to the game
 *
-* In:   
-*       
-*       
-*       
+* In:
+*
+*
+*
 *
 * Out:  Game state returned in buffer
 *
@@ -3450,7 +3482,7 @@ void DLLExportClass::Convert_Type(const ObjectClass *object, CNCObjectStruct &ob
 **************************************************************************************************/
 extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Input(InputRequestEnum input_event, unsigned char special_key_flags, uint64 player_id, int x1, int y1, int x2, int y2)
 {
-	
+
 	if (!DLLExportClass::Set_Player_Context(player_id)) {
 		return;
 	}
@@ -3460,187 +3492,187 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Input(InputRequestEnum 
 		/*
 		** Special keys have changed
 		*/
-		case INPUT_REQUEST_SPECIAL_KEYS:
-		{
-			DLLExportClass::Set_Special_Key_Flags(special_key_flags);
+	case INPUT_REQUEST_SPECIAL_KEYS:
+	{
+		DLLExportClass::Set_Special_Key_Flags(special_key_flags);
+		break;
+	}
+
+	/*
+	** The mouse is moving
+	*/
+	case INPUT_REQUEST_MOUSE_MOVE:
+	{
+		if (!DLLExportClass::Legacy_Render_Enabled()) {
 			break;
 		}
 
-		/*
-		** The mouse is moving
-		*/
-		case INPUT_REQUEST_MOUSE_MOVE:
-		{	
-			if (!DLLExportClass::Legacy_Render_Enabled()) {
-				break;
-			}
-			
-			DLLForceMouseX = x1;
-			DLLForceMouseY = y1;
-			_Kbd->MouseQX = x1;
-			_Kbd->MouseQY = y1;
+		DLLForceMouseX = x1;
+		DLLForceMouseY = y1;
+		_Kbd->MouseQX = x1;
+		_Kbd->MouseQY = y1;
 
-			COORDINATE coord = Map.Pixel_To_Coord(x1, y1);
-			CELL cell = Coord_Cell(coord);
-			if (coord) {
-				//x -= Map.TacPixelX;
-				//y -= Map.TacPixelY;
+		COORDINATE coord = Map.Pixel_To_Coord(x1, y1);
+		CELL cell = Coord_Cell(coord);
+		if (coord) {
+			//x -= Map.TacPixelX;
+			//y -= Map.TacPixelY;
 
-				/*
-				** Cause any displayed cursor to move along with the mouse cursor.
-				*/
-				if (cell != Map.ZoneCell) {
-					Map.Set_Cursor_Pos(cell);
-				}
+			/*
+			** Cause any displayed cursor to move along with the mouse cursor.
+			*/
+			if (cell != Map.ZoneCell) {
+				Map.Set_Cursor_Pos(cell);
 			}
-			break;
+		}
+		break;
+	}
+
+	/*
+	** Player left-clicked
+	*/
+	case INPUT_REQUEST_MOUSE_LEFT_CLICK:
+	{
+		DLLExportClass::Adjust_Internal_View();
+
+		DLLForceMouseX = x1;
+		DLLForceMouseY = y1;
+		_Kbd->MouseQX = x1;
+		_Kbd->MouseQY = y1;
+
+		KeyNumType key = (KeyNumType)(KN_LMOUSE | KN_RLSE_BIT);
+
+		if (Map.Pixel_To_Coord(x1, y1)) {
+			//DisplayClass::TacButton.Clicked_On(key, GadgetClass::LEFTRELEASE, x1, y1);
+			DisplayClass::TacButton.Clicked_On(key, GadgetClass::LEFTRELEASE, 100, 100);
+		}
+		break;
+	}
+
+	/*
+	** Player right-clicked (on up)
+	*/
+	case INPUT_REQUEST_MOUSE_RIGHT_CLICK:
+	{
+		DLLExportClass::Adjust_Internal_View();
+
+		DLLForceMouseX = x1;
+		DLLForceMouseY = y1;
+		_Kbd->MouseQX = x1;
+		_Kbd->MouseQY = y1;
+
+		KeyNumType key = (KeyNumType)(KN_RMOUSE | KN_RLSE_BIT);
+
+		if (Map.Pixel_To_Coord(x1, y1)) {
+			//DisplayClass::TacButton.Clicked_On(key, GadgetClass::RIGHTRELEASE, x1, y1);
+			DisplayClass::TacButton.Clicked_On(key, GadgetClass::RIGHTRELEASE, 100, 100);
+		}
+		break;
+	}
+
+	/*
+	** Player right button down
+	*/
+	case INPUT_REQUEST_MOUSE_RIGHT_DOWN:
+	{
+		DLLExportClass::Adjust_Internal_View();
+
+		DLLForceMouseX = x1;
+		DLLForceMouseY = y1;
+		_Kbd->MouseQX = x1;
+		_Kbd->MouseQY = y1;
+
+		KeyNumType key = (KeyNumType)(KN_RMOUSE);
+
+		if (Map.Pixel_To_Coord(x1, y1)) {
+			//DisplayClass::TacButton.Clicked_On(key, GadgetClass::RIGHTPRESS, x1, y1);
+			DisplayClass::TacButton.Clicked_On(key, GadgetClass::RIGHTPRESS, 100, 100);
+		}
+		break;
+	}
+
+
+	/*
+	** Player drag selected
+	*/
+	case INPUT_REQUEST_MOUSE_AREA:
+	{
+		DLLExportClass::Adjust_Internal_View();
+		Map.Select_These(XYPixel_Coord(x1, y1), XYPixel_Coord(x2, y2), false);
+		break;
+	}
+
+	case INPUT_REQUEST_MOUSE_AREA_ADDITIVE:
+	{
+		DLLExportClass::Adjust_Internal_View();
+		Map.Select_These(XYPixel_Coord(x1, y1), XYPixel_Coord(x2, y2), true);
+		break;
+	}
+
+	case INPUT_REQUEST_SELL_AT_POSITION:
+	{
+		DLLExportClass::Adjust_Internal_View();
+		DLLForceMouseX = x1;
+		DLLForceMouseY = y1;
+		_Kbd->MouseQX = x1;
+		_Kbd->MouseQY = y1;
+
+		COORDINATE coord = Map.Pixel_To_Coord(x1, y1);
+		CELL cell = Coord_Cell(coord);
+
+		if (Map.Pixel_To_Coord(x1, y1))
+		{
+			PlayerPtr->Sell_Wall(cell);
 		}
 
-		/*
-		** Player left-clicked
-		*/
-		case INPUT_REQUEST_MOUSE_LEFT_CLICK:
-		{
-			DLLExportClass::Adjust_Internal_View();
-			
-			DLLForceMouseX = x1;
-			DLLForceMouseY = y1;
-			_Kbd->MouseQX = x1;
-			_Kbd->MouseQY = y1;
+		break;
+	}
 
+	case INPUT_REQUEST_SELECT_AT_POSITION:
+	{
+		DLLExportClass::Adjust_Internal_View();
+		DLLForceMouseX = x1;
+		DLLForceMouseY = y1;
+		_Kbd->MouseQX = x1;
+		_Kbd->MouseQY = y1;
+
+		COORDINATE coord = Map.Pixel_To_Coord(x1, y1);
+		CELL cell = Coord_Cell(coord);
+
+		if (Map.Pixel_To_Coord(x1, y1))
+		{
 			KeyNumType key = (KeyNumType)(KN_LMOUSE | KN_RLSE_BIT);
 
-			if (Map.Pixel_To_Coord(x1, y1)) {
-				//DisplayClass::TacButton.Clicked_On(key, GadgetClass::LEFTRELEASE, x1, y1);
-				DisplayClass::TacButton.Clicked_On(key, GadgetClass::LEFTRELEASE, 100, 100);
-			}
-			break;
-		}	
-		
-		/*
-		** Player right-clicked (on up)
-		*/
-		case INPUT_REQUEST_MOUSE_RIGHT_CLICK:
-		{
-			DLLExportClass::Adjust_Internal_View();
-			
-			DLLForceMouseX = x1;
-			DLLForceMouseY = y1;
-			_Kbd->MouseQX = x1;
-			_Kbd->MouseQY = y1;
-
-			KeyNumType key = (KeyNumType)(KN_RMOUSE | KN_RLSE_BIT);
-
-			if (Map.Pixel_To_Coord(x1, y1)) {
-				//DisplayClass::TacButton.Clicked_On(key, GadgetClass::RIGHTRELEASE, x1, y1);
-				DisplayClass::TacButton.Clicked_On(key, GadgetClass::RIGHTRELEASE, 100, 100);
-			}
-			break;
-		}	
-
-		/*
-		** Player right button down
-		*/
-		case INPUT_REQUEST_MOUSE_RIGHT_DOWN:
-		{
-			DLLExportClass::Adjust_Internal_View();
-			
-			DLLForceMouseX = x1;
-			DLLForceMouseY = y1;
-			_Kbd->MouseQX = x1;
-			_Kbd->MouseQY = y1;
-
-			KeyNumType key = (KeyNumType)(KN_RMOUSE);
-
-			if (Map.Pixel_To_Coord(x1, y1)) {
-				//DisplayClass::TacButton.Clicked_On(key, GadgetClass::RIGHTPRESS, x1, y1);
-				DisplayClass::TacButton.Clicked_On(key, GadgetClass::RIGHTPRESS, 100, 100);
-			}
-			break;
-		}	
-
-			
-		/*
-		** Player drag selected
-		*/
-		case INPUT_REQUEST_MOUSE_AREA:
-		{
-			DLLExportClass::Adjust_Internal_View();
-			Map.Select_These(XYPixel_Coord(x1, y1), XYPixel_Coord(x2, y2), false);
-			break;
+			DisplayClass::TacButton.Selection_At_Mouse(GadgetClass::LEFTRELEASE, key);
 		}
 
-		case INPUT_REQUEST_MOUSE_AREA_ADDITIVE:
-		{
-			DLLExportClass::Adjust_Internal_View();
-			Map.Select_These(XYPixel_Coord(x1, y1), XYPixel_Coord(x2, y2), true);
-			break;
-		}
-
-		case INPUT_REQUEST_SELL_AT_POSITION:
-		{
-			DLLExportClass::Adjust_Internal_View();
-			DLLForceMouseX = x1;
-			DLLForceMouseY = y1;
-			_Kbd->MouseQX = x1;
-			_Kbd->MouseQY = y1;
-
-			COORDINATE coord = Map.Pixel_To_Coord(x1, y1);
-			CELL cell = Coord_Cell(coord);
-
-			if (Map.Pixel_To_Coord(x1, y1))
-			{
-				PlayerPtr->Sell_Wall(cell);
-			}
-
-			break;
-		}
-
-		case INPUT_REQUEST_SELECT_AT_POSITION:
-		{
-			DLLExportClass::Adjust_Internal_View();
-			DLLForceMouseX = x1;
-			DLLForceMouseY = y1;
-			_Kbd->MouseQX = x1;
-			_Kbd->MouseQY = y1;
-
-			COORDINATE coord = Map.Pixel_To_Coord(x1, y1);
-			CELL cell = Coord_Cell(coord);
-
-			if (Map.Pixel_To_Coord(x1, y1))
-			{
-				KeyNumType key = (KeyNumType)(KN_LMOUSE | KN_RLSE_BIT);
-
-				DisplayClass::TacButton.Selection_At_Mouse(GadgetClass::LEFTRELEASE, key);
-			}
-
-			break;
-		}
-
-		case INPUT_REQUEST_COMMAND_AT_POSITION:
-		{
-			DLLExportClass::Adjust_Internal_View();
-			DLLForceMouseX = x1;
-			DLLForceMouseY = y1;
-			_Kbd->MouseQX = x1;
-			_Kbd->MouseQY = y1;
-
-			COORDINATE coord = Map.Pixel_To_Coord(x1, y1);
-			CELL cell = Coord_Cell(coord);
-
-			if (Map.Pixel_To_Coord(x1, y1))
-			{
-				KeyNumType key = (KeyNumType)(KN_LMOUSE | KN_RLSE_BIT);
-				DisplayClass::TacButton.Command_Object(GadgetClass::LEFTRELEASE, key);
-			}
-
-			break;
-		}
-		  		  
-		default:
-			break;
+		break;
 	}
-}			
+
+	case INPUT_REQUEST_COMMAND_AT_POSITION:
+	{
+		DLLExportClass::Adjust_Internal_View();
+		DLLForceMouseX = x1;
+		DLLForceMouseY = y1;
+		_Kbd->MouseQX = x1;
+		_Kbd->MouseQY = y1;
+
+		COORDINATE coord = Map.Pixel_To_Coord(x1, y1);
+		CELL cell = Coord_Cell(coord);
+
+		if (Map.Pixel_To_Coord(x1, y1))
+		{
+			KeyNumType key = (KeyNumType)(KN_LMOUSE | KN_RLSE_BIT);
+			DisplayClass::TacButton.Command_Object(GadgetClass::LEFTRELEASE, key);
+		}
+
+		break;
+	}
+
+	default:
+		break;
+	}
+}
 
 
 
@@ -3664,15 +3696,15 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Structure_Request(Struc
 		return;
 	}
 
-	switch (request_type) 
+	switch (request_type)
 	{
-	case INPUT_STRUCTURE_REPAIR_START: 
+	case INPUT_STRUCTURE_REPAIR_START:
 		DLLExportClass::Repair_Mode(player_id);
 		break;
 	case INPUT_STRUCTURE_REPAIR:
 		DLLExportClass::Repair(player_id, object_id);
 		break;
-	case INPUT_STRUCTURE_SELL_START: 
+	case INPUT_STRUCTURE_SELL_START:
 		DLLExportClass::Sell_Mode(player_id);
 		break;
 	case INPUT_STRUCTURE_SELL:
@@ -3708,34 +3740,34 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Unit_Request(UnitReques
 
 	switch (request_type)
 	{
-		case INPUT_UNIT_SCATTER:
-			DLLExportClass::Scatter_Selected(player_id);
-			break;
-		case INPUT_UNIT_SELECT_NEXT:
-			DLLExportClass::Select_Next_Unit(player_id);
-			break;
-		case INPUT_UNIT_SELECT_PREVIOUS:
-			DLLExportClass::Select_Previous_Unit(player_id);
-			break;
-		case INPUT_UNIT_GUARD_MODE:
-			DLLExportClass::Selected_Guard_Mode(player_id);
-			break;
-		case INPUT_UNIT_STOP:
-			DLLExportClass::Selected_Stop(player_id);
-			break;
-		case INPUT_UNIT_FORMATION_TOGGLE:
-			DLLExportClass::Team_Units_Formation_Toggle_On(player_id);
-			break;
-		case INPUT_UNIT_QUEUED_MOVEMENT_ON:
-			// Red Alert Only
-			DLLExportClass::Units_Queued_Movement_Toggle(player_id, true);
-			break;
-		case INPUT_UNIT_QUEUED_MOVEMENT_OFF:
-			// Red Alert Only
-			DLLExportClass::Units_Queued_Movement_Toggle(player_id, false);
-			break;
-		default:
-			break;
+	case INPUT_UNIT_SCATTER:
+		DLLExportClass::Scatter_Selected(player_id);
+		break;
+	case INPUT_UNIT_SELECT_NEXT:
+		DLLExportClass::Select_Next_Unit(player_id);
+		break;
+	case INPUT_UNIT_SELECT_PREVIOUS:
+		DLLExportClass::Select_Previous_Unit(player_id);
+		break;
+	case INPUT_UNIT_GUARD_MODE:
+		DLLExportClass::Selected_Guard_Mode(player_id);
+		break;
+	case INPUT_UNIT_STOP:
+		DLLExportClass::Selected_Stop(player_id);
+		break;
+	case INPUT_UNIT_FORMATION_TOGGLE:
+		DLLExportClass::Team_Units_Formation_Toggle_On(player_id);
+		break;
+	case INPUT_UNIT_QUEUED_MOVEMENT_ON:
+		// Red Alert Only
+		DLLExportClass::Units_Queued_Movement_Toggle(player_id, true);
+		break;
+	case INPUT_UNIT_QUEUED_MOVEMENT_OFF:
+		// Red Alert Only
+		DLLExportClass::Units_Queued_Movement_Toggle(player_id, false);
+		break;
+	default:
+		break;
 	}
 }
 
@@ -3744,9 +3776,9 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Unit_Request(UnitReques
 /**************************************************************************************************
 * CNC_Handle_Sidebar_Request -- Process an input request to the sidebar
 *
-* In:   
-*       
-*       
+* In:
+*
+*
 * Out:
 *
 *
@@ -3758,37 +3790,37 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Sidebar_Request(Sidebar
 	if (!DLLExportClass::Set_Player_Context(player_id)) {
 		return;
 	}
-	
+
 	switch (request_type) {
-		
-		case SIDEBAR_REQUEST_START_CONSTRUCTION:
-			DLLExportClass::Start_Construction(player_id, buildable_type, buildable_id);
-			break;
-				
-		case SIDEBAR_REQUEST_HOLD_CONSTRUCTION:
-			DLLExportClass::Hold_Construction(player_id, buildable_type, buildable_id);
-			break;
-			
-		case SIDEBAR_REQUEST_CANCEL_CONSTRUCTION:
-			DLLExportClass::Cancel_Construction(player_id, buildable_type, buildable_id);
-			break;
 
-		case SIDEBAR_REQUEST_START_PLACEMENT:
-			DLLExportClass::Start_Placement(player_id, buildable_type, buildable_id);
-			break;
-			
-		case SIDEBAR_REQUEST_PLACE:
-			DLLExportClass::Place(player_id, buildable_type, buildable_id, cell_x, cell_y);
-			break;
+	case SIDEBAR_REQUEST_START_CONSTRUCTION:
+		DLLExportClass::Start_Construction(player_id, buildable_type, buildable_id);
+		break;
 
-		case SIDEBAR_CANCEL_PLACE:
-			DLLExportClass::Cancel_Placement(player_id, buildable_type, buildable_id);
-			break;
+	case SIDEBAR_REQUEST_HOLD_CONSTRUCTION:
+		DLLExportClass::Hold_Construction(player_id, buildable_type, buildable_id);
+		break;
 
-		default:
-			break;
+	case SIDEBAR_REQUEST_CANCEL_CONSTRUCTION:
+		DLLExportClass::Cancel_Construction(player_id, buildable_type, buildable_id);
+		break;
+
+	case SIDEBAR_REQUEST_START_PLACEMENT:
+		DLLExportClass::Start_Placement(player_id, buildable_type, buildable_id);
+		break;
+
+	case SIDEBAR_REQUEST_PLACE:
+		DLLExportClass::Place(player_id, buildable_type, buildable_id, cell_x, cell_y);
+		break;
+
+	case SIDEBAR_CANCEL_PLACE:
+		DLLExportClass::Cancel_Placement(player_id, buildable_type, buildable_id);
+		break;
+
+	default:
+		break;
 	}
-}			  
+}
 
 /**************************************************************************************************
 * CNC_Handle_SuperWeapon_Request
@@ -3800,7 +3832,7 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Sidebar_Request(Sidebar
 *
 *
 *
-* History: 
+* History:
 **************************************************************************************************/
 extern "C" __declspec(dllexport) void __cdecl CNC_Handle_SuperWeapon_Request(SuperWeaponRequestEnum request_type, uint64 player_id, int buildable_type, int buildable_id, int x1, int y1)
 {
@@ -3855,15 +3887,15 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_ControlGroup_Request(Co
 /**************************************************************************************************
 * DLLExportClass::Get_Layer_State -- Get a snapshot of the sidebar state
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 1/29/2019 11:37AM - ST
 **************************************************************************************************/
-bool DLLExportClass::Get_Sidebar_State(uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size)
+bool DLLExportClass::Get_Sidebar_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size)
 {
 	/*
 	** Get the player for this...
@@ -3872,10 +3904,10 @@ bool DLLExportClass::Get_Sidebar_State(uint64 player_id, unsigned char *buffer_i
 		return false;
 	}
 
-	CNCSidebarStruct *sidebar = (CNCSidebarStruct*) buffer_in;
-	
+	CNCSidebarStruct* sidebar = (CNCSidebarStruct*)buffer_in;
+
 	unsigned int memory_needed = sizeof(*sidebar);	// Base amount needed. Will need more depending on how many entries there are
-	
+
 	int entry_index = 0;
 
 	sidebar->Credits = 0;
@@ -3911,30 +3943,30 @@ bool DLLExportClass::Get_Sidebar_State(uint64 player_id, unsigned char *buffer_i
 
 		// A. Get the DestroyedBuildings and DestroyedInfantry stats if they are available at this point
 		if (PlayerPtr->DestroyedBuildings) {
-			for ( int index = 0; index < PlayerPtr->DestroyedBuildings->Get_Unit_Count(); index ++ )
+			for (int index = 0; index < PlayerPtr->DestroyedBuildings->Get_Unit_Count(); index++)
 			{
-				unsigned int count = (unsigned int) PlayerPtr->DestroyedBuildings->Get_Unit_Total( index );
+				unsigned int count = (unsigned int)PlayerPtr->DestroyedBuildings->Get_Unit_Total(index);
 				sidebar->BuildingsKilled += count;
 			}
 		}
 		if (PlayerPtr->DestroyedInfantry) {
-			for ( int index = 0; index < PlayerPtr->DestroyedInfantry->Get_Unit_Count(); index ++ )
+			for (int index = 0; index < PlayerPtr->DestroyedInfantry->Get_Unit_Count(); index++)
 			{
-				unsigned int count = (unsigned int) PlayerPtr->DestroyedInfantry->Get_Unit_Total( index );
+				unsigned int count = (unsigned int)PlayerPtr->DestroyedInfantry->Get_Unit_Total(index);
 				sidebar->UnitsKilled += count; // Includes Infantry, Vehicles, Aircraft
 			}
 		}
 		if (PlayerPtr->DestroyedUnits) {
-			for ( int index = 0; index < PlayerPtr->DestroyedUnits->Get_Unit_Count(); index ++ )
+			for (int index = 0; index < PlayerPtr->DestroyedUnits->Get_Unit_Count(); index++)
 			{
-				unsigned int count = (unsigned int) PlayerPtr->DestroyedUnits->Get_Unit_Total( index );
+				unsigned int count = (unsigned int)PlayerPtr->DestroyedUnits->Get_Unit_Total(index);
 				sidebar->UnitsKilled += count; // Includes Infantry, Vehicles, Aircraft
 			}
 		}
 		if (PlayerPtr->DestroyedAircraft) {
-			for ( int index = 0; index < PlayerPtr->DestroyedAircraft->Get_Unit_Count(); index ++ )
+			for (int index = 0; index < PlayerPtr->DestroyedAircraft->Get_Unit_Count(); index++)
 			{
-				unsigned int count = (unsigned int) PlayerPtr->DestroyedAircraft->Get_Unit_Total( index );
+				unsigned int count = (unsigned int)PlayerPtr->DestroyedAircraft->Get_Unit_Total(index);
 				sidebar->UnitsKilled += count; // Includes Infantry, Vehicles, Aircraft
 			}
 		}
@@ -3944,16 +3976,16 @@ bool DLLExportClass::Get_Sidebar_State(uint64 player_id, unsigned char *buffer_i
 		// We can't just do it this way for everything, as it does not work for all cases
 		if (sidebar->BuildingsKilled == 0)
 		{
-			for (unsigned int house_index = 0; house_index < HOUSE_COUNT; house_index ++)
+			for (unsigned int house_index = 0; house_index < HOUSE_COUNT; house_index++)
 			{
-				sidebar->BuildingsKilled += PlayerPtr->BuildingsKilled[ house_index ];
+				sidebar->BuildingsKilled += PlayerPtr->BuildingsKilled[house_index];
 			}
 		}
 		if (sidebar->UnitsKilled == 0)
 		{
-			for (unsigned int house_index = 0; house_index < HOUSE_COUNT; house_index ++)
+			for (unsigned int house_index = 0; house_index < HOUSE_COUNT; house_index++)
 			{
-				sidebar->UnitsKilled += PlayerPtr->UnitsKilled[ house_index ]; // Includes Infantry, Vehicles, Aircraft
+				sidebar->UnitsKilled += PlayerPtr->UnitsKilled[house_index]; // Includes Infantry, Vehicles, Aircraft
 			}
 		}
 
@@ -3968,16 +4000,16 @@ bool DLLExportClass::Get_Sidebar_State(uint64 player_id, unsigned char *buffer_i
 		/*
 		** Get each sidebar column
 		*/
-		for (int c = 0 ; c < 2 ; c++) {
-		
+		for (int c = 0; c < 2; c++) {
+
 			sidebar->EntryCount[c] = Map.Column[c].BuildableCount;
-				
+
 			/*
 			** Each production slot in the column
 			*/
-			for (int b=0 ; b < Map.Column[c].BuildableCount ; b++) {
-			
-				CNCSidebarEntryStruct &sidebar_entry = sidebar->Entries[entry_index++];
+			for (int b = 0; b < Map.Column[c].BuildableCount; b++) {
+
+				CNCSidebarEntryStruct& sidebar_entry = sidebar->Entries[entry_index++];
 				if ((entry_index + 1) * sizeof(CNCSidebarEntryStruct) + memory_needed > buffer_size) {
 					return false;
 				}
@@ -3987,10 +4019,10 @@ bool DLLExportClass::Get_Sidebar_State(uint64 player_id, unsigned char *buffer_i
 				sidebar_entry.BuildableID = Map.Column[c].Buildables[b].BuildableID;
 				sidebar_entry.BuildableType = Map.Column[c].Buildables[b].BuildableType;
 				sidebar_entry.BuildableViaCapture = Map.Column[c].Buildables[b].BuildableViaCapture;
-			   sidebar_entry.Fake = false;
-			
-				TechnoTypeClass const * tech = Fetch_Techno_Type(Map.Column[c].Buildables[b].BuildableType, Map.Column[c].Buildables[b].BuildableID);
-				
+				sidebar_entry.Fake = false;
+
+				TechnoTypeClass const* tech = Fetch_Techno_Type(Map.Column[c].Buildables[b].BuildableType, Map.Column[c].Buildables[b].BuildableID);
+
 				sidebar_entry.SuperWeaponType = SW_NONE;
 
 				if (tech) {
@@ -3999,86 +4031,87 @@ bool DLLExportClass::Get_Sidebar_State(uint64 player_id, unsigned char *buffer_i
 					sidebar_entry.BuildTime = tech->Time_To_Build(PlayerPtr->Class->House);
 					strncpy(sidebar_entry.AssetName, tech->IniName, CNC_OBJECT_ASSET_NAME_LENGTH);
 					sidebar_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
-				} else {
+				}
+				else {
 					sidebar_entry.Cost = 0;
 					sidebar_entry.AssetName[0] = 0;
-				}	
-				
+				}
+
 				SuperClass* super_weapon = nullptr;
 
 				bool isbusy = false;
 
 				switch (Map.Column[c].Buildables[b].BuildableType) {
-					case RTTI_INFANTRYTYPE:
-						sidebar_entry.Type = INFANTRY_TYPE;
-						isbusy = (PlayerPtr->InfantryFactory != -1);
-						isbusy |= Infantry.Avail() <= 0;
-						break;
-						
-					case RTTI_UNITTYPE:
-						isbusy = (PlayerPtr->UnitFactory != -1);
-						sidebar_entry.Type = UNIT_TYPE;
-						isbusy |= Units.Avail() <= 0;
-						break;
-						
-					case RTTI_AIRCRAFTTYPE:
-						isbusy = (PlayerPtr->AircraftFactory != -1);
-						sidebar_entry.Type = AIRCRAFT_TYPE;
-						isbusy |= Aircraft.Avail() <= 0;
-						break;
-					
-					case RTTI_BUILDINGTYPE:
-					{
-						isbusy = (PlayerPtr->BuildingFactory != -1);
-						isbusy |= Buildings.Avail() <= 0;
-						sidebar_entry.Type = BUILDING_TYPE;
+				case RTTI_INFANTRYTYPE:
+					sidebar_entry.Type = INFANTRY_TYPE;
+					isbusy = (PlayerPtr->InfantryFactory != -1);
+					isbusy |= Infantry.Avail() <= 0;
+					break;
 
-						const BuildingTypeClass* build_type = static_cast<const BuildingTypeClass*>(tech);
-						sidebar_entry.PowerProvided = build_type->Power - build_type->Drain;
-					}
+				case RTTI_UNITTYPE:
+					isbusy = (PlayerPtr->UnitFactory != -1);
+					sidebar_entry.Type = UNIT_TYPE;
+					isbusy |= Units.Avail() <= 0;
+					break;
+
+				case RTTI_AIRCRAFTTYPE:
+					isbusy = (PlayerPtr->AircraftFactory != -1);
+					sidebar_entry.Type = AIRCRAFT_TYPE;
+					isbusy |= Aircraft.Avail() <= 0;
+					break;
+
+				case RTTI_BUILDINGTYPE:
+				{
+					isbusy = (PlayerPtr->BuildingFactory != -1);
+					isbusy |= Buildings.Avail() <= 0;
+					sidebar_entry.Type = BUILDING_TYPE;
+
+					const BuildingTypeClass* build_type = static_cast<const BuildingTypeClass*>(tech);
+					sidebar_entry.PowerProvided = build_type->Power - build_type->Drain;
+				}
+				break;
+
+				default:
+					sidebar_entry.Type = UNKNOWN;
+					break;
+
+				case RTTI_SPECIAL:
+					switch (Map.Column[c].Buildables[b].BuildableID)
+					{
+					case SPC_ION_CANNON:
+						sidebar_entry.SuperWeaponType = SW_ION_CANNON;
+						sidebar_entry.Type = SPECIAL;
+						strncpy(sidebar_entry.AssetName, "SW_Ion", CNC_OBJECT_ASSET_NAME_LENGTH);
+						sidebar_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
+						super_weapon = &PlayerPtr->IonCannon;
+						break;
+
+					case SPC_NUCLEAR_BOMB:
+						sidebar_entry.SuperWeaponType = SW_NUKE;
+						sidebar_entry.Type = SPECIAL;
+						strncpy(sidebar_entry.AssetName, "SW_Nuke", CNC_OBJECT_ASSET_NAME_LENGTH);
+						sidebar_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
+						super_weapon = &PlayerPtr->NukeStrike;
+						break;
+
+					case SPC_AIR_STRIKE:
+						sidebar_entry.SuperWeaponType = SW_AIR_STRIKE;
+						sidebar_entry.Type = SPECIAL;
+						strncpy(sidebar_entry.AssetName, "SW_AirStrike", CNC_OBJECT_ASSET_NAME_LENGTH);
+						sidebar_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
+						super_weapon = &PlayerPtr->AirStrike;
 						break;
 
 					default:
-						sidebar_entry.Type = UNKNOWN;
+						sidebar_entry.SuperWeaponType = SW_UNKNOWN;
+						sidebar_entry.Type = SPECIAL;
 						break;
-
-					case RTTI_SPECIAL:
-						switch (Map.Column[c].Buildables[b].BuildableID) 
-						{
-						case SPC_ION_CANNON:
-							sidebar_entry.SuperWeaponType = SW_ION_CANNON;
-							sidebar_entry.Type = SPECIAL;
-							strncpy(sidebar_entry.AssetName, "SW_Ion", CNC_OBJECT_ASSET_NAME_LENGTH);
-							sidebar_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
-							super_weapon = &PlayerPtr->IonCannon;
-							break;
-
-						case SPC_NUCLEAR_BOMB:
-							sidebar_entry.SuperWeaponType = SW_NUKE;
-							sidebar_entry.Type = SPECIAL;
-							strncpy(sidebar_entry.AssetName, "SW_Nuke", CNC_OBJECT_ASSET_NAME_LENGTH);
-							sidebar_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
-							super_weapon = &PlayerPtr->NukeStrike;
-							break;
-
-						case SPC_AIR_STRIKE:
-							sidebar_entry.SuperWeaponType = SW_AIR_STRIKE;
-							sidebar_entry.Type = SPECIAL;
-							strncpy(sidebar_entry.AssetName, "SW_AirStrike", CNC_OBJECT_ASSET_NAME_LENGTH);
-							sidebar_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
-							super_weapon = &PlayerPtr->AirStrike;
-							break;
-
-						default:
-							sidebar_entry.SuperWeaponType = SW_UNKNOWN;
-							sidebar_entry.Type = SPECIAL;
-							break;
-						}
-						break;
+					}
+					break;
 				}
 
 				int fnumber = Map.Column[c].Buildables[b].Factory;
-				FactoryClass * factory = NULL;
+				FactoryClass* factory = NULL;
 				if (tech && fnumber != -1) {
 					factory = Factories.Raw_Ptr(fnumber);
 				}
@@ -4119,8 +4152,8 @@ bool DLLExportClass::Get_Sidebar_State(uint64 player_id, unsigned char *buffer_i
 
 							if (sidebar_entry.Completed && sidebar_entry.Type == BUILDING_TYPE) {
 								if (tech) {
-									BuildingTypeClass *building_type = (BuildingTypeClass*)tech;
-									short const *occupy_list = building_type->Occupy_List(true);
+									BuildingTypeClass* building_type = (BuildingTypeClass*)tech;
+									short const* occupy_list = building_type->Occupy_List(true);
 									if (occupy_list) {
 										while (*occupy_list != REFRESH_EOL && sidebar_entry.PlacementListLength < MAX_OCCUPY_CELLS) {
 											sidebar_entry.PlacementList[sidebar_entry.PlacementListLength] = *occupy_list;
@@ -4135,27 +4168,28 @@ bool DLLExportClass::Get_Sidebar_State(uint64 player_id, unsigned char *buffer_i
 				}
 			}
 		}
-	
-	} else {
-		
-		
+
+	}
+	else {
+
+
 		if (GameToPlay == GAME_GLYPHX_MULTIPLAYER) {
-			
-			SidebarGlyphxClass *context_sidebar = DLLExportClass::Get_Current_Context_Sidebar();
-			
+
+			SidebarGlyphxClass* context_sidebar = DLLExportClass::Get_Current_Context_Sidebar();
+
 			/*
 			** Get each sidebar column
 			*/
-			for (int c = 0 ; c < 2 ; c++) {
-		
+			for (int c = 0; c < 2; c++) {
+
 				sidebar->EntryCount[c] = context_sidebar->Column[c].BuildableCount;
-				
+
 				/*
 				** Each production slot in the column
 				*/
-				for (int b=0 ; b < context_sidebar->Column[c].BuildableCount ; b++) {
-			
-					CNCSidebarEntryStruct &sidebar_entry = sidebar->Entries[entry_index++];
+				for (int b = 0; b < context_sidebar->Column[c].BuildableCount; b++) {
+
+					CNCSidebarEntryStruct& sidebar_entry = sidebar->Entries[entry_index++];
 					if ((entry_index + 1) * sizeof(CNCSidebarEntryStruct) + memory_needed > buffer_size) {
 						return false;
 					}
@@ -4165,10 +4199,10 @@ bool DLLExportClass::Get_Sidebar_State(uint64 player_id, unsigned char *buffer_i
 					sidebar_entry.BuildableID = context_sidebar->Column[c].Buildables[b].BuildableID;
 					sidebar_entry.BuildableType = context_sidebar->Column[c].Buildables[b].BuildableType;
 					sidebar_entry.BuildableViaCapture = context_sidebar->Column[c].Buildables[b].BuildableViaCapture;
-			   	sidebar_entry.Fake = false;
-			
-					TechnoTypeClass const * tech = Fetch_Techno_Type(context_sidebar->Column[c].Buildables[b].BuildableType, context_sidebar->Column[c].Buildables[b].BuildableID);
-				
+					sidebar_entry.Fake = false;
+
+					TechnoTypeClass const* tech = Fetch_Techno_Type(context_sidebar->Column[c].Buildables[b].BuildableType, context_sidebar->Column[c].Buildables[b].BuildableID);
+
 					sidebar_entry.SuperWeaponType = SW_NONE;
 
 					if (tech) {
@@ -4177,81 +4211,82 @@ bool DLLExportClass::Get_Sidebar_State(uint64 player_id, unsigned char *buffer_i
 						sidebar_entry.BuildTime = tech->Time_To_Build(PlayerPtr->Class->House);
 						strncpy(sidebar_entry.AssetName, tech->IniName, CNC_OBJECT_ASSET_NAME_LENGTH);
 						sidebar_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
-					} else {
+					}
+					else {
 						sidebar_entry.Cost = 0;
 						sidebar_entry.AssetName[0] = 0;
-					}	
-			
+					}
+
 					SuperClass* super_weapon = nullptr;
 
 					bool isbusy = false;
 
 					switch (context_sidebar->Column[c].Buildables[b].BuildableType) {
-						case RTTI_INFANTRYTYPE:
-							sidebar_entry.Type = INFANTRY_TYPE;
-							isbusy = (PlayerPtr->InfantryFactory != -1);
-							isbusy |= Infantry.Avail() <= 0;
-							break;
-						
-						case RTTI_UNITTYPE:
-							isbusy = (PlayerPtr->UnitFactory != -1);
-							isbusy |= Units.Avail() <= 0;
-							sidebar_entry.Type = UNIT_TYPE;
-							break;
-						
-						case RTTI_AIRCRAFTTYPE:
-							isbusy = (PlayerPtr->AircraftFactory != -1);
-							isbusy |= Aircraft.Avail() <= 0;
-							sidebar_entry.Type = AIRCRAFT_TYPE;
-							break;
-					
-						case RTTI_BUILDINGTYPE:
-						{
-							isbusy = (PlayerPtr->BuildingFactory != -1);
-							isbusy |= Buildings.Avail() <= 0;
-							sidebar_entry.Type = BUILDING_TYPE;
+					case RTTI_INFANTRYTYPE:
+						sidebar_entry.Type = INFANTRY_TYPE;
+						isbusy = (PlayerPtr->InfantryFactory != -1);
+						isbusy |= Infantry.Avail() <= 0;
+						break;
 
-							const BuildingTypeClass* build_type = static_cast<const BuildingTypeClass*>(tech);
-							sidebar_entry.PowerProvided = build_type->Power - build_type->Drain;
-						}
+					case RTTI_UNITTYPE:
+						isbusy = (PlayerPtr->UnitFactory != -1);
+						isbusy |= Units.Avail() <= 0;
+						sidebar_entry.Type = UNIT_TYPE;
+						break;
+
+					case RTTI_AIRCRAFTTYPE:
+						isbusy = (PlayerPtr->AircraftFactory != -1);
+						isbusy |= Aircraft.Avail() <= 0;
+						sidebar_entry.Type = AIRCRAFT_TYPE;
+						break;
+
+					case RTTI_BUILDINGTYPE:
+					{
+						isbusy = (PlayerPtr->BuildingFactory != -1);
+						isbusy |= Buildings.Avail() <= 0;
+						sidebar_entry.Type = BUILDING_TYPE;
+
+						const BuildingTypeClass* build_type = static_cast<const BuildingTypeClass*>(tech);
+						sidebar_entry.PowerProvided = build_type->Power - build_type->Drain;
+					}
+					break;
+
+					default:
+						sidebar_entry.Type = UNKNOWN;
+						break;
+
+					case RTTI_SPECIAL:
+						switch (context_sidebar->Column[c].Buildables[b].BuildableID) {
+						case SPC_ION_CANNON:
+							sidebar_entry.SuperWeaponType = SW_ION_CANNON;
+							sidebar_entry.Type = SPECIAL;
+							strncpy(sidebar_entry.AssetName, "SW_Ion", CNC_OBJECT_ASSET_NAME_LENGTH);
+							sidebar_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
+							super_weapon = &PlayerPtr->IonCannon;
+							break;
+
+						case SPC_NUCLEAR_BOMB:
+							sidebar_entry.SuperWeaponType = SW_NUKE;
+							sidebar_entry.Type = SPECIAL;
+							strncpy(sidebar_entry.AssetName, "SW_Nuke", CNC_OBJECT_ASSET_NAME_LENGTH);
+							sidebar_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
+							super_weapon = &PlayerPtr->NukeStrike;
+							break;
+
+						case SPC_AIR_STRIKE:
+							sidebar_entry.SuperWeaponType = SW_AIR_STRIKE;
+							sidebar_entry.Type = SPECIAL;
+							strncpy(sidebar_entry.AssetName, "SW_AirStrike", CNC_OBJECT_ASSET_NAME_LENGTH);
+							sidebar_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
+							super_weapon = &PlayerPtr->AirStrike;
 							break;
 
 						default:
-							sidebar_entry.Type = UNKNOWN;
+							sidebar_entry.SuperWeaponType = SW_UNKNOWN;
+							sidebar_entry.Type = SPECIAL;
 							break;
-
-						case RTTI_SPECIAL:
-							switch (context_sidebar->Column[c].Buildables[b].BuildableID) {
-								case SPC_ION_CANNON:
-									sidebar_entry.SuperWeaponType = SW_ION_CANNON;
-									sidebar_entry.Type = SPECIAL;
-									strncpy(sidebar_entry.AssetName,  "SW_Ion", CNC_OBJECT_ASSET_NAME_LENGTH);
-									sidebar_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
-									super_weapon = &PlayerPtr->IonCannon;
-									break;
-
-								case SPC_NUCLEAR_BOMB:
-									sidebar_entry.SuperWeaponType = SW_NUKE;
-									sidebar_entry.Type = SPECIAL;
-									strncpy(sidebar_entry.AssetName, "SW_Nuke", CNC_OBJECT_ASSET_NAME_LENGTH);
-									sidebar_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
-									super_weapon = &PlayerPtr->NukeStrike;
-									break;
-
-								case SPC_AIR_STRIKE:
-									sidebar_entry.SuperWeaponType = SW_AIR_STRIKE;
-									sidebar_entry.Type = SPECIAL;
-									strncpy(sidebar_entry.AssetName, "SW_AirStrike", CNC_OBJECT_ASSET_NAME_LENGTH);
-									sidebar_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
-									super_weapon = &PlayerPtr->AirStrike;
-									break;
-
-								default:
-									sidebar_entry.SuperWeaponType = SW_UNKNOWN;
-									sidebar_entry.Type = SPECIAL;
-									break;
-							}
-							break;
+						}
+						break;
 					}
 
 					if (super_weapon != nullptr)
@@ -4268,18 +4303,18 @@ bool DLLExportClass::Get_Sidebar_State(uint64 player_id, unsigned char *buffer_i
 					{
 
 						int fnumber = context_sidebar->Column[c].Buildables[b].Factory;
-						FactoryClass * factory = NULL;
+						FactoryClass* factory = NULL;
 						if (tech && fnumber != -1) {
 							factory = Factories.Raw_Ptr(fnumber);
 						}
-			
+
 						sidebar_entry.Completed = false;
 						sidebar_entry.Constructing = false;
 						sidebar_entry.ConstructionOnHold = false;
 						sidebar_entry.Progress = 0.0f;
 						sidebar_entry.Busy = isbusy;
 						sidebar_entry.PlacementListLength = 0;
-			  
+
 						if (factory) {
 							if (factory->Is_Building()) {
 								sidebar_entry.Constructing = true;
@@ -4296,8 +4331,8 @@ bool DLLExportClass::Get_Sidebar_State(uint64 player_id, unsigned char *buffer_i
 
 								if (sidebar_entry.Completed && sidebar_entry.Type == BUILDING_TYPE) {
 									if (tech) {
-										BuildingTypeClass *building_type = (BuildingTypeClass*)tech;
-										short const *occupy_list = building_type->Occupy_List(true);
+										BuildingTypeClass* building_type = (BuildingTypeClass*)tech;
+										short const* occupy_list = building_type->Occupy_List(true);
 										if (occupy_list) {
 											while (*occupy_list != REFRESH_EOL && sidebar_entry.PlacementListLength < MAX_OCCUPY_CELLS) {
 												sidebar_entry.PlacementList[sidebar_entry.PlacementListLength] = *occupy_list;
@@ -4380,15 +4415,15 @@ void DLLExportClass::Recalculate_Placement_Distances()
 /**************************************************************************************************
 * DLLExportClass::Get_Placement_State -- Get a snapshot of legal validity of placing a structure on all map cells
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 2/4/2019 3:11PM - ST
 **************************************************************************************************/
-bool DLLExportClass::Get_Placement_State(uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size)
+bool DLLExportClass::Get_Placement_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size)
 {
 	/*
 	** Get the player for this...
@@ -4401,8 +4436,8 @@ bool DLLExportClass::Get_Placement_State(uint64 player_id, unsigned char *buffer
 		return false;
 	}
 
-	CNCPlacementInfoStruct *placement_info = (CNCPlacementInfoStruct*) buffer_in;
-	
+	CNCPlacementInfoStruct* placement_info = (CNCPlacementInfoStruct*)buffer_in;
+
 	unsigned int memory_needed = sizeof(*placement_info);	// Base amount needed. Will need more depending on how many entries there are
 
 	int map_cell_x = Map.MapCellX;
@@ -4437,20 +4472,20 @@ bool DLLExportClass::Get_Placement_State(uint64 player_id, unsigned char *buffer
 	placement_info->Count = map_cell_width * map_cell_height;
 
 	int index = 0;
-	for (int y=0 ; y < map_cell_height ; y++) {
-		for (int x=0 ; x < map_cell_width ; x++) {
+	for (int y = 0; y < map_cell_height; y++) {
+		for (int x = 0; x < map_cell_width; x++) {
 
-			CELL cell = (CELL) map_cell_x + x + ((map_cell_y + y) << 6);
+			CELL cell = (CELL)map_cell_x + x + ((map_cell_y + y) << 6);
 
 			bool pass = Passes_Proximity_Check(cell, PlacementType[CurrentLocalPlayerIndex], PlacementDistance[CurrentLocalPlayerIndex]);
 
-			CellClass * cellptr = &Map[cell];
+			CellClass* cellptr = &Map[cell];
 			bool clear = cellptr->Is_Generally_Clear();
 
-			CNCPlacementCellInfoStruct &placement_cell_info = placement_info->CellInfo[index++];
+			CNCPlacementCellInfoStruct& placement_cell_info = placement_info->CellInfo[index++];
 			placement_cell_info.PassesProximityCheck = pass;
 			placement_cell_info.GenerallyClear = clear;
-		}	
+		}
 	}
 
 	Map.ZoneOffset = 0;
@@ -4459,16 +4494,16 @@ bool DLLExportClass::Get_Placement_State(uint64 player_id, unsigned char *buffer
 }
 
 
-bool DLLExportClass::Passes_Proximity_Check(CELL cell_in, BuildingTypeClass *placement_type, unsigned char* placement_distance)
+bool DLLExportClass::Passes_Proximity_Check(CELL cell_in, BuildingTypeClass* placement_type, unsigned char* placement_distance)
 {
-			  
+
 	/*
 	**	Scan through all cells that the building foundation would cover. If any adjacent
 	**	cells to these are of friendly persuasion, then consider the proximity check to
 	**	have been a success.
 	*/
-	short const *occupy_list = placement_type->Occupy_List(true);
-	
+	short const* occupy_list = placement_type->Occupy_List(true);
+
 	while (*occupy_list != REFRESH_EOL) {
 
 		CELL center_cell = cell_in + *occupy_list++;
@@ -4489,9 +4524,9 @@ bool DLLExportClass::Passes_Proximity_Check(CELL cell_in, BuildingTypeClass *pla
 /**************************************************************************************************
 * DLLExportClass::Start_Construction -- Start sidebar construction
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -4525,7 +4560,7 @@ bool DLLExportClass::Start_Construction(uint64 player_id, int buildable_type, in
 **************************************************************************************************/
 bool DLLExportClass::Hold_Construction(uint64 player_id, int buildable_type, int buildable_id)
 {
-	if (!DLLExportClass::Set_Player_Context(player_id)) 
+	if (!DLLExportClass::Set_Player_Context(player_id))
 	{
 		return false;
 	}
@@ -4549,13 +4584,13 @@ bool DLLExportClass::Hold_Construction(uint64 player_id, int buildable_type, int
 **************************************************************************************************/
 bool DLLExportClass::Cancel_Construction(uint64 player_id, int buildable_type, int buildable_id)
 {
-	if (!DLLExportClass::Set_Player_Context(player_id)) 
+	if (!DLLExportClass::Set_Player_Context(player_id))
 	{
 		return false;
 	}
 
-	return Cancel_Placement(player_id, buildable_type, buildable_id) && 
-		((GameToPlay == GAME_NORMAL) ? 
+	return Cancel_Placement(player_id, buildable_type, buildable_id) &&
+		((GameToPlay == GAME_NORMAL) ?
 			Construction_Action(SIDEBAR_REQUEST_CANCEL_CONSTRUCTION, player_id, buildable_type, buildable_id) :
 			MP_Construction_Action(SIDEBAR_REQUEST_CANCEL_CONSTRUCTION, player_id, buildable_type, buildable_id));
 }
@@ -4563,69 +4598,70 @@ bool DLLExportClass::Cancel_Construction(uint64 player_id, int buildable_type, i
 /**************************************************************************************************
 * DLLExportClass::Construction_Action -- Reproduce actions on the sidebar
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 1/29/2019 11:37AM - ST
 **************************************************************************************************/
 bool DLLExportClass::Construction_Action(SidebarRequestEnum construction_action, uint64 player_id, int buildable_type, int buildable_id)
-{		
-		
+{
+
 	/*
-	** 
+	**
 	** Based on SidebarClass::StripClass::SelectClass::Action
-	** 
+	**
 	** Most of this code is validating that the game is in the correct state to be able to act on a sidebar icon
-	** 
+	**
 	*/
-			
-	for (int c = 0 ; c < 2 ; c++) {
-		
+
+	for (int c = 0; c < 2; c++) {
+
 		/*
 		** Each production slot in the column
 		*/
-		for (int b=0 ; b < Map.Column[c].BuildableCount ; b++) {
+		for (int b = 0; b < Map.Column[c].BuildableCount; b++) {
 			if (Map.Column[c].Buildables[b].BuildableID == buildable_id) {
 				if (Map.Column[c].Buildables[b].BuildableType == buildable_type) {
-					
-					
+
+
 					int genfactory = -1;
 					switch (buildable_type) {
-						case RTTI_INFANTRYTYPE:
-							genfactory = PlayerPtr->InfantryFactory;
-							break;
+					case RTTI_INFANTRYTYPE:
+						genfactory = PlayerPtr->InfantryFactory;
+						break;
 
-						case RTTI_UNITTYPE:
-							genfactory = PlayerPtr->UnitFactory;
-							break;
+					case RTTI_UNITTYPE:
+						genfactory = PlayerPtr->UnitFactory;
+						break;
 
-						case RTTI_AIRCRAFTTYPE:
-							genfactory = PlayerPtr->AircraftFactory;
-							break;
+					case RTTI_AIRCRAFTTYPE:
+						genfactory = PlayerPtr->AircraftFactory;
+						break;
 
-						case RTTI_BUILDINGTYPE:
-							genfactory = PlayerPtr->BuildingFactory;
-							break;
+					case RTTI_BUILDINGTYPE:
+						genfactory = PlayerPtr->BuildingFactory;
+						break;
 
-						default:
-							genfactory = -1;
-							break;
+					default:
+						genfactory = -1;
+						break;
 					}
 
 					int fnumber = Map.Column[c].Buildables[b].Factory;
 					int spc = 0;
-					ObjectTypeClass const * choice = NULL;
+					ObjectTypeClass const* choice = NULL;
 
 					if (buildable_type != RTTI_SPECIAL) {
-						choice  = Fetch_Techno_Type((RTTIType)buildable_type, buildable_id);
-					} else {
+						choice = Fetch_Techno_Type((RTTIType)buildable_type, buildable_id);
+					}
+					else {
 						spc = buildable_id;
 					}
 
-					FactoryClass * factory = NULL;
+					FactoryClass* factory = NULL;
 					if (fnumber != -1) {
 						factory = Factories.Raw_Ptr(fnumber);
 					}
@@ -4668,14 +4704,14 @@ bool DLLExportClass::Construction_Action(SidebarRequestEnum construction_action,
 									*/
 									if (factory->Has_Completed()) {
 
-										TechnoClass * pending = factory->Get_Object();
+										TechnoClass* pending = factory->Get_Object();
 										if (!pending && factory->Get_Special_Item()) {
 											// TO_DO
 											//Map.IsTargettingMode = true;
 										}
 										else {
 
-											BuildingClass * builder = pending->Who_Can_Build_Me(false, false);
+											BuildingClass* builder = pending->Who_Can_Build_Me(false, false);
 											if (!builder) {
 												OutList.Add(EventClass(EventClass::ABANDON, (RTTIType)buildable_type, buildable_id));
 												On_Speech(PlayerPtr, VOX_NO_FACTORY); //Speak(VOX_NO_FACTORY); // "Cannot Comply"
@@ -4690,7 +4726,7 @@ bool DLLExportClass::Construction_Action(SidebarRequestEnum construction_action,
 												*/
 												if (pending->What_Am_I() == RTTI_BUILDING) {
 													if (construction_action == SIDEBAR_REQUEST_START_PLACEMENT) {
-														PlayerPtr->Manual_Place(builder, (BuildingClass *)pending);
+														PlayerPtr->Manual_Place(builder, (BuildingClass*)pending);
 													}
 												}
 												else {
@@ -4722,27 +4758,28 @@ bool DLLExportClass::Construction_Action(SidebarRequestEnum construction_action,
 								break;
 							}
 
-						} else {
+						}
+						else {
 
 							switch (construction_action)
 							{
-								case SIDEBAR_REQUEST_CANCEL_CONSTRUCTION:
-								case SIDEBAR_REQUEST_HOLD_CONSTRUCTION:
-									break;
+							case SIDEBAR_REQUEST_CANCEL_CONSTRUCTION:
+							case SIDEBAR_REQUEST_HOLD_CONSTRUCTION:
+								break;
 
-								default:
-									/*
-									**	If this side strip is already busy with production, then ignore the
-									**	input and announce this fact.
-									*/
-									On_Speech(PlayerPtr, VOX_BUILDING); // Speak(VOX_BUILDING);
-									OutList.Add(EventClass(EventClass::PRODUCE, (RTTIType)buildable_type, buildable_id));
+							default:
+								/*
+								**	If this side strip is already busy with production, then ignore the
+								**	input and announce this fact.
+								*/
+								On_Speech(PlayerPtr, VOX_BUILDING); // Speak(VOX_BUILDING);
+								OutList.Add(EventClass(EventClass::PRODUCE, (RTTIType)buildable_type, buildable_id));
 
-									/*
-									** Execute immediately so we get the sidebar feedback
-									*/
-									Queue_AI();
-									return true;
+								/*
+								** Execute immediately so we get the sidebar feedback
+								*/
+								Queue_AI();
+								return true;
 							}
 						}
 					}
@@ -4751,7 +4788,7 @@ bool DLLExportClass::Construction_Action(SidebarRequestEnum construction_action,
 		}
 	}
 	return false;
-}			  
+}
 
 
 
@@ -4759,70 +4796,71 @@ bool DLLExportClass::Construction_Action(SidebarRequestEnum construction_action,
 /**************************************************************************************************
 * DLLExportClass::MP_Construction_Action -- Reproduce actions on the sidebar
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 3/26/2019 1:02PM - ST
 **************************************************************************************************/
 bool DLLExportClass::MP_Construction_Action(SidebarRequestEnum construction_action, uint64 player_id, int buildable_type, int buildable_id)
-{		
-		
+{
+
 	/*
-	** 
+	**
 	** Based on SidebarClass::StripClass::SelectClass::Action
-	** 
+	**
 	** Most of this code is validating that the game is in the correct state to be able to act on a sidebar icon
-	** 
+	**
 	*/
-			
-	SidebarGlyphxClass *context_sidebar = DLLExportClass::Get_Current_Context_Sidebar();
-	
-	for (int c = 0 ; c < 2 ; c++) {
-		
+
+	SidebarGlyphxClass* context_sidebar = DLLExportClass::Get_Current_Context_Sidebar();
+
+	for (int c = 0; c < 2; c++) {
+
 		/*
 		** Each production slot in the column
 		*/
-		for (int b=0 ; b < context_sidebar->Column[c].BuildableCount ; b++) {
+		for (int b = 0; b < context_sidebar->Column[c].BuildableCount; b++) {
 			if (context_sidebar->Column[c].Buildables[b].BuildableID == buildable_id) {
 				if (context_sidebar->Column[c].Buildables[b].BuildableType == buildable_type) {
-					
+
 					int genfactory = -1;
 					switch (buildable_type) {
-						case RTTI_INFANTRYTYPE:
-							genfactory = PlayerPtr->InfantryFactory;
-							break;
+					case RTTI_INFANTRYTYPE:
+						genfactory = PlayerPtr->InfantryFactory;
+						break;
 
-						case RTTI_UNITTYPE:
-							genfactory = PlayerPtr->UnitFactory;
-							break;
+					case RTTI_UNITTYPE:
+						genfactory = PlayerPtr->UnitFactory;
+						break;
 
-						case RTTI_AIRCRAFTTYPE:
-							genfactory = PlayerPtr->AircraftFactory;
-							break;
+					case RTTI_AIRCRAFTTYPE:
+						genfactory = PlayerPtr->AircraftFactory;
+						break;
 
-						case RTTI_BUILDINGTYPE:
-							genfactory = PlayerPtr->BuildingFactory;
-							break;
+					case RTTI_BUILDINGTYPE:
+						genfactory = PlayerPtr->BuildingFactory;
+						break;
 
-						default:
-							genfactory = -1;
-							break;
+					default:
+						genfactory = -1;
+						break;
 					}
 
 					int fnumber = context_sidebar->Column[c].Buildables[b].Factory;
 					int spc = 0;
-					ObjectTypeClass const * choice = NULL;
+					ObjectTypeClass const* choice = NULL;
 
 					if (buildable_type != RTTI_SPECIAL) {
-						choice  = Fetch_Techno_Type((RTTIType)buildable_type, buildable_id);
-					} else {
+						choice = Fetch_Techno_Type((RTTIType)buildable_type, buildable_id);
+					}
+					else {
 						spc = buildable_id;
 					}
 
-					FactoryClass * factory = NULL;
+					FactoryClass* factory = NULL;
 					if (fnumber != -1) {
 						factory = Factories.Raw_Ptr(fnumber);
 					}
@@ -4870,14 +4908,14 @@ bool DLLExportClass::MP_Construction_Action(SidebarRequestEnum construction_acti
 									*/
 									if (factory->Has_Completed()) {
 
-										TechnoClass * pending = factory->Get_Object();
+										TechnoClass* pending = factory->Get_Object();
 										if (!pending && factory->Get_Special_Item()) {
 											// TO_DO
 											//Map.IsTargettingMode = true;
 										}
 										else {
 
-											BuildingClass * builder = pending->Who_Can_Build_Me(false, false);
+											BuildingClass* builder = pending->Who_Can_Build_Me(false, false);
 											if (!builder) {
 												On_Speech(PlayerPtr, VOX_NO_FACTORY); //Speak(VOX_NO_FACTORY); // "Cannot Comply"
 												OutList.Add(EventClass(EventClass::ABANDON, (RTTIType)buildable_type, buildable_id));
@@ -4893,8 +4931,9 @@ bool DLLExportClass::MP_Construction_Action(SidebarRequestEnum construction_acti
 												if (pending->What_Am_I() == RTTI_BUILDING) {
 													if (construction_action == SIDEBAR_REQUEST_START_PLACEMENT) {
 														if (DLLExportClass::Legacy_Render_Enabled()) {
-															PlayerPtr->Manual_Place(builder, (BuildingClass *)pending);
-														} else {
+															PlayerPtr->Manual_Place(builder, (BuildingClass*)pending);
+														}
+														else {
 															Unselect_All();
 														}
 													}
@@ -4928,26 +4967,27 @@ bool DLLExportClass::MP_Construction_Action(SidebarRequestEnum construction_acti
 								break;
 							}
 
-						} else {
+						}
+						else {
 
 							switch (construction_action)
 							{
-								case SIDEBAR_REQUEST_CANCEL_CONSTRUCTION:
-								case SIDEBAR_REQUEST_HOLD_CONSTRUCTION:
-									break;
+							case SIDEBAR_REQUEST_CANCEL_CONSTRUCTION:
+							case SIDEBAR_REQUEST_HOLD_CONSTRUCTION:
+								break;
 
-								default:
-									/*
-									**
-									*/
-									On_Speech(PlayerPtr, VOX_BUILDING); // Speak(VOX_BUILDING);
-									OutList.Add(EventClass(EventClass::PRODUCE, (RTTIType)buildable_type, buildable_id));
+							default:
+								/*
+								**
+								*/
+								On_Speech(PlayerPtr, VOX_BUILDING); // Speak(VOX_BUILDING);
+								OutList.Add(EventClass(EventClass::PRODUCE, (RTTIType)buildable_type, buildable_id));
 
-									/*
-									** Execute immediately so we get the sidebar feedback
-									*/
-									DLLExportClass::Glyphx_Queue_AI();
-									return true;
+								/*
+								** Execute immediately so we get the sidebar feedback
+								*/
+								DLLExportClass::Glyphx_Queue_AI();
+								return true;
 							}
 						}
 					}
@@ -4956,7 +4996,7 @@ bool DLLExportClass::MP_Construction_Action(SidebarRequestEnum construction_acti
 		}
 	}
 	return false;
-}			  
+}
 
 
 
@@ -4965,9 +5005,9 @@ bool DLLExportClass::MP_Construction_Action(SidebarRequestEnum construction_acti
 /**************************************************************************************************
 * DLLExportClass::Start_Placement -- Start placing a completed structure
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -4982,14 +5022,14 @@ bool DLLExportClass::Start_Placement(uint64 player_id, int buildable_type, int b
 		return false;
 	}
 
-	BuildingClass *building = Get_Pending_Placement_Object(player_id, buildable_type, buildable_id);	
+	BuildingClass* building = Get_Pending_Placement_Object(player_id, buildable_type, buildable_id);
 
 	if (building) {
-		
-		TechnoTypeClass const * tech = Fetch_Techno_Type((RTTIType)buildable_type, buildable_id);
+
+		TechnoTypeClass const* tech = Fetch_Techno_Type((RTTIType)buildable_type, buildable_id);
 
 		if (tech) {
-			BuildingTypeClass *building_type = (BuildingTypeClass*) tech;
+			BuildingTypeClass* building_type = (BuildingTypeClass*)tech;
 			//short const *occupy_list = building_type->Get_Occupy_List(true);
 
 			PlacementType[CurrentLocalPlayerIndex] = building_type;
@@ -5008,9 +5048,9 @@ bool DLLExportClass::Start_Placement(uint64 player_id, int buildable_type, int b
 /**************************************************************************************************
 * DLLExportClass::Cancel_Placement -- Cancel placing a completed structure
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -5034,15 +5074,15 @@ bool DLLExportClass::Cancel_Placement(uint64 player_id, int buildable_type, int 
 
 	return true;
 }
-			
+
 
 
 /**************************************************************************************************
 * DLLExportClass::Place -- Place a completed structure down
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -5056,28 +5096,28 @@ bool DLLExportClass::Place(uint64 player_id, int buildable_type, int buildable_i
 	if (!DLLExportClass::Set_Player_Context(player_id)) {
 		return false;
 	}
-	
+
 	/*
 	** Need to check for proximity again here?
 	*/
 #if (0)
-Map.Passes_Proximity_Check
+	Map.Passes_Proximity_Check
 
-							Map.Set_Cursor_Shape(Map.PendingObject->Occupy_List());
+		Map.Set_Cursor_Shape(Map.PendingObject->Occupy_List());
 
 
-			OutList.Add(EventClass(EventClass::PLACE, PendingObjectPtr->What_Am_I(), cell + ZoneOffset));
+	OutList.Add(EventClass(EventClass::PLACE, PendingObjectPtr->What_Am_I(), cell + ZoneOffset));
 #endif
-	
 
-	BuildingClass *building = Get_Pending_Placement_Object(player_id, buildable_type, buildable_id);	
+
+	BuildingClass* building = Get_Pending_Placement_Object(player_id, buildable_type, buildable_id);
 
 	if (building) {
-		
-		TechnoTypeClass const * tech = Fetch_Techno_Type((RTTIType)buildable_type, buildable_id);
+
+		TechnoTypeClass const* tech = Fetch_Techno_Type((RTTIType)buildable_type, buildable_id);
 
 		if (tech) {
-			BuildingTypeClass *building_type = (BuildingTypeClass*) tech;
+			BuildingTypeClass* building_type = (BuildingTypeClass*)tech;
 			//short const *occupy_list = building_type->Get_Occupy_List(true);
 
 			PlacementType[CurrentLocalPlayerIndex] = building_type;
@@ -5101,45 +5141,147 @@ Map.Passes_Proximity_Check
 				map_cell_height++;
 			}
 
-			CELL cell = (CELL) (map_cell_x + cell_x) + ( (map_cell_y + cell_y) << 6 );
+			CELL cell = (CELL)(map_cell_x + cell_x) + ((map_cell_y + cell_y) << 6);
 
 			/*
 			** Call the place directly instead of queueing it, so we can evaluate the return code.
 			*/
 			if (PlayerPtr->Place_Object(building->What_Am_I(), cell + Map.ZoneOffset)) {
 				PlacementType[CurrentLocalPlayerIndex] = NULL;
-			}	
+			}
 		}
 	}
 	return true;
 
-}			  
+}
 
 
 
 
-BuildingClass *DLLExportClass::Get_Pending_Placement_Object(uint64 player_id, int buildable_type, int buildable_id)
-{		
+BuildingClass* DLLExportClass::Get_Pending_Placement_Object(uint64 player_id, int buildable_type, int buildable_id)
+{
 	/*
-	** 
+	**
 	** Based on SidebarClass::StripClass::SelectClass::Action
-	** 
-	** 
+	**
+	**
 	*/
 	if (GameToPlay == GAME_NORMAL) {
-	
-		for (int c = 0 ; c < 2 ; c++) {
-		
+
+		for (int c = 0; c < 2; c++) {
+
 			/*
 			** Each production slot in the column
 			*/
-			for (int b=0 ; b < Map.Column[c].BuildableCount ; b++) {
+			for (int b = 0; b < Map.Column[c].BuildableCount; b++) {
 				if (Map.Column[c].Buildables[b].BuildableID == buildable_id) {
 					if (Map.Column[c].Buildables[b].BuildableType == buildable_type) {
-					
-					
+
+
 						int genfactory = -1;
 						switch (buildable_type) {
+						case RTTI_INFANTRYTYPE:
+							genfactory = PlayerPtr->InfantryFactory;
+							break;
+
+						case RTTI_UNITTYPE:
+							genfactory = PlayerPtr->UnitFactory;
+							break;
+
+						case RTTI_AIRCRAFTTYPE:
+							genfactory = PlayerPtr->AircraftFactory;
+							break;
+
+						case RTTI_BUILDINGTYPE:
+							genfactory = PlayerPtr->BuildingFactory;
+							break;
+
+						default:
+							genfactory = -1;
+							break;
+						}
+
+						int fnumber = Map.Column[c].Buildables[b].Factory;
+						int spc = 0;
+						ObjectTypeClass const* choice = NULL;
+
+						if (buildable_type != RTTI_SPECIAL) {
+							choice = Fetch_Techno_Type((RTTIType)buildable_type, buildable_id);
+						}
+						else {
+							spc = buildable_id;
+						}
+
+						FactoryClass* factory = NULL;
+						if (fnumber != -1) {
+							factory = Factories.Raw_Ptr(fnumber);
+						}
+
+						if (spc == 0 && choice) {
+							if (fnumber == -1 && genfactory != -1) {
+								return(NULL);
+							}
+
+							if (factory) {
+
+								/*
+								**	If production has completed, then attempt to have the object exit
+								**	the factory or go into placement mode.
+								*/
+								if (factory->Has_Completed()) {
+
+									TechnoClass* pending = factory->Get_Object();
+									if (!pending && factory->Get_Special_Item()) {
+										//Map.IsTargettingMode = true;
+									}
+									else {
+										BuildingClass* builder = pending->Who_Can_Build_Me(false, false);
+										if (!builder) {
+											OutList.Add(EventClass(EventClass::ABANDON, buildable_type, buildable_id));
+											On_Speech(PlayerPtr, VOX_NO_FACTORY); // Speak(VOX_NO_FACTORY);
+										}
+										else {
+
+											/*
+											**	If the completed object is a building, then change the
+											**	game state into building placement mode. This fact is
+											**	not transmitted to any linked computers until the moment
+											**	the building is actually placed down.
+											*/
+											if (pending->What_Am_I() == RTTI_BUILDING) {
+												return (BuildingClass*)pending;
+												//PlayerPtr->Manual_Place(builder, (BuildingClass *)pending);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+	}
+	else {
+
+		if (GameToPlay == GAME_GLYPHX_MULTIPLAYER) {
+
+
+			SidebarGlyphxClass* context_sidebar = DLLExportClass::Get_Current_Context_Sidebar();
+
+			for (int c = 0; c < 2; c++) {
+
+				/*
+				** Each production slot in the column
+				*/
+				for (int b = 0; b < context_sidebar->Column[c].BuildableCount; b++) {
+					if (context_sidebar->Column[c].Buildables[b].BuildableID == buildable_id) {
+						if (context_sidebar->Column[c].Buildables[b].BuildableType == buildable_type) {
+
+
+							int genfactory = -1;
+							switch (buildable_type) {
 							case RTTI_INFANTRYTYPE:
 								genfactory = PlayerPtr->InfantryFactory;
 								break;
@@ -5159,117 +5301,20 @@ BuildingClass *DLLExportClass::Get_Pending_Placement_Object(uint64 player_id, in
 							default:
 								genfactory = -1;
 								break;
-						}
-
-						int fnumber = Map.Column[c].Buildables[b].Factory;
-						int spc = 0;
-						ObjectTypeClass const * choice = NULL;
-
-						if (buildable_type != RTTI_SPECIAL) {
-							choice  = Fetch_Techno_Type((RTTIType)buildable_type, buildable_id);
-						} else {
-							spc = buildable_id;
-						}
-
-						FactoryClass * factory = NULL;
-						if (fnumber != -1) {
-							factory = Factories.Raw_Ptr(fnumber);
-						}
-
-						if (spc == 0 && choice) {
-							if (fnumber == -1 && genfactory != -1) {
-								return(NULL);
-							}
-
-							if (factory) {
-
-								/*
-								**	If production has completed, then attempt to have the object exit
-								**	the factory or go into placement mode.
-								*/
-								if (factory->Has_Completed()) {
-								
-									TechnoClass * pending = factory->Get_Object();
-									if (!pending && factory->Get_Special_Item()) {
-										//Map.IsTargettingMode = true;
-									} else {
-										BuildingClass * builder = pending->Who_Can_Build_Me(false, false);
-										if (!builder) {
-											OutList.Add(EventClass(EventClass::ABANDON, buildable_type, buildable_id));
-											On_Speech(PlayerPtr, VOX_NO_FACTORY); // Speak(VOX_NO_FACTORY);
-										} else {
-
-											/*
-											**	If the completed object is a building, then change the
-											**	game state into building placement mode. This fact is
-											**	not transmitted to any linked computers until the moment
-											**	the building is actually placed down.
-											*/
-											if (pending->What_Am_I() == RTTI_BUILDING) {
-												return (BuildingClass*)pending;
-										 		//PlayerPtr->Manual_Place(builder, (BuildingClass *)pending);
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-	} else {
-		
-		if (GameToPlay == GAME_GLYPHX_MULTIPLAYER) {
-			
-			
-			SidebarGlyphxClass *context_sidebar = DLLExportClass::Get_Current_Context_Sidebar();
-		
-			for (int c = 0 ; c < 2 ; c++) {
-		
-				/*
-				** Each production slot in the column
-				*/
-				for (int b=0 ; b < context_sidebar->Column[c].BuildableCount ; b++) {
-					if (context_sidebar->Column[c].Buildables[b].BuildableID == buildable_id) {
-						if (context_sidebar->Column[c].Buildables[b].BuildableType == buildable_type) {
-					
-					
-							int genfactory = -1;
-							switch (buildable_type) {
-								case RTTI_INFANTRYTYPE:
-									genfactory = PlayerPtr->InfantryFactory;
-									break;
-
-								case RTTI_UNITTYPE:
-									genfactory = PlayerPtr->UnitFactory;
-									break;
-
-								case RTTI_AIRCRAFTTYPE:
-									genfactory = PlayerPtr->AircraftFactory;
-									break;
-
-								case RTTI_BUILDINGTYPE:
-									genfactory = PlayerPtr->BuildingFactory;
-									break;
-
-								default:
-									genfactory = -1;
-									break;
 							}
 
 							int fnumber = context_sidebar->Column[c].Buildables[b].Factory;
 							int spc = 0;
-							ObjectTypeClass const * choice = NULL;
+							ObjectTypeClass const* choice = NULL;
 
 							if (buildable_type != RTTI_SPECIAL) {
-								choice  = Fetch_Techno_Type((RTTIType)buildable_type, buildable_id);
-							} else {
+								choice = Fetch_Techno_Type((RTTIType)buildable_type, buildable_id);
+							}
+							else {
 								spc = buildable_id;
 							}
 
-							FactoryClass * factory = NULL;
+							FactoryClass* factory = NULL;
 							if (fnumber != -1) {
 								factory = Factories.Raw_Ptr(fnumber);
 							}
@@ -5286,16 +5331,18 @@ BuildingClass *DLLExportClass::Get_Pending_Placement_Object(uint64 player_id, in
 									**	the factory or go into placement mode.
 									*/
 									if (factory->Has_Completed()) {
-								
-										TechnoClass * pending = factory->Get_Object();
+
+										TechnoClass* pending = factory->Get_Object();
 										if (!pending && factory->Get_Special_Item()) {
 											//Map.IsTargettingMode = true;
-										} else {
-											BuildingClass * builder = pending->Who_Can_Build_Me(false, false);
+										}
+										else {
+											BuildingClass* builder = pending->Who_Can_Build_Me(false, false);
 											if (!builder) {
 												OutList.Add(EventClass(EventClass::ABANDON, buildable_type, buildable_id));
 												On_Speech(PlayerPtr, VOX_NO_FACTORY); // Speak(VOX_NO_FACTORY);
-											} else {
+											}
+											else {
 
 												/*
 												**	If the completed object is a building, then change the
@@ -5305,7 +5352,7 @@ BuildingClass *DLLExportClass::Get_Pending_Placement_Object(uint64 player_id, in
 												*/
 												if (pending->What_Am_I() == RTTI_BUILDING) {
 													return (BuildingClass*)pending;
-											 		//PlayerPtr->Manual_Place(builder, (BuildingClass *)pending);
+													//PlayerPtr->Manual_Place(builder, (BuildingClass *)pending);
 												}
 											}
 										}
@@ -5317,14 +5364,14 @@ BuildingClass *DLLExportClass::Get_Pending_Placement_Object(uint64 player_id, in
 				}
 			}
 		}
-	}	
+	}
 	return NULL;
-}		
+}
 
 /**************************************************************************************************
-* DLLExportClass::Place_Super_Weapon 
+* DLLExportClass::Place_Super_Weapon
 *
-* History: 
+* History:
 **************************************************************************************************/
 bool DLLExportClass::Place_Super_Weapon(uint64 player_id, int buildable_type, int buildable_id, int x, int y)
 {
@@ -5384,31 +5431,31 @@ bool DLLExportClass::Toggle_Control_Group_Selection(unsigned char control_group_
 /**************************************************************************************************
 * DLLExportClass::Get_Shroud_State -- Get a snapshot of the shroud for the given player
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 4/12/2019 3:44PM - ST
 **************************************************************************************************/
-bool DLLExportClass::Get_Shroud_State(uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size)
+bool DLLExportClass::Get_Shroud_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size)
 {
 	if (!DLLExportClass::Set_Player_Context(player_id)) {
 		return false;
 	}
-	
-	CNCShroudStruct *shroud = (CNCShroudStruct*) buffer_in;
-	
+
+	CNCShroudStruct* shroud = (CNCShroudStruct*)buffer_in;
+
 	unsigned int memory_needed = sizeof(*shroud) + 256;		// Base amount needed. Will need more depending on how many entries there are
 
 	int entry_index = 0;
 
 	/*
-	** 
+	**
 	**  Based loosely on DisplayClass::Redraw_Icons
-	** 
-	** 
+	**
+	**
 	*/
 	int map_cell_x = Map.MapCellX;
 	int map_cell_y = Map.MapCellY;
@@ -5433,9 +5480,9 @@ bool DLLExportClass::Get_Shroud_State(uint64 player_id, unsigned char *buffer_in
 		map_cell_height++;
 	}
 
-	for (int y = 0 ; y < map_cell_height ; y++) {
-		for (int x = 0 ; x < map_cell_width ; x++) {
-			CELL cell = XY_Cell(map_cell_x+x, map_cell_y+y);
+	for (int y = 0; y < map_cell_height; y++) {
+		for (int x = 0; x < map_cell_width; x++) {
+			CELL cell = XY_Cell(map_cell_x + x, map_cell_y + y);
 			COORDINATE coord = Cell_Coord(cell) & 0xFF00FF00L;
 
 			memory_needed += sizeof(CNCShroudEntryStruct);
@@ -5447,10 +5494,10 @@ bool DLLExportClass::Get_Shroud_State(uint64 player_id, unsigned char *buffer_in
 			int ypixel;
 
 			Map.Coord_To_Pixel(coord, xpixel, ypixel);
-			
-			CellClass * cellptr = &Map[Coord_Cell(coord)];
 
-			CNCShroudEntryStruct &shroud_entry = shroud->Entries[entry_index];
+			CellClass* cellptr = &Map[Coord_Cell(coord)];
+
+			CNCShroudEntryStruct& shroud_entry = shroud->Entries[entry_index];
 
 			shroud_entry.IsVisible = cellptr->Is_Visible(PlayerPtr);
 			shroud_entry.IsMapped = cellptr->Is_Mapped(PlayerPtr);
@@ -5459,7 +5506,7 @@ bool DLLExportClass::Get_Shroud_State(uint64 player_id, unsigned char *buffer_in
 
 			if (!shroud_entry.IsMapped) {
 				if (shroud_entry.IsVisible) {
-					shroud_entry.ShadowIndex = (char) Map.Cell_Shadow(cell, PlayerPtr);
+					shroud_entry.ShadowIndex = (char)Map.Cell_Shadow(cell, PlayerPtr);
 				}
 			}
 
@@ -5470,7 +5517,7 @@ bool DLLExportClass::Get_Shroud_State(uint64 player_id, unsigned char *buffer_in
 	shroud->Count = entry_index;
 
 	return true;
-}	
+}
 
 
 
@@ -5486,7 +5533,7 @@ bool DLLExportClass::Get_Shroud_State(uint64 player_id, unsigned char *buffer_in
 *
 * History: 10/25/2019 - SKY
 **************************************************************************************************/
-bool DLLExportClass::Get_Occupier_State(uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size)
+bool DLLExportClass::Get_Occupier_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size)
 {
 	UNREFERENCED_PARAMETER(player_id);
 
@@ -5522,7 +5569,7 @@ bool DLLExportClass::Get_Occupier_State(uint64 player_id, unsigned char *buffer_
 	for (int y = 0; y < map_cell_height; y++) {
 		for (int x = 0; x < map_cell_width; x++, occupiers->Count++) {
 			CELL cell = XY_Cell(map_cell_x + x, map_cell_y + y);
-			CellClass * cellptr = &Map[cell];
+			CellClass* cellptr = &Map[cell];
 
 			int occupier_count = 0;
 			ObjectClass* const cell_occupier = cellptr->Cell_Occupier();
@@ -5563,32 +5610,46 @@ bool DLLExportClass::Get_Occupier_State(uint64 player_id, unsigned char *buffer_
 /**************************************************************************************************
 * DLLExportClass::Get_Player_Info_State -- Get the multiplayer info for this player
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 4/22/2019 10:33AM - ST
 **************************************************************************************************/
-bool DLLExportClass::Get_Player_Info_State(uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size)
+bool DLLExportClass::Get_Player_Info_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size)
 {
 	if (!DLLExportClass::Set_Player_Context(player_id)) {
 		return false;
 	}
-	
-	CNCPlayerInfoStruct *player_info = (CNCPlayerInfoStruct*) buffer_in;
-	
+
+	CNCPlayerInfoStruct* player_info = (CNCPlayerInfoStruct*)buffer_in;
+
 	unsigned int memory_needed = sizeof(*player_info) + 32;  // A little extra for no reason
 
 	if (memory_needed >= buffer_size) {
 		return false;
 	}
-	
+
 	player_info->GlyphxPlayerID = 0;
 
 	if (PlayerPtr == NULL) {
-		return false;;
+		return false;
+	}
+
+	if (PlayerPtr->IsHuman) {
+		PlayerPtr->Credits = 10000;
+		PlayerPtr->Power = 10000;
+
+		// heal all
+		int index;
+		for (index = 0; index < Units.Count(); index++) {
+			UnitClass* unit = Units.Ptr(index);
+			if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
+				unit->Strength = unit->Class_Of().MaxStrength;
+			}
+		}
 	}
 
 	strncpy(&player_info->Name[0], MPlayerNames[CurrentLocalPlayerIndex], MPLAYER_NAME_MAX);
@@ -5659,15 +5720,15 @@ bool DLLExportClass::Get_Player_Info_State(uint64 player_id, unsigned char *buff
 /**************************************************************************************************
 * DLLExportClass::Get_Dynamic_Map_State -- Get a snapshot of the smudges and overlays on the terrain
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 2/8/2019 10:45AM - ST
 **************************************************************************************************/
-bool DLLExportClass::Get_Dynamic_Map_State(uint64 player_id, unsigned char *buffer_in, unsigned int buffer_size)
+bool DLLExportClass::Get_Dynamic_Map_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size)
 {
 	/*
 	** Get the player for this...
@@ -5676,17 +5737,17 @@ bool DLLExportClass::Get_Dynamic_Map_State(uint64 player_id, unsigned char *buff
 
 	static int _call_count = 0;
 
-	CNCDynamicMapStruct *dynamic_map = (CNCDynamicMapStruct*) buffer_in;
-	
+	CNCDynamicMapStruct* dynamic_map = (CNCDynamicMapStruct*)buffer_in;
+
 	unsigned int memory_needed = sizeof(*dynamic_map) + 256;		// Base amount needed. Will need more depending on how many entries there are
 
 	int entry_index = 0;
 
 	/*
-	** 
+	**
 	**  Based loosely on DisplayClass::Redraw_Icons
-	** 
-	** 
+	**
+	**
 	*/
 	int map_cell_x = Map.MapCellX;
 	int map_cell_y = Map.MapCellY;
@@ -5717,14 +5778,14 @@ bool DLLExportClass::Get_Dynamic_Map_State(uint64 player_id, unsigned char *buff
 	//if (_call_count == 20) {
 		//debug_output = true;
 	//}
-				
+
 	// Need to ignore view constraints for dynamic map updates, so the radar map
 	// has the latest tiberium state for cells outside the tactical view
 	DLLExportClass::Adjust_Internal_View(true);
 
-	for (int y = 0 ; y < map_cell_height ; y++) {
-		for (int x = 0 ; x < map_cell_width ; x++) {
-			CELL cell = XY_Cell(map_cell_x+x, map_cell_y+y);
+	for (int y = 0; y < map_cell_height; y++) {
+		for (int x = 0; x < map_cell_width; x++) {
+			CELL cell = XY_Cell(map_cell_x + x, map_cell_y + y);
 			COORDINATE coord = Cell_Coord(cell) & 0xFF00FF00L;
 
 			memory_needed += sizeof(CNCDynamicMapEntryStruct) * 2;
@@ -5736,28 +5797,28 @@ bool DLLExportClass::Get_Dynamic_Map_State(uint64 player_id, unsigned char *buff
 			**	Only cells flagged to be redraw are examined.
 			*/
 			//if (In_View(cell) && Is_Cell_Flagged(cell)) {
-				int xpixel;
-				int ypixel;
+			int xpixel;
+			int ypixel;
 
-				if (Map.Coord_To_Pixel(coord, xpixel, ypixel)) {
-					CellClass * cellptr = &Map[Coord_Cell(coord)];
+			if (Map.Coord_To_Pixel(coord, xpixel, ypixel)) {
+				CellClass* cellptr = &Map[Coord_Cell(coord)];
 
-					/*
-					**	If there is a portion of the underlying icon that could be visible,
-					**	then draw it.  Also draw the cell if the shroud is off.
-					*/
-					if (GameToPlay == GAME_GLYPHX_MULTIPLAYER || cellptr->IsVisible || Debug_Unshroud) {
-						Cell_Class_Draw_It(dynamic_map, entry_index, cellptr, xpixel, ypixel, debug_output);
-					}
-
-					/*
-					**	If any cell is not fully mapped, then flag it so that the shadow drawing
-					**	process will occur.  Only draw the shadow if Debug_Unshroud is false.
-					*/
-					//if (!cellptr->IsMapped && !Debug_Unshroud) {
-					//	IsShadowPresent = true;
-					//}
+				/*
+				**	If there is a portion of the underlying icon that could be visible,
+				**	then draw it.  Also draw the cell if the shroud is off.
+				*/
+				if (GameToPlay == GAME_GLYPHX_MULTIPLAYER || cellptr->IsVisible || Debug_Unshroud) {
+					Cell_Class_Draw_It(dynamic_map, entry_index, cellptr, xpixel, ypixel, debug_output);
 				}
+
+				/*
+				**	If any cell is not fully mapped, then flag it so that the shadow drawing
+				**	process will occur.  Only draw the shadow if Debug_Unshroud is false.
+				*/
+				//if (!cellptr->IsMapped && !Debug_Unshroud) {
+				//	IsShadowPresent = true;
+				//}
+			}
 			//}
 		}
 	}
@@ -5780,21 +5841,21 @@ bool DLLExportClass::Get_Dynamic_Map_State(uint64 player_id, unsigned char *buff
 /**************************************************************************************************
 * DLLExportClass::Cell_Class_Draw_It -- Go through the motions of drawing a cell to get the smudge and overlay info
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 2/8/2019 11:09AM - ST
 **************************************************************************************************/
-void DLLExportClass::Cell_Class_Draw_It(CNCDynamicMapStruct *dynamic_map, int &entry_index, CellClass *cell_ptr, int xpixel, int ypixel, bool debug_output)
+void DLLExportClass::Cell_Class_Draw_It(CNCDynamicMapStruct* dynamic_map, int& entry_index, CellClass* cell_ptr, int xpixel, int ypixel, bool debug_output)
 {
 	/*
-	** 
+	**
 	**  Based on CellClass::Draw_It and SmudgeTypeClass::Draw_It
-	** 
-	** 
+	**
+	**
 	*/
 
 	CELL	cell = cell_ptr->Cell_Number();
@@ -5804,8 +5865,8 @@ void DLLExportClass::Cell_Class_Draw_It(CNCDynamicMapStruct *dynamic_map, int &e
 	*/
 	if (cell_ptr->Smudge != SMUDGE_NONE) {
 		//SmudgeTypeClass::As_Reference(Smudge).Draw_It(x, y, SmudgeData);
-		
-		const SmudgeTypeClass &smudge_type = SmudgeTypeClass::As_Reference(cell_ptr->Smudge);
+
+		const SmudgeTypeClass& smudge_type = SmudgeTypeClass::As_Reference(cell_ptr->Smudge);
 
 		if (smudge_type.Get_Image_Data() != NULL) {
 
@@ -5814,12 +5875,12 @@ void DLLExportClass::Cell_Class_Draw_It(CNCDynamicMapStruct *dynamic_map, int &e
 				Debug_Write_Shape_Type(&smudge_type, 0);
 				IsTheaterShape = false;
 			}
-			
-			CNCDynamicMapEntryStruct &smudge_entry = dynamic_map->Entries[entry_index++];
+
+			CNCDynamicMapEntryStruct& smudge_entry = dynamic_map->Entries[entry_index++];
 
 			strncpy(smudge_entry.AssetName, smudge_type.IniName, CNC_OBJECT_ASSET_NAME_LENGTH);
 			smudge_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
-			smudge_entry.Type = (short) cell_ptr->Smudge;
+			smudge_entry.Type = (short)cell_ptr->Smudge;
 			smudge_entry.Owner = (char)cell_ptr->Owner;
 			smudge_entry.DrawFlags = SHAPE_WIN_REL;			// Looks like smudges are drawn top left
 			smudge_entry.PositionX = xpixel;
@@ -5846,12 +5907,12 @@ void DLLExportClass::Cell_Class_Draw_It(CNCDynamicMapStruct *dynamic_map, int &e
 		//IsTheaterShape = (bool)otype.IsTheater;
 		//CC_Draw_Shape(otype.Get_Image_Data(), OverlayData, (x+(CELL_PIXEL_W>>1)), (y+(CELL_PIXEL_H>>1)), WINDOW_TACTICAL, SHAPE_CENTER|SHAPE_WIN_REL|SHAPE_GHOST, NULL, Map.UnitShadow);
 		//IsTheaterShape = false;
-		
-		const OverlayTypeClass &overlay_type = OverlayTypeClass::As_Reference(cell_ptr->Overlay);
+
+		const OverlayTypeClass& overlay_type = OverlayTypeClass::As_Reference(cell_ptr->Overlay);
 
 		if (overlay_type.Get_Image_Data() != NULL) {
-			
-			CNCDynamicMapEntryStruct &overlay_entry = dynamic_map->Entries[entry_index++];
+
+			CNCDynamicMapEntryStruct& overlay_entry = dynamic_map->Entries[entry_index++];
 
 
 			if (debug_output) {
@@ -5863,10 +5924,10 @@ void DLLExportClass::Cell_Class_Draw_It(CNCDynamicMapStruct *dynamic_map, int &e
 			strncpy(overlay_entry.AssetName, overlay_type.IniName, CNC_OBJECT_ASSET_NAME_LENGTH);
 			overlay_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
 			overlay_entry.Type = (short)cell_ptr->Overlay;
-			overlay_entry.Owner = (char) cell_ptr->Owner;
-			overlay_entry.DrawFlags = SHAPE_CENTER|SHAPE_WIN_REL|SHAPE_GHOST;		// Looks like overlays are drawn centered and translucent
-			overlay_entry.PositionX = xpixel + (CELL_PIXEL_W>>1);
-			overlay_entry.PositionY = ypixel + (CELL_PIXEL_H>>1);
+			overlay_entry.Owner = (char)cell_ptr->Owner;
+			overlay_entry.DrawFlags = SHAPE_CENTER | SHAPE_WIN_REL | SHAPE_GHOST;		// Looks like overlays are drawn centered and translucent
+			overlay_entry.PositionX = xpixel + (CELL_PIXEL_W >> 1);
+			overlay_entry.PositionY = ypixel + (CELL_PIXEL_H >> 1);
 			overlay_entry.Width = Get_Build_Frame_Width(overlay_type.Get_Image_Data());
 			overlay_entry.Height = Get_Build_Frame_Height(overlay_type.Get_Image_Data());
 			overlay_entry.CellX = Cell_X(cell);
@@ -5887,13 +5948,13 @@ void DLLExportClass::Cell_Class_Draw_It(CNCDynamicMapStruct *dynamic_map, int &e
 		const void* image_data = MixFileClass::Retrieve("FLAGFLY.SHP");
 		if (image_data != NULL) {
 
-			CNCDynamicMapEntryStruct &flag_entry = dynamic_map->Entries[entry_index++];
+			CNCDynamicMapEntryStruct& flag_entry = dynamic_map->Entries[entry_index++];
 
 			strncpy(flag_entry.AssetName, "FLAGFLY", CNC_OBJECT_ASSET_NAME_LENGTH);
 			flag_entry.AssetName[CNC_OBJECT_ASSET_NAME_LENGTH - 1] = 0;
 			flag_entry.Type = -1;
 			flag_entry.Owner = cell_ptr->Owner;
-			flag_entry.DrawFlags = SHAPE_CENTER|SHAPE_GHOST|SHAPE_FADING;
+			flag_entry.DrawFlags = SHAPE_CENTER | SHAPE_GHOST | SHAPE_FADING;
 			flag_entry.PositionX = xpixel + (ICON_PIXEL_W / 2);
 			flag_entry.PositionY = ypixel + (ICON_PIXEL_H / 2);
 			flag_entry.Width = Get_Build_Frame_Width(image_data);
@@ -5910,8 +5971,8 @@ void DLLExportClass::Cell_Class_Draw_It(CNCDynamicMapStruct *dynamic_map, int &e
 		}
 
 	}
-		  
-}			  
+
+}
 
 
 
@@ -5919,9 +5980,9 @@ void DLLExportClass::Cell_Class_Draw_It(CNCDynamicMapStruct *dynamic_map, int &e
 /**************************************************************************************************
 * DLLExportClass::Glyphx_Queue_AI -- Special queue processing for Glyphx multiplayer mode
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -5929,7 +5990,7 @@ void DLLExportClass::Cell_Class_Draw_It(CNCDynamicMapStruct *dynamic_map, int &e
 **************************************************************************************************/
 void DLLExportClass::Glyphx_Queue_AI(void)
 {
-	
+
 	//------------------------------------------------------------------------
 	//	Move events from the OutList (events generated by this player) into the
 	//	DoList (the list of events to execute).
@@ -5944,21 +6005,21 @@ void DLLExportClass::Glyphx_Queue_AI(void)
 
 	/*
 	** Based on Execute_DoList in queue.cpp
-	** 
+	**
 	** The events have the ID of the player encoded in them, so no special per-player processing should be needed.
 	** When the event is created, the 'local player' is assumed to be the originator of the event, so PlayerPtr will need
 	** to be swapped out to represent the real originating player prior to any events being created as a result of GlyphX input
-	** 
+	**
 	** ST - 3/12/2019 10:51AM
 	*/
 
 	for (int i = 0; i < MPlayerCount; i++) {
 
 		HousesType house;
-		HouseClass *housep;
+		HouseClass* housep;
 
-		house = MPlayerHouses [i];
-		housep= HouseClass::As_Pointer (house);
+		house = MPlayerHouses[i];
+		housep = HouseClass::As_Pointer(house);
 
 		//.....................................................................
 		// If for some reason this house doesn't exist, skip it.
@@ -5969,11 +6030,11 @@ void DLLExportClass::Glyphx_Queue_AI(void)
 		// they aren't checking the CommandCount for that house, since that
 		// house isn't connected any more.)
 		//.....................................................................
-		if (!housep){
+		if (!housep) {
 			continue;
 		}
 
-		if (!housep->IsHuman){
+		if (!housep->IsHuman) {
 			continue;
 		}
 
@@ -6007,7 +6068,7 @@ void DLLExportClass::Glyphx_Queue_AI(void)
 		//	events lying around in my queue.  They won't have been "executed",
 		//	because his IPX connection was destroyed.)
 		//.....................................................................
-		if ( (DoList.First().IsExecuted) || ((unsigned)Frame > DoList.First().Frame) ) {
+		if ((DoList.First().IsExecuted) || ((unsigned)Frame > DoList.First().Frame)) {
 			DoList.Next();
 		}
 		else {
@@ -6017,16 +6078,16 @@ void DLLExportClass::Glyphx_Queue_AI(void)
 
 }
 
-			  
+
 
 
 
 /**************************************************************************************************
 * DLLExportClass::Reset_Sidebars -- Init the multiplayer sidebars
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -6034,11 +6095,11 @@ void DLLExportClass::Glyphx_Queue_AI(void)
 **************************************************************************************************/
 void DLLExportClass::Reset_Sidebars(void)
 {
-	for (int i=0 ; i<MPlayerCount ; i++) {
-		HouseClass *player_ptr = HouseClass::As_Pointer(MPlayerHouses[i]);	//HouseClass::As_Pointer(HOUSE_MULTI2);
+	for (int i = 0; i < MPlayerCount; i++) {
+		HouseClass* player_ptr = HouseClass::As_Pointer(MPlayerHouses[i]);	//HouseClass::As_Pointer(HOUSE_MULTI2);
 		MultiplayerSidebars[i].Init_Clear(player_ptr);
 	}
-}			  
+}
 
 
 
@@ -6046,9 +6107,9 @@ void DLLExportClass::Reset_Sidebars(void)
 /**************************************************************************************************
 * DLLExportClass::Set_Player_Context -- Switch the C&C local player context
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -6065,18 +6126,18 @@ bool DLLExportClass::Set_Player_Context(uint64 glyphx_player_id, bool force)
 		}
 		return true;
 	}
-		 
+
 	/*
-	** C&C relies a lot on PlayerPtr, which is a pointer to the 'local' player's house. Historically, in a peer-to-peer 
+	** C&C relies a lot on PlayerPtr, which is a pointer to the 'local' player's house. Historically, in a peer-to-peer
 	** multiplayer game, each player's PlayerPtr pointed to their own local player.
-	** 
+	**
 	** Since much of the IO logic depends on PlayerPtr being the player performing the action, we need to set PlayerPtr
 	** correctly depending on which player generated input or needs output
 	*/
 
-	for (int i=0 ; i<MPlayerCount ; i++) {
+	for (int i = 0; i < MPlayerCount; i++) {
 		if (GlyphxPlayerIDs[i] == glyphx_player_id) {
-			
+
 			if (!force && i == CurrentLocalPlayerIndex) {
 				return true;
 			}
@@ -6098,9 +6159,9 @@ bool DLLExportClass::Set_Player_Context(uint64 glyphx_player_id, bool force)
 /**************************************************************************************************
 * DLLExportClass::Reset_Player_Context -- Clear out old player context data
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -6108,7 +6169,7 @@ bool DLLExportClass::Set_Player_Context(uint64 glyphx_player_id, bool force)
 **************************************************************************************************/
 void DLLExportClass::Reset_Player_Context(void)
 {
-	for (int i=0 ; i<MAX_PLAYERS ; i++) {
+	for (int i = 0; i < MAX_PLAYERS; i++) {
 		PlacementType[i] = NULL;
 	}
 	CurrentLocalPlayerIndex = 0;
@@ -6120,15 +6181,15 @@ void DLLExportClass::Reset_Player_Context(void)
 /**************************************************************************************************
 * Logic_Switch_Player_Context -- Called when the internal game locic needs to switch player context
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 4/17/2019 9:45AM - ST
 **************************************************************************************************/
-void Logic_Switch_Player_Context(ObjectClass *object)
+void Logic_Switch_Player_Context(ObjectClass* object)
 {
 	DLLExportClass::Logic_Switch_Player_Context(object);
 }
@@ -6137,47 +6198,47 @@ void Logic_Switch_Player_Context(ObjectClass *object)
 /**************************************************************************************************
 * DLLExportClass::Logic_Switch_Player_Context -- Called when the internal game locic needs to switch player context
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 4/17/2019 9:45AM - ST
 **************************************************************************************************/
-void DLLExportClass::Logic_Switch_Player_Context(ObjectClass *object)
+void DLLExportClass::Logic_Switch_Player_Context(ObjectClass* object)
 {
 	if (object == NULL) {
 		return;
 	}
-	 
+
 	/*
 	** If it's not a techno, it can't be owned.
 	*/
 	if (!object->Is_Techno()) {
 		return;
 	}
-		
-	TechnoClass *tech = static_cast<TechnoClass*>(object);
+
+	TechnoClass* tech = static_cast<TechnoClass*>(object);
 
 	//HousesType house = tech->House->Class->House;
 	DLLExportClass::Logic_Switch_Player_Context(tech->House);
-}	
-		
-		
-		
+}
+
+
+
 /**************************************************************************************************
 * Logic_Switch_Player_Context -- Called when the internal game locic needs to switch player context
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 4/17/2019 9:45AM - ST
 **************************************************************************************************/
-void Logic_Switch_Player_Context(HouseClass *object)
+void Logic_Switch_Player_Context(HouseClass* object)
 {
 	DLLExportClass::Logic_Switch_Player_Context(object);
 }
@@ -6186,15 +6247,15 @@ void Logic_Switch_Player_Context(HouseClass *object)
 /**************************************************************************************************
 * DLLExportClass::Logic_Switch_Player_Context -- Called when the internal game locic needs to switch player context
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 4/17/2019 9:45AM - ST
 **************************************************************************************************/
-void DLLExportClass::Logic_Switch_Player_Context(HouseClass *house)
+void DLLExportClass::Logic_Switch_Player_Context(HouseClass* house)
 {
 	if (GameToPlay == GAME_NORMAL) {
 		CurrentObject.Set_Active_Context(PlayerPtr->Class->House);
@@ -6204,21 +6265,21 @@ void DLLExportClass::Logic_Switch_Player_Context(HouseClass *house)
 	if (house == NULL) {
 		return;
 	}
-	 
+
 	/*
-	** C&C relies a lot on PlayerPtr, which is a pointer to the 'local' player's house. Historically, in a peer-to-peer 
+	** C&C relies a lot on PlayerPtr, which is a pointer to the 'local' player's house. Historically, in a peer-to-peer
 	** multiplayer game, each player's PlayerPtr pointed to their own local player.
-	** 
+	**
 	** Since much of the IO logic depends on PlayerPtr being the player performing the action, we need to set PlayerPtr
 	** correctly depending on which player generated input or needs output
 	*/
 
 	HousesType house_type = house->Class->House;
 
-	for (int i=0 ; i<MPlayerCount ; i++) {
-		
+	for (int i = 0; i < MPlayerCount; i++) {
+
 		if (house_type == MPlayerHouses[i]) {
-		
+
 			if (i == CurrentLocalPlayerIndex) {
 				return;
 			}
@@ -6237,9 +6298,9 @@ void DLLExportClass::Logic_Switch_Player_Context(HouseClass *house)
 /**************************************************************************************************
 * DLLExportClass::Calculate_Start_Positions -- Calculate the initial view positions for the players
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -6252,11 +6313,11 @@ void DLLExportClass::Calculate_Start_Positions(void)
 		return;
 	}
 
-	HouseClass *player_ptr = PlayerPtr;
-	
+	HouseClass* player_ptr = PlayerPtr;
+
 	ScenarioInit++;
 	COORDINATE old_tac = Map.TacticalCoord;
-	for (int i=0 ; i<MPlayerCount ; i++) {
+	for (int i = 0; i < MPlayerCount; i++) {
 		PlayerPtr = HouseClass::As_Pointer(MPlayerHouses[i]);
 		if (PlayerPtr) {
 			long x, y;
@@ -6275,24 +6336,24 @@ void DLLExportClass::Calculate_Start_Positions(void)
 * DLLExportClass::Get_GlyphX_Player_ID -- Get the external GlyphX player ID from the C&C house/player pointer
 *                                         Returns 0 in single player or if player ID isn't found
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 4/22/2019 6:23PM - ST
 **************************************************************************************************/
-__int64 DLLExportClass::Get_GlyphX_Player_ID(const HouseClass *house)
+__int64 DLLExportClass::Get_GlyphX_Player_ID(const HouseClass* house)
 {
 	/*
-	** C&C relies a lot on PlayerPtr, which is a pointer to the 'local' player's house. Historically, in a peer-to-peer 
+	** C&C relies a lot on PlayerPtr, which is a pointer to the 'local' player's house. Historically, in a peer-to-peer
 	** multiplayer game, each player's PlayerPtr pointed to their own local player.
-	** 
+	**
 	** Since much of the IO logic depends on PlayerPtr being the player performing the action, we need to set PlayerPtr
 	** correctly depending on which player generated input or needs output
 	*/
-	
+
 	if (GameToPlay == GAME_NORMAL) {
 		return 0;
 	}
@@ -6300,13 +6361,13 @@ __int64 DLLExportClass::Get_GlyphX_Player_ID(const HouseClass *house)
 	if (house == NULL) {
 		return 0;
 	}
-	 
+
 	HousesType house_type = house->Class->House;
 
-	for (int i=0 ; i<MPlayerCount ; i++) {
-		
+	for (int i = 0; i < MPlayerCount; i++) {
+
 		if (house_type == MPlayerHouses[i]) {
-			
+
 			return GlyphxPlayerIDs[i];
 		}
 	}
@@ -6323,9 +6384,9 @@ __int64 DLLExportClass::Get_GlyphX_Player_ID(const HouseClass *house)
 /**************************************************************************************************
 * DLLExportClass::Adjust_Internal_View -- Set the internal tactical view to encompass the input coordinates
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -6338,7 +6399,7 @@ void DLLExportClass::Adjust_Internal_View(bool force_ignore_view_constraints)
 	** fall outside the engine's tactical view. In this case, we need to adjust the tactical view before the
 	** input will behave as expected.
 	*/
-	
+
 	if (!force_ignore_view_constraints && Legacy_Render_Enabled()) {
 		/*
 		** Render view should already be tracking the player's local view
@@ -6348,7 +6409,7 @@ void DLLExportClass::Adjust_Internal_View(bool force_ignore_view_constraints)
 	}
 
 	DisplayClass::IgnoreViewConstraints = true;
-}			  
+}
 
 
 
@@ -6357,29 +6418,29 @@ void DLLExportClass::Adjust_Internal_View(bool force_ignore_view_constraints)
 /**************************************************************************************************
 * DLLExportClass::Get_Current_Context_Sidebar -- Get the sidebar data for the current player context
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 3/14/2019 3:20PM - ST
 **************************************************************************************************/
-SidebarGlyphxClass *DLLExportClass::Get_Current_Context_Sidebar(HouseClass *player_ptr)
+SidebarGlyphxClass* DLLExportClass::Get_Current_Context_Sidebar(HouseClass* player_ptr)
 {
 	if (player_ptr) {
-		
-		for (int i=0 ; i<MPlayerCount ; i++) {
+
+		for (int i = 0; i < MPlayerCount; i++) {
 			if (player_ptr == HouseClass::As_Pointer(MPlayerHouses[i])) {
 				return &MultiplayerSidebars[i];
 			}
 		}
 	}
 	return &MultiplayerSidebars[CurrentLocalPlayerIndex];
-}			  
+}
 
 
-SidebarGlyphxClass *Get_Current_Context_Sidebar(HouseClass *player_ptr)
+SidebarGlyphxClass* Get_Current_Context_Sidebar(HouseClass* player_ptr)
 {
 	return DLLExportClass::Get_Current_Context_Sidebar(player_ptr);
 }
@@ -6435,7 +6496,8 @@ void DLLExportClass::Repair(uint64 player_id, int object_id)
 		if (building) {
 			if (!building->IsActive) {
 				GlyphX_Debug_Print("DLLExportClass::Repair -- trying to repair a non-active building");
-			} else {
+			}
+			else {
 
 				if (building && building->Can_Repair() && building->House && building->House->Class->House == PlayerPtr->Class->House)
 				{
@@ -6496,7 +6558,8 @@ void DLLExportClass::Sell(uint64 player_id, int object_id)
 		if (building) {
 			if (!building->IsActive) {
 				GlyphX_Debug_Print("DLLExportClass::Sell -- trying to sell a non-active building");
-			} else {
+			}
+			else {
 				if (building->House && building->House->Class->House == PlayerPtr->Class->House)
 				{
 					building->Sell_Back(1);
@@ -6546,7 +6609,7 @@ void DLLExportClass::Scatter_Selected(uint64 player_id)
 
 	if (CurrentObject.Count()) {
 		for (int index = 0; index < CurrentObject.Count(); index++) {
-			ObjectClass const * tech = CurrentObject[index];
+			ObjectClass const* tech = CurrentObject[index];
 
 			if (tech && tech->Can_Player_Move()) {
 				OutList.Add(EventClass(EventClass::SCATTER, tech->As_Target()));
@@ -6625,7 +6688,7 @@ void DLLExportClass::Selected_Guard_Mode(uint64 player_id)
 
 	if (CurrentObject.Count()) {
 		for (int index = 0; index < CurrentObject.Count(); index++) {
-			ObjectClass const * tech = CurrentObject[index];
+			ObjectClass const* tech = CurrentObject[index];
 
 			if (tech && tech->Can_Player_Move() && tech->Can_Player_Fire()) {
 				OutList.Add(EventClass(tech->As_Target(), MISSION_GUARD_AREA));
@@ -6651,10 +6714,10 @@ void DLLExportClass::Selected_Stop(uint64 player_id)
 	// Copied from TiberianDawn/Conquer.cpp - Keyboard_Process() with VK_S
 	if (CurrentObject.Count()) {
 		for (int index = 0; index < CurrentObject.Count(); index++) {
-			ObjectClass const * tech = CurrentObject[index];
+			ObjectClass const* tech = CurrentObject[index];
 
 			if (tech && (tech->Can_Player_Move() || (tech->Can_Player_Fire() &&
-					tech->What_Am_I() != RTTI_BUILDING))) {
+				tech->What_Am_I() != RTTI_BUILDING))) {
 				OutList.Add(EventClass(EventClass::IDLE, tech->As_Target()));
 			}
 		}
@@ -6687,36 +6750,36 @@ void DLLExportClass::Team_Units_Formation_Toggle_On(uint64 player_id)
 	}
 
 	// Red Alert only at this time, unless we do some updates to support in Tiberian Dawn
-	#if 0
-		Toggle_Formation(); // Conquer.cpp
-	#endif
+#if 0
+	Toggle_Formation(); // Conquer.cpp
+#endif
 }
 
 
 /**************************************************************************************************
 * CNC_Handle_Debug_Request -- Process a debug input request
 *
-* In:   
-*       
+* In:
+*
 *
 * Out:
 *
 *
 * History: 1/7/2019 5:20PM - ST
 **************************************************************************************************/
-extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Debug_Request(DebugRequestEnum debug_request_type, uint64 player_id, const char *object_name, int x, int y, bool unshroud, bool enemy)
+extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Debug_Request(DebugRequestEnum debug_request_type, uint64 player_id, const char* object_name, int x, int y, bool unshroud, bool enemy)
 {
 	if (!DLLExportClass::Set_Player_Context(player_id)) {
 		return;
 	}
-	
+
 	switch (debug_request_type) {
 
 	case DEBUG_REQUEST_SPAWN_OBJECT:
-		{
-			DLLExportClass::Debug_Spawn_Unit(object_name, x, y, enemy);
-		}
-		break;
+	{
+		DLLExportClass::Debug_Spawn_Unit(object_name, x, y, enemy);
+	}
+	break;
 
 	case DEBUG_REQUEST_FORCE_CRASH:
 		Debug_Force_Crash = true;
@@ -6732,18 +6795,18 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Debug_Request(DebugRequ
 		break;
 
 	case DEBUG_REQUEST_END_GAME:
-		{
-			bool win = true;
+	{
+		bool win = true;
 
-			const char lose[] =  "LOSE";
-			if (strcmp(lose, object_name) == 0) {
-				win = false;
-			}
-
-			PlayerWins = win;
-			PlayerLoses = !win;
+		const char lose[] = "LOSE";
+		if (strcmp(lose, object_name) == 0) {
+			win = false;
 		}
-		break;
+
+		PlayerWins = win;
+		PlayerLoses = !win;
+	}
+	break;
 
 	case DEBUG_REQUEST_UNSHROUD:
 		Debug_Unshroud = unshroud;
@@ -6757,39 +6820,39 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Debug_Request(DebugRequ
 		break;
 
 	case DEBUG_REQUEST_END_PRODUCTION:
-		{	
-			for (int index = 0; index < Factories.Count(); index++) {
-				FactoryClass* factory = Factories.Ptr(index);
-				if (factory->Get_House()->IsHuman) {
-					Factories.Ptr(index)->Force_Complete();
-				}
+	{
+		for (int index = 0; index < Factories.Count(); index++) {
+			FactoryClass* factory = Factories.Ptr(index);
+			if (factory->Get_House()->IsHuman) {
+				Factories.Ptr(index)->Force_Complete();
 			}
-		}	
-		break;
+		}
+	}
+	break;
 
 	case DEBUG_REQUEST_ADD_RESOURCES:
-		{
-			if (object_name) {
-				int amount = atoi(object_name);
-				PlayerPtr->Credits += amount;
-				if (PlayerPtr->Credits < 0) {
-					PlayerPtr->Credits = 0;
-				}
-			}			
-		}		 
-		break;
-		
+	{
+		if (object_name) {
+			int amount = atoi(object_name);
+			PlayerPtr->Credits += amount;
+			if (PlayerPtr->Credits < 0) {
+				PlayerPtr->Credits = 0;
+			}
+		}
+	}
+	break;
+
 	case DEBUG_REQUEST_UNLOCK_BUILDABLES:
 		PlayerPtr->DebugUnlockBuildables = !PlayerPtr->DebugUnlockBuildables;
 		PlayerPtr->IsRecalcNeeded = true;
 		break;
 
 	default:
-			break;
+		break;
 	}
 
-	
-}			  
+
+}
 
 
 /**************************************************************************************************
@@ -6804,26 +6867,26 @@ extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Debug_Request(DebugRequ
 *
 * History: 1/22/2020 2:57PM - ST
 **************************************************************************************************/
-bool DLLExportClass::Try_Debug_Spawn_Unlimbo(TechnoClass *techno, int &cell_x, int &cell_y)
+bool DLLExportClass::Try_Debug_Spawn_Unlimbo(TechnoClass* techno, int& cell_x, int& cell_y)
 {
 	if (techno) {
-		
+
 		int map_cell_x = Map.MapCellX;
 		int map_cell_y = Map.MapCellY;
 		int map_cell_right = map_cell_x + Map.MapCellWidth;
 		int map_cell_bottom = map_cell_y + Map.MapCellHeight;
 
 		map_cell_right = min(map_cell_right, cell_x + 26);		// Generally try to prevent the objects from spawing off the right of the screen
-		
+
 		int try_x = cell_x;
 		int try_y = cell_y;
-					
+
 		while (try_y < map_cell_bottom) {
-					
+
 			CELL cell = XY_Cell(try_x, try_y);
-					
+
 			if (techno->Unlimbo(Cell_Coord(cell))) {
-				
+
 				try_x++;
 				if (try_x > map_cell_right - 2) {
 					try_x = cell_x;	//map_cell_x + 2;
@@ -6845,17 +6908,17 @@ bool DLLExportClass::Try_Debug_Spawn_Unlimbo(TechnoClass *techno, int &cell_x, i
 		cell_x = try_x;
 		cell_y = try_y;
 	}
-	
+
 	return false;
-}			  
+}
 
 
 /**************************************************************************************************
 * DLLExportClass::Debug_Spawn_All -- Debug spawn all buildable units and structures
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -6881,99 +6944,99 @@ void DLLExportClass::Debug_Spawn_All(int x, int y)
 	int try_y = origin_y;
 
 	HousesType house = PlayerPtr->Class->House;
-		
+
 	for (StructType sindex = STRUCT_FIRST; sindex < STRUCT_COUNT; sindex++) {
-		BuildingTypeClass const & building_type = BuildingTypeClass::As_Reference(sindex);
+		BuildingTypeClass const& building_type = BuildingTypeClass::As_Reference(sindex);
 
 		if (building_type.IsBuildable) {
-				
-			BuildingClass * building = new BuildingClass(building_type, house);
+
+			BuildingClass* building = new BuildingClass(building_type, house);
 			if (building) {
-					
+
 				try_x = origin_x;
 				try_y = origin_y;
-					  
+
 				while (try_y < map_cell_bottom) {
 					if (Try_Debug_Spawn_Unlimbo(building, try_x, try_y)) {
 						break;
 					}
 				}
 			}
-		}	
+		}
 	}
 
 
 	for (UnitType index = UNIT_FIRST; index < UNIT_COUNT; index++) {
-		UnitTypeClass const & unit_type = UnitTypeClass::As_Reference(index);
+		UnitTypeClass const& unit_type = UnitTypeClass::As_Reference(index);
 
 		/*
 		**	Fetch the sidebar cameo image for this building.
 		*/
 		if (unit_type.IsBuildable) {
-				
-			UnitClass * unit = (UnitClass*) unit_type.Create_One_Of(PlayerPtr);
+
+			UnitClass* unit = (UnitClass*)unit_type.Create_One_Of(PlayerPtr);
 			if (unit) {
-				
+
 				try_x = origin_x;
 				try_y = origin_y;
-					  
+
 				while (try_y < map_cell_bottom) {
 					if (Try_Debug_Spawn_Unlimbo(unit, try_x, try_y)) {
 						break;
 					}
 				}
-			}		
+			}
 		}
 	}
 
 
 	for (InfantryType index = INFANTRY_FIRST; index < INFANTRY_COUNT; index++) {
-		InfantryTypeClass	const &infantry_type = InfantryTypeClass::As_Reference(index);
+		InfantryTypeClass	const& infantry_type = InfantryTypeClass::As_Reference(index);
 
 		/*
 		**	Fetch the sidebar cameo image for this building.
 		*/
 		if (infantry_type.IsBuildable) {
-				
-			InfantryClass * inf = (InfantryClass*) infantry_type.Create_One_Of(PlayerPtr);
+
+			InfantryClass* inf = (InfantryClass*)infantry_type.Create_One_Of(PlayerPtr);
 			if (inf) {
-				
+
 				try_x = origin_x;
 				try_y = origin_y;
-					  
+
 				while (try_y < map_cell_bottom) {
 					if (Try_Debug_Spawn_Unlimbo(inf, try_x, try_y)) {
 						break;
 					}
 				}
-			}		
+			}
 		}
 	}
 
 	for (AircraftType index = AIRCRAFT_FIRST; index < AIRCRAFT_COUNT; index++) {
-		AircraftTypeClass	const &aircraft_type = AircraftTypeClass::As_Reference(index);
+		AircraftTypeClass	const& aircraft_type = AircraftTypeClass::As_Reference(index);
 
 		/*
 		**	Fetch the sidebar cameo image for this building.
 		*/
 		if (aircraft_type.IsBuildable) {
-				
-			AircraftClass * air = (AircraftClass*) aircraft_type.Create_One_Of(PlayerPtr);
+
+			AircraftClass* air = (AircraftClass*)aircraft_type.Create_One_Of(PlayerPtr);
 			if (air) {
-				
+
 				try_x = origin_x;
 				try_y = origin_y;
-					  
+
 				while (try_y < map_cell_bottom) {
 					if (Try_Debug_Spawn_Unlimbo(air, try_x, try_y)) {
 						break;
 					}
 				}
-			}		
+			}
 		}
 	}
 
-}			  
+}
 
 
 
@@ -6982,20 +7045,20 @@ void DLLExportClass::Debug_Spawn_All(int x, int y)
 /**************************************************************************************************
 * DLLExportClass::Debug_Spawn_Unit -- Debug spawn a unit at the specified location
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
 * History: 3/14/2019 3:20PM - ST
 **************************************************************************************************/
-void DLLExportClass::Debug_Spawn_Unit(const char *object_name, int x, int y, bool enemy)
+void DLLExportClass::Debug_Spawn_Unit(const char* object_name, int x, int y, bool enemy)
 {
 	if (object_name == NULL) {
 		return;
 	}
-	
+
 	if (strlen(object_name) == 0) {
 		return;
 	}
@@ -7035,14 +7098,14 @@ void DLLExportClass::Debug_Spawn_Unit(const char *object_name, int x, int y, boo
 
 	StructType structure_type = BuildingTypeClass::From_Name(object_name);
 	if (structure_type != STRUCT_NONE) {
-		
-		BuildingClass * building = new BuildingClass(structure_type, house);
+
+		BuildingClass* building = new BuildingClass(structure_type, house);
 		if (building) {
 			if (!building->Unlimbo(Cell_Coord(cell))) {
 				delete building;
 			}
 		}
-		
+
 #if (0)		 
 		Map.PendingObject = &BuildingTypeClass::As_Reference(structure_type);
 		Map.PendingHouse = PlayerPtr->ActLike;
@@ -7057,23 +7120,23 @@ void DLLExportClass::Debug_Spawn_Unit(const char *object_name, int x, int y, boo
 		return;
 	}
 
-	
+
 	UnitType unit_type = UnitTypeClass::From_Name(object_name);
 	if (unit_type != UNIT_NONE) {
-		
-		UnitClass * unit = new UnitClass(unit_type, house);
+
+		UnitClass* unit = new UnitClass(unit_type, house);
 		if (unit) {
 			unit->Unlimbo(Map.Pixel_To_Coord(x, y), DIR_N);
 		}
-		
+
 		return;
 	}
 
 
 	InfantryType infantry_type = InfantryTypeClass::From_Name(object_name);
 	if (infantry_type != INFANTRY_NONE) {
-		
-		InfantryClass * inf = new InfantryClass(infantry_type, house);
+
+		InfantryClass* inf = new InfantryClass(infantry_type, house);
 		if (inf) {
 			inf->Unlimbo(Map.Pixel_To_Coord(x, y), DIR_N);
 		}
@@ -7083,7 +7146,7 @@ void DLLExportClass::Debug_Spawn_Unit(const char *object_name, int x, int y, boo
 	AircraftType aircraft_type = AircraftTypeClass::From_Name(object_name);
 	if (aircraft_type != AIRCRAFT_NONE) {
 
-		AircraftClass * air = new AircraftClass(aircraft_type, house);
+		AircraftClass* air = new AircraftClass(aircraft_type, house);
 		if (air) {
 			air->Altitude = 0;
 			air->Unlimbo(Map.Pixel_To_Coord(x, y), DIR_N);
@@ -7091,21 +7154,21 @@ void DLLExportClass::Debug_Spawn_Unit(const char *object_name, int x, int y, boo
 		return;
 	}
 
-	OverlayType overlay_type =  OverlayTypeClass::From_Name(object_name);
+	OverlayType overlay_type = OverlayTypeClass::From_Name(object_name);
 	if (overlay_type != OVERLAY_NONE)
 	{
 		new OverlayClass(overlay_type, cell);
 		return;
 	}
-}			  
+}
 
 
 /**************************************************************************************************
 * DLLExportClass::Debug_Kill_Unit -- Kill a unit at the specified location
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -7116,17 +7179,18 @@ void DLLExportClass::Debug_Kill_Unit(int x, int y)
 	COORDINATE coord = Map.Pixel_To_Coord(x, y);
 	CELL cell = Coord_Cell(coord);
 
-	CellClass * cellptr = &Map[cell];
+	CellClass* cellptr = &Map[cell];
 
 	if (cellptr) {
-		ObjectClass *obj = cellptr->Cell_Object();
+		ObjectClass* obj = cellptr->Cell_Object();
 		static const int debug_damage = 1000;
 		if (obj) {
 			int damage = debug_damage;
 			obj->Take_Damage(damage, 0, WARHEAD_HE, 0);
-		} else {
+		}
+		else {
 			if (cellptr->Overlay != OVERLAY_NONE) {
-				OverlayTypeClass const * optr = &OverlayTypeClass::As_Reference(cellptr->Overlay);
+				OverlayTypeClass const* optr = &OverlayTypeClass::As_Reference(cellptr->Overlay);
 				if (optr->IsTiberium) {
 					cellptr->Reduce_Tiberium(1);
 				}
@@ -7136,23 +7200,23 @@ void DLLExportClass::Debug_Kill_Unit(int x, int y)
 			}
 		}
 	}
-}			  
+}
 
 void DLLExportClass::Debug_Heal_Unit(int x, int y)
 {
 	COORDINATE coord = Map.Pixel_To_Coord(x, y);
 	CELL cell = Coord_Cell(coord);
 
-	CellClass * cellptr = &Map[cell];
+	CellClass* cellptr = &Map[cell];
 
 	if (cellptr) {
-		ObjectClass *obj = cellptr->Cell_Object();
+		ObjectClass* obj = cellptr->Cell_Object();
 		if (obj) {
 			obj->Strength = obj->Class_Of().MaxStrength;
 		}
 		else {
 			if (cellptr->Overlay != OVERLAY_NONE) {
-				OverlayTypeClass const * optr = &OverlayTypeClass::As_Reference(cellptr->Overlay);
+				OverlayTypeClass const* optr = &OverlayTypeClass::As_Reference(cellptr->Overlay);
 				if (optr->IsTiberium) {
 					const int cellcount = (int)FACING_COUNT + 1;
 					CellClass* cells[cellcount];
@@ -7162,21 +7226,21 @@ void DLLExportClass::Debug_Heal_Unit(int x, int y)
 					}
 
 					for (int index = 0; index < cellcount; index++) {
-						CellClass *newcell = cells[index];
+						CellClass* newcell = cells[index];
 
 						if (newcell && newcell->Cell_Object() == NULL) {
 							if (newcell->Land_Type() == LAND_CLEAR && newcell->Overlay == OVERLAY_NONE) {
 								switch (newcell->TType) {
-									case TEMPLATE_BRIDGE1:
-									case TEMPLATE_BRIDGE2:
-									case TEMPLATE_BRIDGE3:
-									case TEMPLATE_BRIDGE4:
-										break;
+								case TEMPLATE_BRIDGE1:
+								case TEMPLATE_BRIDGE2:
+								case TEMPLATE_BRIDGE3:
+								case TEMPLATE_BRIDGE4:
+									break;
 
-									default:
-										new OverlayClass(Random_Pick(OVERLAY_TIBERIUM1, OVERLAY_TIBERIUM12), newcell->Cell_Number());
-										newcell->OverlayData = 1;
-										break;
+								default:
+									new OverlayClass(Random_Pick(OVERLAY_TIBERIUM1, OVERLAY_TIBERIUM12), newcell->Cell_Number());
+									newcell->OverlayData = 1;
+									break;
 
 								}
 							}
@@ -7199,9 +7263,9 @@ void DLLExportClass::Debug_Heal_Unit(int x, int y)
 /**************************************************************************************************
 * DLLExportClass::Legacy_Render_Enabled -- Is the legacy rendering enabled?
 *
-* In:   
+* In:
 *
-* Out:  
+* Out:
 *
 *
 *
@@ -7212,7 +7276,7 @@ bool DLLExportClass::Legacy_Render_Enabled(void)
 	if (GameToPlay == GAME_GLYPHX_MULTIPLAYER) {
 		unsigned int num_humans = 0U;
 		for (int i = 0; i < MPlayerCount; ++i) {
-			HouseClass *player_ptr = HouseClass::As_Pointer(MPlayerHouses[i]);
+			HouseClass* player_ptr = HouseClass::As_Pointer(MPlayerHouses[i]);
 			if (player_ptr && player_ptr->IsHuman) {
 				if (++num_humans > 1) break;
 			}
@@ -7239,9 +7303,9 @@ bool DLLExportClass::Legacy_Render_Enabled(void)
 void DLLExportClass::Computer_Message(bool last_player_taunt)
 {
 	HousesType house;
-	HouseClass *ptr;
+	HouseClass* ptr;
 
-	HouseClass *ai_players[MAX_PLAYERS];
+	HouseClass* ai_players[MAX_PLAYERS];
 	int ai_player_count = 0;
 
 	/*------------------------------------------------------------------------
@@ -7266,8 +7330,9 @@ void DLLExportClass::Computer_Message(bool last_player_taunt)
 		int taunt_index;
 		if (last_player_taunt) {
 			taunt_index = 13;
-		} else {
-			taunt_index = IRandom(0,12);
+		}
+		else {
+			taunt_index = IRandom(0, 12);
 		}
 
 		On_Message(ai_players[ai_player_index], "", 15.0f, MESSAGE_TYPE_COMPUTER_TAUNT, taunt_index);
@@ -7336,7 +7401,7 @@ bool DLLExportClass::Get_Input_Key_State(KeyNumType key)
 	};
 
 	return false;
-	
+
 }
 
 
@@ -7352,12 +7417,12 @@ bool DLL_Export_Get_Input_Key_State(KeyNumType key)
 
 
 
-bool DLLSave(FileClass &file)
+bool DLLSave(FileClass& file)
 {
 	return DLLExportClass::Save(file);
 }
 
-bool DLLLoad(FileClass &file)
+bool DLLLoad(FileClass& file)
 {
 	return DLLExportClass::Load(file);
 }
@@ -7374,7 +7439,7 @@ bool DLLLoad(FileClass &file)
 *
 * History: 9/10/2019 10:24AM - ST
 **************************************************************************************************/
-bool DLLExportClass::Save(FileClass & file)
+bool DLLExportClass::Save(FileClass& file)
 {
 	/*
 	** Version first
@@ -7383,7 +7448,7 @@ bool DLLExportClass::Save(FileClass & file)
 	if (file.Write(&version, sizeof(version)) != sizeof(version)) {
 		return false;
 	}
-	
+
 	if (file.Write(MultiplayerStartPositions, sizeof(MultiplayerStartPositions)) != sizeof(MultiplayerStartPositions)) {
 		return false;
 	}
@@ -7415,23 +7480,23 @@ bool DLLExportClass::Save(FileClass & file)
 	if (file.Write(&MPlayerBases, sizeof(MPlayerBases)) != sizeof(MPlayerBases)) {
 		return false;
 	}
-	
+
 	if (file.Write(&MPlayerCredits, sizeof(MPlayerCredits)) != sizeof(MPlayerCredits)) {
 		return false;
 	}
-	
+
 	if (file.Write(&MPlayerTiberium, sizeof(MPlayerTiberium)) != sizeof(MPlayerTiberium)) {
 		return false;
 	}
-	
+
 	if (file.Write(&MPlayerGoodies, sizeof(MPlayerGoodies)) != sizeof(MPlayerGoodies)) {
 		return false;
 	}
-	
+
 	if (file.Write(&MPlayerGhosts, sizeof(MPlayerGhosts)) != sizeof(MPlayerGhosts)) {
 		return false;
 	}
-	
+
 	if (file.Write(&MPlayerSolo, sizeof(MPlayerSolo)) != sizeof(MPlayerSolo)) {
 		return false;
 	}
@@ -7451,7 +7516,7 @@ bool DLLExportClass::Save(FileClass & file)
 	if (file.Write(MPlayerNames, sizeof(MPlayerNames)) != sizeof(MPlayerNames)) {
 		return false;
 	}
-	
+
 	if (file.Write(MPlayerID, sizeof(MPlayerID)) != sizeof(MPlayerID)) {
 		return false;
 	}
@@ -7460,7 +7525,7 @@ bool DLLExportClass::Save(FileClass & file)
 		return false;
 	}
 
-	for (int i=0 ; i<MAX_PLAYERS ; i++) {
+	for (int i = 0; i < MAX_PLAYERS; i++) {
 		Sidebar_Glyphx_Save(file, &MultiplayerSidebars[i]);
 	}
 
@@ -7481,7 +7546,7 @@ bool DLLExportClass::Save(FileClass & file)
 
 	return true;
 }
-	 
+
 
 /**************************************************************************************************
 * DLLExportClass::Load --
@@ -7494,14 +7559,14 @@ bool DLLExportClass::Save(FileClass & file)
 *
 * History: 9/10/2019 10:24AM - ST
 **************************************************************************************************/
-bool DLLExportClass::Load(FileClass & file)
+bool DLLExportClass::Load(FileClass& file)
 {
 	unsigned int version = 0;
 
 	if (file.Read(&version, sizeof(version)) != sizeof(version)) {
 		return false;
 	}
-	
+
 	if (file.Read(MultiplayerStartPositions, sizeof(MultiplayerStartPositions)) != sizeof(MultiplayerStartPositions)) {
 		return false;
 	}
@@ -7509,7 +7574,7 @@ bool DLLExportClass::Load(FileClass & file)
 	if (file.Read(GlyphxPlayerIDs, sizeof(GlyphxPlayerIDs)) != sizeof(GlyphxPlayerIDs)) {
 		return false;
 	}
-	
+
 	if (file.Read(&GlyphXClientSidebarWidthInLeptons, sizeof(GlyphXClientSidebarWidthInLeptons)) != sizeof(GlyphXClientSidebarWidthInLeptons)) {
 		return false;
 	}
@@ -7533,23 +7598,23 @@ bool DLLExportClass::Load(FileClass & file)
 	if (file.Read(&MPlayerBases, sizeof(MPlayerBases)) != sizeof(MPlayerBases)) {
 		return false;
 	}
-	
+
 	if (file.Read(&MPlayerCredits, sizeof(MPlayerCredits)) != sizeof(MPlayerCredits)) {
 		return false;
 	}
-	
+
 	if (file.Read(&MPlayerTiberium, sizeof(MPlayerTiberium)) != sizeof(MPlayerTiberium)) {
 		return false;
 	}
-	
+
 	if (file.Read(&MPlayerGoodies, sizeof(MPlayerGoodies)) != sizeof(MPlayerGoodies)) {
 		return false;
 	}
-	
+
 	if (file.Read(&MPlayerGhosts, sizeof(MPlayerGhosts)) != sizeof(MPlayerGhosts)) {
 		return false;
 	}
-	
+
 	if (file.Read(&MPlayerSolo, sizeof(MPlayerSolo)) != sizeof(MPlayerSolo)) {
 		return false;
 	}
@@ -7569,7 +7634,7 @@ bool DLLExportClass::Load(FileClass & file)
 	if (file.Read(MPlayerNames, sizeof(MPlayerNames)) != sizeof(MPlayerNames)) {
 		return false;
 	}
-	
+
 	if (file.Read(MPlayerID, sizeof(MPlayerID)) != sizeof(MPlayerID)) {
 		return false;
 	}
@@ -7578,7 +7643,7 @@ bool DLLExportClass::Load(FileClass & file)
 		return false;
 	}
 
-	for (int i=0 ; i<MAX_PLAYERS ; i++) {
+	for (int i = 0; i < MAX_PLAYERS; i++) {
 		Sidebar_Glyphx_Load(file, &MultiplayerSidebars[i]);
 	}
 
@@ -7611,16 +7676,16 @@ bool DLLExportClass::Load(FileClass & file)
 **************************************************************************************************/
 void DLLExportClass::Code_Pointers(void)
 {
-	for (int i=0 ; i<MAX_PLAYERS ; i++) {
+	for (int i = 0; i < MAX_PLAYERS; i++) {
 		Sidebar_Glyphx_Code_Pointers(&MultiplayerSidebars[i]);
 
 		if (PlacementType[i]) {
-			PlacementType[i] = (BuildingTypeClass *) PlacementType[i]->Type;
+			PlacementType[i] = (BuildingTypeClass*)PlacementType[i]->Type;
 		}
 	}
 }
 
-	 
+
 
 /**************************************************************************************************
 * DLLExportClass::Decode_Pointers --
@@ -7635,15 +7700,15 @@ void DLLExportClass::Code_Pointers(void)
 **************************************************************************************************/
 void DLLExportClass::Decode_Pointers(void)
 {
-	for (int i=0 ; i<MAX_PLAYERS ; i++) {
+	for (int i = 0; i < MAX_PLAYERS; i++) {
 		Sidebar_Glyphx_Decode_Pointers(&MultiplayerSidebars[i]);
 
 		if (PlacementType[i]) {
 			StructType type = (StructType) reinterpret_cast<unsigned int>(PlacementType[i]);
 			PlacementType[i] = NULL;
 			if (type >= STRUCT_FIRST && type < STRUCT_COUNT) {
-				
-				TechnoTypeClass const * tech = Fetch_Techno_Type(RTTI_BUILDINGTYPE, type);
+
+				TechnoTypeClass const* tech = Fetch_Techno_Type(RTTI_BUILDINGTYPE, type);
 				if (tech) {
 					BuildingTypeClass* build_type = (BuildingTypeClass*)(tech);
 					if (build_type) {
