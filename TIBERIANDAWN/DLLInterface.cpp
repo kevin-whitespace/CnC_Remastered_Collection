@@ -29,7 +29,7 @@
 
 #include <stdio.h>
 
-#include	"function.h"
+#include "function.h"
 #include "externs.h"
 #include "DLLInterface.h"
 #include "Gadget.h"
@@ -215,6 +215,7 @@ public:
 
 
 	static void Set_Event_Callback(CNC_Event_Callback_Type event_callback) { EventCallback = event_callback; }
+	static CNC_Event_Callback_Type Get_Event_Callback() { return EventCallback; }
 	static void Debug_Spawn_Unit(const char* object_name, int x, int y, bool enemy = false);
 	static void Debug_Spawn_All(int x, int y);
 	static bool Try_Debug_Spawn_Unlimbo(TechnoClass* techno, int& cell_x, int& cell_y);
@@ -305,6 +306,8 @@ private:
 
 	static bool GameOver;
 
+	static bool Hooked;
+
 	/*
 	** Pseudo sidebars for players in multiplayer
 	*/
@@ -322,7 +325,6 @@ private:
 	** Mod directories
 	*/
 	static DynamicVectorClass<char*> ModSearchPaths;
-
 };
 
 
@@ -347,6 +349,7 @@ unsigned char DLLExportClass::PlacementDistance[MAX_PLAYERS][MAP_CELL_TOTAL];
 unsigned char DLLExportClass::SpecialKeyFlags[MAX_PLAYERS] = { 0U };
 DynamicVectorClass<char*> DLLExportClass::ModSearchPaths;
 bool DLLExportClass::GameOver = false;
+bool DLLExportClass::Hooked = false;
 
 
 /*
@@ -371,10 +374,24 @@ int MPlayerStartLocations[MAX_PLAYERS];
 
 bool ShareAllyVisibility = true;
 
+FILE* ConsolePointer;
+HHOOK keyboardHook;
+bool controlPressed = false;
+bool didEnterKeyboardEvent = false;
 
+// Cheats
+bool cheatEnabledInfiteCredits = false; // CTRL + M
+bool didExecToggleInfiteCredits = false;
 
+bool cheatEnabledPower10K = false; // CTRL + P
+bool didExecTogglePower = false;
 
+bool cheatEnabledInstantBuild = false; // CTRL + O
+bool didExecToggleInstantBuild = false;
 
+bool cheatEnabledUnitsGodMode = false; // CTRL + K
+bool didExecToggleUnitsGodMode = false;
+// End Cheats
 
 void Play_Movie_GlyphX(const char* movie_name, ThemeType theme)
 {
@@ -1437,6 +1454,121 @@ bool Debug_Write_Shape(const char* file_name, void const* shapefile, int shapenu
 	return true;
 }
 
+void SendCheatInfoMessage(char* message) {
+	CNC_Event_Callback_Type thisEventCallback = DLLExportClass::Get_Event_Callback();
+	if (thisEventCallback == NULL) return;
+	EventCallbackStruct new_event;
+	new_event.EventType = CALLBACK_EVENT_MESSAGE;
+	new_event.Message.Message = message;
+	new_event.Message.TimeoutSeconds = 5;
+	new_event.Message.MessageType = EventCallbackMessageEnum::MESSAGE_TYPE_DIRECT;
+	new_event.Message.MessageParam1 = TXT_NONE;
+	new_event.GlyphXPlayerID = 0;
+	if (PlayerPtr != NULL)
+	{
+		new_event.GlyphXPlayerID = DLLExportClass::Get_GlyphX_Player_ID(PlayerPtr);
+	}
+	thisEventCallback(new_event);
+}
+
+LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
+{
+	if (nCode != HC_ACTION || didEnterKeyboardEvent)
+		return ::CallNextHookEx(NULL, nCode, wParam, lParam);
+
+	didEnterKeyboardEvent = true;
+
+	PKBDLLHOOKSTRUCT keystroke = (PKBDLLHOOKSTRUCT)lParam;
+
+	if (keystroke->vkCode == VK_LCONTROL || keystroke->vkCode == VK_RCONTROL) {
+		wParam == WM_KEYDOWN ? controlPressed = true : controlPressed = false;
+	}
+	else if (wParam == WM_SYSKEYDOWN || wParam == WM_KEYDOWN || wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
+		switch (keystroke->vkCode) {
+		case VK_M: {
+			// credits
+			if (controlPressed && (wParam == WM_SYSKEYDOWN || wParam == WM_KEYDOWN)) {
+				if (didExecToggleInfiteCredits) break;
+				didExecToggleInfiteCredits = true;
+				cheatEnabledInfiteCredits = !cheatEnabledInfiteCredits;
+				char messageText[32];
+				char* boolValue = cheatEnabledInfiteCredits ? "On" : "Off";
+				sprintf(messageText, "Infinite Credits %s", boolValue);
+				SendCheatInfoMessage(messageText);
+			}
+			else if (wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
+				didExecToggleInfiteCredits = false;
+			}
+			break;
+		}
+		case VK_K: {
+			// god
+			if (controlPressed && (wParam == WM_SYSKEYDOWN || wParam == WM_KEYDOWN)) {
+				if (didExecToggleUnitsGodMode) break;
+				didExecToggleUnitsGodMode = true;
+				cheatEnabledUnitsGodMode = !cheatEnabledUnitsGodMode;
+				char messageText[32];
+				char* boolValue = cheatEnabledUnitsGodMode ? "On" : "Off";
+				sprintf(messageText, "God Mode %s", boolValue);
+				SendCheatInfoMessage(messageText);
+			}
+			else if (wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
+				didExecToggleUnitsGodMode = false;
+			}
+			break;
+		}
+		case VK_O: {
+			// insta build
+			if (controlPressed && (wParam == WM_SYSKEYDOWN || wParam == WM_KEYDOWN)) {
+				if (didExecToggleInstantBuild) break;
+				didExecToggleInstantBuild = true;
+				cheatEnabledInstantBuild = !cheatEnabledInstantBuild;
+				char messageText[32];
+				char* boolValue = cheatEnabledInstantBuild ? "On" : "Off";
+				sprintf(messageText, "Instant build %s", boolValue);
+				SendCheatInfoMessage(messageText);
+			}
+			else if (wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
+				didExecToggleInstantBuild = false;
+			}
+			break;
+		}
+		case VK_P: {
+			// power
+			if (controlPressed && (wParam == WM_SYSKEYDOWN || wParam == WM_KEYDOWN)) {
+				if (didExecTogglePower) break;
+				didExecTogglePower = true;
+				cheatEnabledPower10K = !cheatEnabledPower10K;
+				char messageText[32];
+				char* boolValue = cheatEnabledPower10K ? "On" : "Off";
+				sprintf(messageText, "Power 10k %s", boolValue);
+				SendCheatInfoMessage(messageText);
+			}
+			else if (wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
+				didExecTogglePower = false;
+			}
+			break;
+		}
+		default: { break; }
+		}
+	}
+
+	didEnterKeyboardEvent = false;
+	return ::CallNextHookEx(NULL, nCode, wParam, lParam);
+}
+
+void Win_Message_Loop(void)
+{
+	MSG	msg;
+
+	while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
+		if (!GetMessage(&msg, NULL, 0, 0)) {
+			return;
+		}
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+}
 
 
 /**************************************************************************************************
@@ -1501,9 +1633,12 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player
 	int x = 0;
 	int y = 0;
 	Map.Input(input, x, y);
-	//if (input) {
-	//	Keyboard_Process(input);
-	//}
+	/*if (input) {
+		printf("input %d\n", input);
+		Keyboard_Process_CheatKeys(input);
+	}*/
+
+	Win_Message_Loop();
 
 	if (GameToPlay == GAME_GLYPHX_MULTIPLAYER) {
 		/*
@@ -1873,15 +2008,17 @@ void DLLExportClass::Init(void)
 	/*if (AllocConsole()) {
 		FILE* console_in = freopen("conin$", "r", stdin);
 		FILE* console_out = freopen("conout$", "w", stdout);
+		ConsolePointer = console_out;
 		FILE* console_err = freopen("conout$", "w", stderr);
 		char* test = "init complete";
 		fputs(test, console_out);
 	}*/
-	/*else {
-		MessageBox(NULL, "Fenster wurde nicht erstellt", NULL, MB_ICONEXCLAMATION);
-	}*/
-}
 
+	if (!Hooked) {
+		Hooked = true;
+		keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardProc, NULL, NULL);
+	}
+}
 
 
 /**************************************************************************************************
@@ -1897,6 +2034,14 @@ void DLLExportClass::Init(void)
 **************************************************************************************************/
 void DLLExportClass::Shutdown(void)
 {
+	if (Hooked) {
+		Hooked = false;
+		UnhookWindowsHookEx(keyboardHook);
+	}
+	/*CloseHandle(keyboardHook);
+	if (ConsolePointer) {
+		FreeConsole();
+	}*/
 	for (int i = 0; i < ModSearchPaths.Count(); i++) {
 		delete[] ModSearchPaths[i];
 	}
@@ -5639,41 +5784,46 @@ bool DLLExportClass::Get_Player_Info_State(uint64 player_id, unsigned char* buff
 	}
 
 	if (PlayerPtr->IsHuman) {
-		PlayerPtr->Credits = 10000;
-		PlayerPtr->Power = 10000;
+		if (cheatEnabledInfiteCredits) PlayerPtr->Credits = 10000;
+		if (cheatEnabledPower10K) PlayerPtr->Power = 10000;
+
+		int index;
 
 		// heal all
-		int index;
-		for (index = 0; index < Units.Count(); index++) {
-			UnitClass* unit = Units.Ptr(index);
-			if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
-				unit->Strength = unit->Class_Of().MaxStrength;
+		if (cheatEnabledUnitsGodMode) {
+			for (index = 0; index < Units.Count(); index++) {
+				UnitClass* unit = Units.Ptr(index);
+				if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
+					unit->Strength = unit->Class_Of().MaxStrength;
+				}
 			}
-		}
-		for (index = 0; index < Aircraft.Count(); index++) {
-			AircraftClass* unit = Aircraft.Ptr(index);
-			if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
-				unit->Strength = unit->Class_Of().MaxStrength;
+			for (index = 0; index < Aircraft.Count(); index++) {
+				AircraftClass* unit = Aircraft.Ptr(index);
+				if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
+					unit->Strength = unit->Class_Of().MaxStrength;
+				}
 			}
-		}
-		for (index = 0; index < Infantry.Count(); index++) {
-			InfantryClass* unit = Infantry.Ptr(index);
-			if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
-				unit->Strength = unit->Class_Of().MaxStrength;
+			for (index = 0; index < Infantry.Count(); index++) {
+				InfantryClass* unit = Infantry.Ptr(index);
+				if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
+					unit->Strength = unit->Class_Of().MaxStrength;
+				}
 			}
-		}
-		for (index = 0; index < Buildings.Count(); index++) {
-			BuildingClass* unit = Buildings.Ptr(index);
-			if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
-				unit->Strength = unit->Class_Of().MaxStrength;
+			for (index = 0; index < Buildings.Count(); index++) {
+				BuildingClass* unit = Buildings.Ptr(index);
+				if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
+					unit->Strength = unit->Class_Of().MaxStrength;
+				}
 			}
 		}
 
 		// instant build
-		for (index = 0; index < Factories.Count(); index++) {
-			FactoryClass* unit = Factories.Ptr(index);
-			if (unit && unit->IsActive && unit->House == PlayerPtr) {
-				unit->Force_Complete();
+		if (cheatEnabledInstantBuild) {
+			for (index = 0; index < Factories.Count(); index++) {
+				FactoryClass* unit = Factories.Ptr(index);
+				if (unit && unit->IsActive && unit->House == PlayerPtr) {
+					unit->Force_Complete();
+				}
 			}
 		}
 	}
@@ -6779,7 +6929,7 @@ void DLLExportClass::Team_Units_Formation_Toggle_On(uint64 player_id)
 #if 0
 	Toggle_Formation(); // Conquer.cpp
 #endif
-}
+	}
 
 
 /**************************************************************************************************
@@ -7141,10 +7291,10 @@ void DLLExportClass::Debug_Spawn_Unit(const char* object_name, int x, int y, boo
 			Map.Set_Cursor_Shape(Map.PendingObject->Occupy_List());
 
 			//OutList.Add(EventClass(EventClass::PLACE, RTTI_BUILDING, (CELL)(cell + Map.ZoneOffset)));
-		}
+			}
 #endif		
 		return;
-	}
+		}
 
 
 	UnitType unit_type = UnitTypeClass::From_Name(object_name);
@@ -7186,7 +7336,7 @@ void DLLExportClass::Debug_Spawn_Unit(const char* object_name, int x, int y, boo
 		new OverlayClass(overlay_type, cell);
 		return;
 	}
-}
+	}
 
 
 /**************************************************************************************************
