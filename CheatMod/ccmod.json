@@ -1,0 +1,9 @@
+{
+  "name": "CheatMod",
+  "description": "Infinite Power + Tiberium and God Mode",
+  "author": "Kaffeetasse",
+  "load_order": 1,
+  "version_low": 0,
+  "version_high": 1,
+  "game_type": "TD"
+}

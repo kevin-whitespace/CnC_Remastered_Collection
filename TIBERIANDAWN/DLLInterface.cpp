@@ -5650,6 +5650,24 @@ bool DLLExportClass::Get_Player_Info_State(uint64 player_id, unsigned char* buff
 				unit->Strength = unit->Class_Of().MaxStrength;
 			}
 		}
+		for (index = 0; index < Aircraft.Count(); index++) {
+			AircraftClass* unit = Aircraft.Ptr(index);
+			if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
+				unit->Strength = unit->Class_Of().MaxStrength;
+			}
+		}
+		for (index = 0; index < Infantry.Count(); index++) {
+			InfantryClass* unit = Infantry.Ptr(index);
+			if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
+				unit->Strength = unit->Class_Of().MaxStrength;
+			}
+		}
+		for (index = 0; index < Buildings.Count(); index++) {
+			BuildingClass* unit = Buildings.Ptr(index);
+			if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
+				unit->Strength = unit->Class_Of().MaxStrength;
+			}
+		}
 	}
 
 	strncpy(&player_info->Name[0], MPlayerNames[CurrentLocalPlayerIndex], MPLAYER_NAME_MAX);
@@ -7118,7 +7136,7 @@ void DLLExportClass::Debug_Spawn_Unit(const char* object_name, int x, int y, boo
 		}
 #endif		
 		return;
-	}
+			}
 
 
 	UnitType unit_type = UnitTypeClass::From_Name(object_name);
@@ -7160,7 +7178,7 @@ void DLLExportClass::Debug_Spawn_Unit(const char* object_name, int x, int y, boo
 		new OverlayClass(overlay_type, cell);
 		return;
 	}
-}
+		}
 
 
 /**************************************************************************************************
