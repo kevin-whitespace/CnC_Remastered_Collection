@@ -391,6 +391,13 @@ bool didExecToggleInstantBuild = false;
 
 bool cheatEnabledUnitsGodMode = false; // CTRL + K
 bool didExecToggleUnitsGodMode = false;
+
+bool cheatEnabledAllBuildings = false; // CTRL + L
+bool didExecToggleAllBuildings = false;
+bool didEnableAllBuildings = false;
+
+bool cheatEnabledSuperweapons = false; // CTRL + I
+bool didExecToggleSuper = false;
 // End Cheats
 
 void Play_Movie_GlyphX(const char* movie_name, ThemeType theme)
@@ -1549,6 +1556,35 @@ LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 		}
+		case VK_L: {
+			// unlock all
+			if (controlPressed && (wParam == WM_SYSKEYDOWN || wParam == WM_KEYDOWN)) {
+				if (didExecToggleAllBuildings) break;
+				didExecToggleAllBuildings = true;
+				cheatEnabledAllBuildings = !cheatEnabledAllBuildings;
+				SendCheatInfoMessage("Unlocked all buildings");
+			}
+			else if (wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
+				didExecToggleAllBuildings = false;
+			}
+			break;
+		}
+		case VK_I: {
+			// insta superweapon recharge
+			if (controlPressed && (wParam == WM_SYSKEYDOWN || wParam == WM_KEYDOWN)) {
+				if (didExecToggleSuper) break;
+				didExecToggleSuper = true;
+				cheatEnabledSuperweapons = !cheatEnabledSuperweapons;
+				char messageText[32];
+				char* boolValue = cheatEnabledSuperweapons ? "On" : "Off";
+				sprintf(messageText, "Superweapon recharge %s", boolValue);
+				SendCheatInfoMessage(messageText);
+			}
+			else if (wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
+				didExecToggleSuper = false;
+			}
+			break;
+		}
 		default: { break; }
 		}
 	}
@@ -1810,7 +1846,7 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player
 	Color_Cycle();
 	//DLLExportClass::Set_Event_Callback(NULL);
 	return(GameActive);
-}
+	}
 
 
 /**************************************************************************************************
@@ -5791,6 +5827,7 @@ bool DLLExportClass::Get_Player_Info_State(uint64 player_id, unsigned char* buff
 
 		// heal all
 		if (cheatEnabledUnitsGodMode) {
+			PlayerPtr->ArmorBias = 0.001f;
 			for (index = 0; index < Units.Count(); index++) {
 				UnitClass* unit = Units.Ptr(index);
 				if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
@@ -5819,12 +5856,26 @@ bool DLLExportClass::Get_Player_Info_State(uint64 player_id, unsigned char* buff
 
 		// instant build
 		if (cheatEnabledInstantBuild) {
-			for (index = 0; index < Factories.Count(); index++) {
-				FactoryClass* unit = Factories.Ptr(index);
-				if (unit && unit->IsActive && unit->House == PlayerPtr) {
-					unit->Force_Complete();
+			for (int index = 0; index < Factories.Count(); index++) {
+				FactoryClass* factory = Factories.Ptr(index);
+				if (factory->Get_House()->IsHuman) {
+					Factories.Ptr(index)->Force_Complete();
 				}
 			}
+		}
+
+		// all buildings
+		if (cheatEnabledAllBuildings && !didEnableAllBuildings) {
+			didEnableAllBuildings = true;
+			PlayerPtr->DebugUnlockBuildables = true;
+			PlayerPtr->IsRecalcNeeded = true;
+		}
+
+		// superweapons
+		if (cheatEnabledSuperweapons) {
+			PlayerPtr->IonCannon.Forced_Charge(true);
+			PlayerPtr->NukeStrike.Forced_Charge(true);
+			PlayerPtr->AirStrike.Forced_Charge(true);
 		}
 	}
 
@@ -6929,7 +6980,7 @@ void DLLExportClass::Team_Units_Formation_Toggle_On(uint64 player_id)
 #if 0
 	Toggle_Formation(); // Conquer.cpp
 #endif
-	}
+}
 
 
 /**************************************************************************************************
@@ -7264,9 +7315,9 @@ void DLLExportClass::Debug_Spawn_Unit(const char* object_name, int x, int y, boo
 			if (!PlayerPtr->Is_Ally(player) && (count >= max_count)) {
 				house = player->Class->House;
 				max_count = count;
-			}
-		}
+}
 	}
+}
 
 	/*
 	** What is this thing?
@@ -7291,10 +7342,10 @@ void DLLExportClass::Debug_Spawn_Unit(const char* object_name, int x, int y, boo
 			Map.Set_Cursor_Shape(Map.PendingObject->Occupy_List());
 
 			//OutList.Add(EventClass(EventClass::PLACE, RTTI_BUILDING, (CELL)(cell + Map.ZoneOffset)));
-			}
+		}
 #endif		
 		return;
-		}
+	}
 
 
 	UnitType unit_type = UnitTypeClass::From_Name(object_name);
@@ -7336,7 +7387,7 @@ void DLLExportClass::Debug_Spawn_Unit(const char* object_name, int x, int y, boo
 		new OverlayClass(overlay_type, cell);
 		return;
 	}
-	}
+}
 
 
 /**************************************************************************************************

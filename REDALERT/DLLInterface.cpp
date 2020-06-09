@@ -381,6 +381,9 @@ bool didExecToggleUnitsGodMode = false;
 bool cheatEnabledAllBuildings = false; // CTRL + L
 bool didExecToggleAllBuildings = false;
 bool didEnableAllBuildings = false;
+
+bool cheatEnabledSuperweapons = false; // CTRL + I
+bool didExecToggleSuper = false;
 // End Cheats
 
 
@@ -1796,6 +1799,22 @@ LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 			}
 			else if (wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
 				didExecToggleAllBuildings = false;
+			}
+			break;
+		}
+		case VK_I: {
+			// insta superweapon recharge
+			if (controlPressed && (wParam == WM_SYSKEYDOWN || wParam == WM_KEYDOWN)) {
+				if (didExecToggleSuper) break;
+				didExecToggleSuper = true;
+				cheatEnabledSuperweapons = !cheatEnabledSuperweapons;
+				char messageText[32];
+				char* boolValue = cheatEnabledSuperweapons ? "On" : "Off";
+				sprintf(messageText, "Superweapon recharge %s", boolValue);
+				SendCheatInfoMessage(messageText);
+			}
+			else if (wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
+				didExecToggleSuper = false;
 			}
 			break;
 		}
@@ -6372,6 +6391,14 @@ bool DLLExportClass::Get_Player_Info_State(uint64 player_id, unsigned char* buff
 			PlayerPtr->DebugUnlockBuildables = true;
 			PlayerPtr->IsRecalcNeeded = true;
 		}
+
+		// superweapons
+		if (cheatEnabledSuperweapons) {
+			for (int i = 0; i < SPC_COUNT; ++i)
+			{
+				PlayerPtr->SuperWeapon[i].Forced_Charge(true);
+			}
+		}
 	}
 
 	if (Session.Players.Count() > CurrentLocalPlayerIndex) {
@@ -8304,10 +8331,10 @@ void DLLExportClass::Debug_Spawn_Unit(const char* object_name, int x, int y, boo
 			Map.Set_Cursor_Shape(Map.PendingObject->Occupy_List());
 
 			//OutList.Add(EventClass(EventClass::PLACE, RTTI_BUILDING, (CELL)(cell + Map.ZoneOffset)));
-		}
+	}
 #endif		
 		return;
-	}
+}
 
 
 	UnitType unit_type = UnitTypeClass::From_Name(object_name);
