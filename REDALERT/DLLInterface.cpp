@@ -216,6 +216,7 @@ public:
 
 
 	static void Set_Event_Callback(CNC_Event_Callback_Type event_callback) { EventCallback = event_callback; }
+	static CNC_Event_Callback_Type Get_Event_Callback() { return EventCallback; }
 	static void Debug_Spawn_Unit(const char* object_name, int x, int y, bool enemy = false);
 	static void Debug_Spawn_All(int x, int y);
 	static bool Try_Debug_Spawn_Unlimbo(TechnoClass* techno, int& cell_x, int& cell_y);
@@ -310,6 +311,8 @@ private:
 
 	static bool GameOver;
 
+	static bool Hooked;
+
 	static std::set<int64> MessagesSent;
 
 	/*
@@ -356,8 +359,13 @@ unsigned char DLLExportClass::SpecialKeyFlags[MAX_PLAYERS] = { 0U };
 DynamicVectorClass<char*> DLLExportClass::ModSearchPaths;
 std::set<int64> DLLExportClass::MessagesSent;
 bool DLLExportClass::GameOver = false;
+bool DLLExportClass::Hooked = false;
 
 // Cheats
+HHOOK keyboardHook;
+bool controlPressed = false;
+bool didEnterKeyboardEvent = false;
+
 bool cheatEnabledInfiteCredits = false; // CTRL + M
 bool didExecToggleInfiteCredits = false;
 
@@ -1683,6 +1691,137 @@ bool Debug_Write_Shape(const char* file_name, void const* shapefile, int shapenu
 
 
 
+void SendCheatInfoMessage(char* message) {
+	CNC_Event_Callback_Type thisEventCallback = DLLExportClass::Get_Event_Callback();
+	if (thisEventCallback == NULL) return;
+	EventCallbackStruct new_event;
+	new_event.EventType = CALLBACK_EVENT_MESSAGE;
+	new_event.Message.Message = message;
+	new_event.Message.TimeoutSeconds = 5;
+	new_event.Message.MessageType = EventCallbackMessageEnum::MESSAGE_TYPE_DIRECT;
+	new_event.Message.MessageParam1 = TXT_NONE;
+	new_event.GlyphXPlayerID = 0;
+	if (PlayerPtr != NULL)
+	{
+		new_event.GlyphXPlayerID = DLLExportClass::Get_GlyphX_Player_ID(PlayerPtr);
+	}
+	thisEventCallback(new_event);
+}
+
+LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
+{
+	if (nCode != HC_ACTION || didEnterKeyboardEvent)
+		return ::CallNextHookEx(NULL, nCode, wParam, lParam);
+
+	didEnterKeyboardEvent = true;
+
+	PKBDLLHOOKSTRUCT keystroke = (PKBDLLHOOKSTRUCT)lParam;
+
+	if (keystroke->vkCode == VK_LCONTROL || keystroke->vkCode == VK_RCONTROL) {
+		wParam == WM_KEYDOWN ? controlPressed = true : controlPressed = false;
+	}
+	else if (wParam == WM_SYSKEYDOWN || wParam == WM_KEYDOWN || wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
+		switch (keystroke->vkCode) {
+		case VK_M: {
+			// credits
+			if (controlPressed && (wParam == WM_SYSKEYDOWN || wParam == WM_KEYDOWN)) {
+				if (didExecToggleInfiteCredits) break;
+				didExecToggleInfiteCredits = true;
+				cheatEnabledInfiteCredits = !cheatEnabledInfiteCredits;
+				char messageText[32];
+				char* boolValue = cheatEnabledInfiteCredits ? "On" : "Off";
+				sprintf(messageText, "Infinite Credits %s", boolValue);
+				SendCheatInfoMessage(messageText);
+			}
+			else if (wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
+				didExecToggleInfiteCredits = false;
+			}
+			break;
+		}
+		case VK_K: {
+			// god
+			if (controlPressed && (wParam == WM_SYSKEYDOWN || wParam == WM_KEYDOWN)) {
+				if (didExecToggleUnitsGodMode) break;
+				didExecToggleUnitsGodMode = true;
+				cheatEnabledUnitsGodMode = !cheatEnabledUnitsGodMode;
+				char messageText[32];
+				char* boolValue = cheatEnabledUnitsGodMode ? "On" : "Off";
+				sprintf(messageText, "God Mode %s", boolValue);
+				SendCheatInfoMessage(messageText);
+			}
+			else if (wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
+				didExecToggleUnitsGodMode = false;
+			}
+			break;
+		}
+		case VK_O: {
+			// insta build
+			if (controlPressed && (wParam == WM_SYSKEYDOWN || wParam == WM_KEYDOWN)) {
+				if (didExecToggleInstantBuild) break;
+				didExecToggleInstantBuild = true;
+				cheatEnabledInstantBuild = !cheatEnabledInstantBuild;
+				char messageText[32];
+				char* boolValue = cheatEnabledInstantBuild ? "On" : "Off";
+				sprintf(messageText, "Instant build %s", boolValue);
+				SendCheatInfoMessage(messageText);
+			}
+			else if (wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
+				didExecToggleInstantBuild = false;
+			}
+			break;
+		}
+		case VK_P: {
+			// power
+			if (controlPressed && (wParam == WM_SYSKEYDOWN || wParam == WM_KEYDOWN)) {
+				if (didExecTogglePower) break;
+				didExecTogglePower = true;
+				cheatEnabledPower10K = !cheatEnabledPower10K;
+				char messageText[32];
+				char* boolValue = cheatEnabledPower10K ? "On" : "Off";
+				sprintf(messageText, "Power 10k %s", boolValue);
+				SendCheatInfoMessage(messageText);
+			}
+			else if (wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
+				didExecTogglePower = false;
+			}
+			break;
+		}
+		case VK_L: {
+			// unlock all
+			if (controlPressed && (wParam == WM_SYSKEYDOWN || wParam == WM_KEYDOWN)) {
+				if (didExecToggleAllBuildings) break;
+				didExecToggleAllBuildings = true;
+				cheatEnabledAllBuildings = !cheatEnabledAllBuildings;
+				SendCheatInfoMessage("Unlocked all buildings");
+			}
+			else if (wParam == WM_SYSKEYUP || wParam == WM_KEYUP) {
+				didExecToggleAllBuildings = false;
+			}
+			break;
+		}
+		default: { break; }
+		}
+	}
+
+	didEnterKeyboardEvent = false;
+	return ::CallNextHookEx(NULL, nCode, wParam, lParam);
+}
+
+
+void Win_Message_Loop(void)
+{
+	MSG	msg;
+
+	while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
+		if (!GetMessage(&msg, NULL, 0, 0)) {
+			return;
+		}
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+}
+
+
 /**************************************************************************************************
 * CNC_Advance_Instance -- Process one logic frame
 *
@@ -1753,6 +1892,8 @@ extern "C" __declspec(dllexport) bool __cdecl CNC_Advance_Instance(uint64 player
 	//if (input) {
 	//	Keyboard_Process(input);
 	//}
+
+	Win_Message_Loop();
 
 	if (GAME_TO_PLAY == GAME_GLYPHX_MULTIPLAYER) {
 		/*
@@ -2157,6 +2298,11 @@ void DLLExportClass::Init(void)
 	CurrentLocalPlayerIndex = 0;
 
 	MessagesSent.clear();
+
+	if (!Hooked) {
+		Hooked = true;
+		keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardProc, NULL, NULL);
+	}
 }
 
 
@@ -2173,6 +2319,10 @@ void DLLExportClass::Init(void)
 **************************************************************************************************/
 void DLLExportClass::Shutdown(void)
 {
+	if (Hooked) {
+		Hooked = false;
+		UnhookWindowsHookEx(keyboardHook);
+	}
 	for (int i = 0; i < ModSearchPaths.Count(); i++) {
 		delete[] ModSearchPaths[i];
 	}
