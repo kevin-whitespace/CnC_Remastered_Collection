@@ -1813,6 +1813,7 @@
     <None Include="Win32Lib\WWMEM.INC">
       <Filter>Source Files\win32lib</Filter>
     </None>
+    <None Include="C:\Users\Robin\Documents\CnCRemastered\Mods\Red_Alert\CheatMod\ccmod.json" />
   </ItemGroup>
   <ItemGroup>
     <MASM Include="KEYFBUFF.ASM">

@@ -47,13 +47,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>C:\Users\Robin\Documents\CnCRemastered\Mods\Tiberian_Dawn\BugOp\Data</OutDir>
+    <OutDir>C:\Users\Robin\Documents\CnCRemastered\Mods\Tiberian_Dawn\CheatMod\Data</OutDir>
     <IntDir>$(PlatformName)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\CheatMod\Data</OutDir>
+    <OutDir>C:\Users\Robin\Documents\CnCRemastered\Mods\Tiberian_Dawn\CheatMod\Data</OutDir>
     <IntDir>$(PlatformName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -129,6 +129,7 @@
       <EnableMASM51Compatibility Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</EnableMASM51Compatibility>
       <PreserveIdentifierCase Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">1</PreserveIdentifierCase>
     </MASM>
+    <None Include="C:\Users\Robin\Documents\CnCRemastered\Mods\Tiberian_Dawn\CheatMod\ccmod.json" />
     <None Include="COORDA.ASM" />
     <MASM Include="KEYFBUFF.ASM">
       <FileType>Document</FileType>

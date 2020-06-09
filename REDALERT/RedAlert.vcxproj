@@ -75,7 +75,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\bin\$(PlatformName)\</OutDir>
+    <OutDir>C:\Users\Robin\Documents\CnCRemastered\Mods\Red_Alert\CheatMod\Data</OutDir>
     <IntDir>$(PlatformName)\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
@@ -754,6 +754,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </MASM>
     <MASM Include="Win32Lib\TOBUFF.ASM" />
+    <None Include="C:\Users\Robin\Documents\CnCRemastered\Mods\Red_Alert\CheatMod\ccmod.json" />
     <None Include="COORDA.ASM" />
     <MASM Include="KEYFBUFF.ASM">
       <FileType>Document</FileType>

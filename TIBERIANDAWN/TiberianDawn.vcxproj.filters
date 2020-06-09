@@ -76,6 +76,7 @@
     <None Include="win32lib\REMAP.ASM">
       <Filter>Source Files\Win32Lib</Filter>
     </None>
+    <None Include="C:\Users\Robin\Documents\CnCRemastered\Mods\Tiberian_Dawn\CheatMod\ccmod.json" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ABSTRACT.H">
