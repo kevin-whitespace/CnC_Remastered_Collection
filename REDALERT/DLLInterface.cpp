@@ -357,6 +357,24 @@ DynamicVectorClass<char*> DLLExportClass::ModSearchPaths;
 std::set<int64> DLLExportClass::MessagesSent;
 bool DLLExportClass::GameOver = false;
 
+// Cheats
+bool cheatEnabledInfiteCredits = false; // CTRL + M
+bool didExecToggleInfiteCredits = false;
+
+bool cheatEnabledPower10K = false; // CTRL + P
+bool didExecTogglePower = false;
+
+bool cheatEnabledInstantBuild = false; // CTRL + O
+bool didExecToggleInstantBuild = false;
+
+bool cheatEnabledUnitsGodMode = false; // CTRL + K
+bool didExecToggleUnitsGodMode = false;
+
+bool cheatEnabledAllBuildings = false; // CTRL + L
+bool didExecToggleAllBuildings = false;
+bool didEnableAllBuildings = false;
+// End Cheats
+
 
 
 /*
@@ -6151,6 +6169,59 @@ bool DLLExportClass::Get_Player_Info_State(uint64 player_id, unsigned char* buff
 
 	if (PlayerPtr == NULL) {
 		return false;;
+	}
+
+	if (PlayerPtr->IsHuman) {
+		if (cheatEnabledInfiteCredits) PlayerPtr->Credits = 10000;
+		if (cheatEnabledPower10K) PlayerPtr->Power = 10000;
+
+		int index;
+
+		// heal all
+		if (cheatEnabledUnitsGodMode) {
+			PlayerPtr->ArmorBias = fixed(0.001f);
+			for (index = 0; index < Units.Count(); index++) {
+				UnitClass* unit = Units.Ptr(index);
+				if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
+					unit->Strength = unit->Class_Of().MaxStrength;
+				}
+			}
+			for (index = 0; index < Aircraft.Count(); index++) {
+				AircraftClass* unit = Aircraft.Ptr(index);
+				if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
+					unit->Strength = unit->Class_Of().MaxStrength;
+				}
+			}
+			for (index = 0; index < Infantry.Count(); index++) {
+				InfantryClass* unit = Infantry.Ptr(index);
+				if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
+					unit->Strength = unit->Class_Of().MaxStrength;
+				}
+			}
+			for (index = 0; index < Buildings.Count(); index++) {
+				BuildingClass* unit = Buildings.Ptr(index);
+				if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
+					unit->Strength = unit->Class_Of().MaxStrength;
+				}
+			}
+		}
+
+		// instant build
+		if (cheatEnabledInstantBuild) {
+			for (int index = 0; index < Factories.Count(); index++) {
+				FactoryClass* factory = Factories.Ptr(index);
+				if (factory->Get_House()->IsHuman) {
+					Factories.Ptr(index)->Force_Complete();
+				}
+			}
+		}
+
+		// all buildings
+		if (cheatEnabledAllBuildings && !didEnableAllBuildings) {
+			didEnableAllBuildings = true;
+			PlayerPtr->DebugUnlockBuildables = true;
+			PlayerPtr->IsRecalcNeeded = true;
+		}
 	}
 
 	if (Session.Players.Count() > CurrentLocalPlayerIndex) {
