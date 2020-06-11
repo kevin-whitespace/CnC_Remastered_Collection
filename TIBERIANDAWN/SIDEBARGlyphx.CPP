@@ -707,12 +707,13 @@ void SidebarGlyphxClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool SidebarGlyphxClass::Load(FileClass & file)
 {
-	::new (this) SidebarGlyphxClass();
+	SidebarGlyphxClass* newClass = new SidebarGlyphxClass();
+	//::new (this) SidebarGlyphxClass();
 
-	bool ok = Read_Object(this, sizeof(*this), file, false);
+	bool ok = Read_Object(newClass, sizeof(*newClass), file, false);
 
-	Column[0].Set_Parent_Sidebar(this);
-	Column[1].Set_Parent_Sidebar(this);
+	Column[0].Set_Parent_Sidebar(newClass);
+	Column[1].Set_Parent_Sidebar(newClass);
 
 	return ok;
 }

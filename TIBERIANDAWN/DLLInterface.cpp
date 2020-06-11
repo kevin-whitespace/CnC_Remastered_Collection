@@ -28,6 +28,8 @@
 
 
 #include <stdio.h>
+#include <string>
+
 
 #include "function.h"
 #include "externs.h"
@@ -77,11 +79,13 @@ typedef __int64 int64;
 
 // From TiberianDawn\Audio.cpp 
 enum ContextType;
-extern struct SoundEffectNameStruct {
+struct SoundEffectNameStruct {
 	char const* Name;			// Digitized voice file name.
 	int			Priority;	// Playback priority of this sample.
 	ContextType	Where;		// In what game context does this sample exist.
-} SoundEffectName[VOC_COUNT];
+};
+extern struct SoundEffectNameStruct SoundEffectName[VOC_COUNT];
+
 
 // From TiberianDawn\Audio.cpp 
 extern char const* Speech[VOX_COUNT];
@@ -6993,7 +6997,7 @@ void DLLExportClass::Team_Units_Formation_Toggle_On(uint64 player_id)
 #if 0
 	Toggle_Formation(); // Conquer.cpp
 #endif
-	}
+}
 
 
 /**************************************************************************************************
@@ -7355,10 +7359,10 @@ void DLLExportClass::Debug_Spawn_Unit(const char* object_name, int x, int y, boo
 			Map.Set_Cursor_Shape(Map.PendingObject->Occupy_List());
 
 			//OutList.Add(EventClass(EventClass::PLACE, RTTI_BUILDING, (CELL)(cell + Map.ZoneOffset)));
-			}
+		}
 #endif		
 		return;
-		}
+	}
 
 
 	UnitType unit_type = UnitTypeClass::From_Name(object_name);
@@ -7400,7 +7404,7 @@ void DLLExportClass::Debug_Spawn_Unit(const char* object_name, int x, int y, boo
 		new OverlayClass(overlay_type, cell);
 		return;
 	}
-	}
+}
 
 
 /**************************************************************************************************

@@ -60,8 +60,10 @@
 #include	<stdlib.h>
 #include	<stddef.h>
 
-inline void * operator new(size_t , void * pointer) {return(pointer);}
-inline void * operator new[](size_t , void * pointer) {return(pointer);}
+struct my_new_dummy {};
+static struct my_new_dummy dummyBlaBla;
+inline void * operator new(size_t, my_new_dummy, void * pointer) {return(pointer);}
+inline void * operator new[](size_t, my_new_dummy, void * pointer) {return(pointer);}
 
 
 /**************************************************************************
@@ -461,7 +463,7 @@ VectorClass<T>::VectorClass(unsigned size, T const * array)
 	*/
 	if (size) {
 		if (array) {
-			Vector = new((void*)array) T[size];
+			Vector = new(dummyBlaBla,(void*)array) T[size];
 		} else {
 			Vector = new T[size];
 			IsAllocated = true;
@@ -697,7 +699,7 @@ int VectorClass<T>::Resize(unsigned newsize, T const * array)
 		if (!array) {
 			newptr = new T[newsize];
 		} else {
-			newptr = new((void*)array) T[newsize];
+			newptr = new(dummyBlaBla, (void*)array) T[newsize];
 		}
 		if (!newptr) {
 			return(false);

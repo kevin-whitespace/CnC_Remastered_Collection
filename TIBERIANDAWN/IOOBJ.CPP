@@ -149,8 +149,8 @@
  *=============================================================================================*/
 bool TeamTypeClass::Load(FileClass & file)
 {
-	::new (this) TeamTypeClass();
-	return(Read_Object(this, sizeof(*this), file, true));
+	TeamTypeClass* newClass = new TeamTypeClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, true));
 	
 	//return(Read_Object(this, sizeof(AbstractTypeClass), sizeof(*this), file, VTable));
 }
@@ -249,8 +249,9 @@ void TeamTypeClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool TeamClass::Load(FileClass & file)
 {
-	::new (this) TeamClass();
-	return(Read_Object(this, sizeof(*this), file, true));
+	TeamClass* newClass = new TeamClass();
+	//::new (this) TeamClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, true));
 	
 	//return(Read_Object(this, sizeof(AbstractClass), sizeof(*this), file, VTable));
 }
@@ -383,8 +384,9 @@ void TeamClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool TriggerClass::Load(FileClass & file)
 {
-	::new (this) TriggerClass();
-	int rc = Read_Object(this, sizeof(*this), file, false);
+	TriggerClass* newClass = new TriggerClass();
+	//::new (this) TriggerClass();
+	int rc = Read_Object(newClass, sizeof(*newClass), file, false);
 	
 	//int rc = Read_Object(this, sizeof(*this), sizeof(*this), file, 0);
 
@@ -488,8 +490,9 @@ void TriggerClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool AircraftClass::Load(FileClass & file)
 {
-	::new (this) AircraftClass();
-	return(Read_Object(this, sizeof(*this), file, true));
+	AircraftClass* newClass = new AircraftClass();
+	//::new (this) AircraftClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, true));
 	
 	//return(Read_Object(this, sizeof(AbstractClass), sizeof(*this), file, VTable));
 }
@@ -596,8 +599,10 @@ void AircraftClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool AnimClass::Load(FileClass & file)
 {
-	::new (this) AnimClass();
-	return(Read_Object(this, sizeof(*this), file, true));
+	AnimClass* newClass = new AnimClass();
+
+	//::new (this) AnimClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, true));
 	
 	//return(Read_Object(this, sizeof(AbstractClass), sizeof(*this), file, VTable));
 }
@@ -734,8 +739,10 @@ void AnimClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool BuildingClass::Load(FileClass & file)
 {
-	::new (this) BuildingClass();
-	return(Read_Object(this, sizeof(*this), file, true));
+	BuildingClass* newClass = new BuildingClass();
+
+	//::new (this) BuildingClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, true));
 	
 	//return(Read_Object(this, sizeof(AbstractClass), sizeof(*this), file, VTable));
 }
@@ -857,8 +864,10 @@ void BuildingClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool BulletClass::Load(FileClass & file)
 {
-	::new (this) BulletClass();
-	return(Read_Object(this, sizeof(*this), file, true));
+	BulletClass* newClass = new BulletClass();
+
+	//::new (this) BulletClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, true));
 	
 	//return(Read_Object(this, sizeof(AbstractClass), sizeof(*this), file, VTable));
 }
@@ -981,8 +990,10 @@ void BulletClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool InfantryClass::Load(FileClass & file)
 {
-	::new (this) InfantryClass();
-	return(Read_Object(this, sizeof(*this), file, true));
+	InfantryClass* newClass = new InfantryClass();
+
+	//::new (this) InfantryClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, true));
 	
 	//return(Read_Object(this, sizeof(AbstractClass), sizeof(*this), file, VTable));
 }
@@ -1087,8 +1098,10 @@ void InfantryClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool OverlayClass::Load(FileClass & file)
 {
-	::new (this) OverlayClass();
-	return(Read_Object(this, sizeof(*this), file, true));
+	OverlayClass* newClass = new OverlayClass();
+
+	//::new (this) OverlayClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, true));
 	
 	//return(Read_Object(this, sizeof(AbstractClass), sizeof(*this), file, VTable));
 }
@@ -1193,8 +1206,10 @@ void OverlayClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool SmudgeClass::Load(FileClass & file)
 {
-	::new (this) SmudgeClass();
-	return(Read_Object(this, sizeof(*this), file, true));
+	SmudgeClass* newClass = new SmudgeClass();
+
+	//::new (this) SmudgeClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, true));
 	
 	//return(Read_Object(this, sizeof(AbstractClass), sizeof(*this), file, VTable));
 }
@@ -1299,8 +1314,10 @@ void SmudgeClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool TemplateClass::Load(FileClass & file)
 {
-	::new (this) TemplateClass();
-	return(Read_Object(this, sizeof(*this), file, true));
+	TemplateClass* newClass = new TemplateClass();
+
+	//::new (this) TemplateClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, true));
 	
 	//return(Read_Object(this, sizeof(AbstractClass), sizeof(*this), file, VTable));
 }
@@ -1405,8 +1422,10 @@ void TemplateClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool TerrainClass::Load(FileClass & file)
 {
-	::new (this) TerrainClass();
-	return(Read_Object(this, sizeof(*this), file, true));
+	TerrainClass* newClass = new TerrainClass();
+
+	//::new (this) TerrainClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, true));
 	
 	//return(Read_Object(this, sizeof(AbstractClass), sizeof(*this), file, VTable));
 }
@@ -1513,8 +1532,10 @@ void TerrainClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool UnitClass::Load(FileClass & file)
 {
-	::new (this) UnitClass();
-	return(Read_Object(this, sizeof(*this), file, true));
+	UnitClass* newClass = new UnitClass();
+
+	//::new (this) UnitClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, true));
 	
 	//return(Read_Object(this, sizeof(AbstractClass), sizeof(*this), file, VTable));
 }
@@ -1602,8 +1623,10 @@ void UnitClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool FactoryClass::Load(FileClass & file)
 {
-	::new (this) FactoryClass();
-	return(Read_Object(this, sizeof(*this), file, false));
+	FactoryClass* newClass = new FactoryClass();
+
+	//::new (this) FactoryClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, false));
 	
 	//return(Read_Object(this, sizeof(StageClass), sizeof(*this), file, 0));
 }
@@ -1848,8 +1871,10 @@ void LayerClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool HouseClass::Load(FileClass & file)
 {
-	::new (this) HouseClass();
-	return(Read_Object(this, sizeof(*this), file, false));
+	HouseClass* newClass = new HouseClass();
+
+	//::new (this) HouseClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, false));
 	
 	//return(Read_Object(this, sizeof(*this), sizeof(*this), file, 0));
 }
@@ -1944,8 +1969,10 @@ void HouseClass::Decode_Pointers(void)
  *=============================================================================================*/
 bool ScoreClass::Load(FileClass & file)
 {
-	::new (this) ScoreClass();
-	return(Read_Object(this, sizeof(*this), file, false));
+	ScoreClass* newClass = new ScoreClass();
+
+	//::new (this) ScoreClass();
+	return(Read_Object(newClass, sizeof(*newClass), file, false));
 	
 	//return(Read_Object(this, sizeof(*this), sizeof(*this), file, 0));
 }
