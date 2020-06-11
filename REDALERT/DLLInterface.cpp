@@ -377,6 +377,7 @@ bool didExecToggleInstantBuild = false;
 
 bool cheatEnabledUnitsGodMode = false; // CTRL + K
 bool didExecToggleUnitsGodMode = false;
+float armorInitialValue = 0.00f;
 
 bool cheatEnabledAllBuildings = false; // CTRL + L
 bool didExecToggleAllBuildings = false;
@@ -6348,6 +6349,10 @@ bool DLLExportClass::Get_Player_Info_State(uint64 player_id, unsigned char* buff
 
 		// heal all
 		if (cheatEnabledUnitsGodMode) {
+			if (armorInitialValue == 0.00f) {
+				armorInitialValue = PlayerPtr->ArmorBias;
+			}
+
 			PlayerPtr->ArmorBias = fixed(0.001f);
 			for (index = 0; index < Units.Count(); index++) {
 				UnitClass* unit = Units.Ptr(index);
@@ -6372,6 +6377,14 @@ bool DLLExportClass::Get_Player_Info_State(uint64 player_id, unsigned char* buff
 				if (unit && !unit->IsInLimbo && unit->House == PlayerPtr) {
 					unit->Strength = unit->Class_Of().MaxStrength;
 				}
+			}
+		}
+		else {
+			if (armorInitialValue == 0.00f) {
+				armorInitialValue = PlayerPtr->ArmorBias;
+			}
+			else {
+				PlayerPtr->ArmorBias = armorInitialValue;
 			}
 		}
 
@@ -8320,7 +8333,7 @@ void DLLExportClass::Debug_Spawn_Unit(const char* object_name, int x, int y, boo
 			if (!building->Unlimbo(Cell_Coord(cell))) {
 				delete building;
 			}
-		}
+}
 
 #if (0)		 
 		Map.PendingObject = &BuildingTypeClass::As_Reference(structure_type);
@@ -8331,7 +8344,7 @@ void DLLExportClass::Debug_Spawn_Unit(const char* object_name, int x, int y, boo
 			Map.Set_Cursor_Shape(Map.PendingObject->Occupy_List());
 
 			//OutList.Add(EventClass(EventClass::PLACE, RTTI_BUILDING, (CELL)(cell + Map.ZoneOffset)));
-	}
+		}
 #endif		
 		return;
 }
